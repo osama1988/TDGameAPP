@@ -62,9 +62,16 @@ public class Screen extends JPanel implements Runnable{
 	static String newFileName;	
 	static int valueOfX;
 	static int valueOfY;
-	double width;
-	double height;	
+	static double width;
+	static double height;	
 	String towerImgPath;
+	
+	/* Critter Variables */
+	public static Image[] crittersImgs = new Image[10];
+	public static Critter[] critters;
+	public boolean isFirst = true;
+	boolean allowCritters = false;
+	int noOfCriiters = 10;
 	
 	/* Tower Variables */
 	public Tower[][] towerMap;
@@ -437,6 +444,47 @@ public class Screen extends JPanel implements Runnable{
 				frame.add(addAmmunition);
 				addAmmunition.setBounds(this.frame.getWidth() - 4*(int)width , 6*(int)height, 3*(int)width, (int)(height/2));
 				
+				JButton sendCritters=new JButton("Send Critters");
+				sendCritters.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						allowCritters = true;
+						critters = new Critter[noOfCriiters];
+//						critters2 = new Critter2[noOfCriiters];
+						
+						if(isFirst)
+							crittersImgs[0] = new ImageIcon("../res/tower2.png").getImage();
+						
+						for(int i=0;i<critters.length;i++)
+						{
+							
+//							if(isFirst)
+//							{	
+								critters[i] = new Critter();
+//								critters2[i] = new Critter2();
+								
+//							}
+							
+//							if(critters[i].inGame)
+//								critters[i].draw(g);
+						}
+						
+						isFirst = false;
+						noOfCriiters += 2;
+					}
+				});
+				frame.add(sendCritters);
+				sendCritters.setBounds(this.frame.getWidth() - 6*(int)width , (int) (6.5*height), 3*(int)width, (int)(height/2));
+				
+				if (critters != null)
+				{	
+					for(int i=0;i<critters.length;i++)
+					{
+						if(critters[i].inGame)
+							critters[i].draw(g);
+					}
+				}
 				//adding onMapTowerPropTbl
 				frame.add(onMapScrollPane);
 				drawString(g,"Active Tower Properties", this.frame.getWidth() - 6*(int)width ,2*(int)height);
@@ -508,7 +556,28 @@ public class Screen extends JPanel implements Runnable{
 
 		}
 	}
-
+	
+	public int generationTime = 500, generationFrame = 0;
+	
+	/** To Generate critters */ 
+	public void critterGenerator()
+	{
+		if(generationFrame >= generationTime)
+		{
+			for (int i = 0;i < critters.length;i++)
+			{
+				if(!critters[i].inGame && !critters[i].duplicate) {
+					critters[i].createCritter(0);
+					break;
+				}
+			}
+			generationFrame = 0;
+		}
+		else
+		{
+			generationFrame += 1;
+		}
+	}
 	/**
 	 * Called for creating a thread that would execute separately from the main thread 
 	 */
@@ -525,6 +594,17 @@ public class Screen extends JPanel implements Runnable{
 		while(running) {
 
 			frames++;
+			if(!isFirst)
+			{
+				critterGenerator();
+				for(int i = 0;i < critters.length;i++)
+				{
+					if(critters[i].inGame)
+					{
+						critters[i].physics();
+					}
+				}
+			}
 
 			if(System.currentTimeMillis()-1000 >= lastFrame){
 				frames=0;
