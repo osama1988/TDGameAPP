@@ -69,9 +69,10 @@ public class Screen extends JPanel implements Runnable{
 	/* Critter Variables */
 	public static Image[] crittersImgs = new Image[10];
 	public static Critter[] critters;
+	public static Critter[] critters2;
 	public boolean isFirst = true;
 	boolean allowCritters = false;
-	int noOfCriiters = 10;
+	int noOfCritters = 10;
 	
 	/* Tower Variables */
 	public Tower[][] towerMap;
@@ -446,45 +447,28 @@ public class Screen extends JPanel implements Runnable{
 				
 				JButton sendCritters=new JButton("Send Critters");
 				sendCritters.addActionListener(new ActionListener() {
-					
+					// On click generate more amount of new critters 
 					@Override
-					public void actionPerformed(ActionEvent e) {
-						allowCritters = true;
-						critters = new Critter[noOfCriiters];
-//						critters2 = new Critter2[noOfCriiters];
+					public void actionPerformed(ActionEvent e) {	
+						critters = new Critter[noOfCritters];
+						critters2 = new Critter[noOfCritters];
 						
 						if(isFirst)
-							crittersImgs[0] = new ImageIcon("../res/tower2.png").getImage();
+							crittersImgs[0] = new ImageIcon("../res/critter.gif").getImage();
 						
 						for(int i=0;i<critters.length;i++)
 						{
-							
-//							if(isFirst)
-//							{	
-								critters[i] = new Critter();
-//								critters2[i] = new Critter2();
-								
-//							}
-							
-//							if(critters[i].inGame)
-//								critters[i].draw(g);
+								critters[i] = new Critter(50,50,25,0,-15,-60);
+								critters2[i] = new Critter(50,50,10,-15,0,-20);
 						}
 						
 						isFirst = false;
-						noOfCriiters += 2;
+						noOfCritters += 2;
 					}
 				});
 				frame.add(sendCritters);
 				sendCritters.setBounds(this.frame.getWidth() - 6*(int)width , (int) (6.5*height), 3*(int)width, (int)(height/2));
 				
-				if (critters != null)
-				{	
-					for(int i=0;i<critters.length;i++)
-					{
-						if(critters[i].inGame)
-							critters[i].draw(g);
-					}
-				}
 				//adding onMapTowerPropTbl
 				frame.add(onMapScrollPane);
 				drawString(g,"Active Tower Properties", this.frame.getWidth() - 6*(int)width ,2*(int)height);
@@ -499,8 +483,21 @@ public class Screen extends JPanel implements Runnable{
 				frame.add(offMapScrollPane);
 				offMapScrollPane.setBounds(this.frame.getWidth() - 6*(int)width , 10*(int)height, 5*(int)width, 3*(int)height);
 
+			
+			// To draw all critters on screen
+			if (critters != null)
+			{	
+				for(int i=0;i<critters.length;i++)
+				{
+					if(critters[i].inGame)
+						critters[i].draw(g);
+					
+					if(critters2[i].inGame)
+						critters2[i].draw(g);
+				}
 			}
 			
+			}
 
 			// List of available towers	
 			for(int i=0;i < 5; i++){
@@ -559,7 +556,7 @@ public class Screen extends JPanel implements Runnable{
 	
 	public int generationTime = 500, generationFrame = 0;
 	
-	/** To Generate critters */ 
+	/* To Generate critters */ 
 	public void critterGenerator()
 	{
 		if(generationFrame >= generationTime)
@@ -568,6 +565,9 @@ public class Screen extends JPanel implements Runnable{
 			{
 				if(!critters[i].inGame && !critters[i].duplicate) {
 					critters[i].createCritter(0);
+				}
+				if(!critters2[i].inGame && !critters2[i].duplicate) {
+					critters2[i].createCritter(0);
 					break;
 				}
 			}
@@ -601,7 +601,11 @@ public class Screen extends JPanel implements Runnable{
 				{
 					if(critters[i].inGame)
 					{
-						critters[i].physics();
+						critters[i].physics(520,2,49);
+					}
+					if(critters2[i].inGame)
+					{
+						critters2[i].physics(550,1,6);
 					}
 				}
 			}
@@ -617,7 +621,7 @@ public class Screen extends JPanel implements Runnable{
 			repaint(repaintMapRectangle);	
 
 			try {
-//				Thread.sleep(2);
+				Thread.sleep(2);
 			} catch (Exception e) {}
 		}				
 	}
