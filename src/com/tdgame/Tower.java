@@ -41,7 +41,7 @@ public class Tower extends JButton {
 	public Color towerColors[]={Color.ORANGE,Color.CYAN,Color.MAGENTA,Color.LIGHT_GRAY,Color.BLACK};
 	public String towerNames[]={"Laser","Tank","Fire","Missile","Bomber"};
 	
-		
+	public int damage = 0;	
 	public Tower()
 	{
 		super();
