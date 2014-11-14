@@ -33,7 +33,7 @@ public class CritterTest {
 		Frame testFrame = new Frame();
 		screen = new Screen(testFrame);
 		readXML = new ReadXML();
-		filename = "testfinal.xml";
+		filename = "testcase.xml";
 		rows_cols = readXML.getLengthOfExistingMap(filename);
 		
 		valueOfX = Integer.parseInt(rows_cols.split("_")[1]);
@@ -41,7 +41,7 @@ public class CritterTest {
 		LevelFile level_file = new LevelFile(valueOfX, valueOfY);
 		level_file.readAndLoadMap(filename, screen, "loadMap");
 		result = 0;
-		critter = new Critter();
+		critter = new Critter(col, col, col, col, col, col);
 		critter.moveFrame = 10;
 		critter.moveSpeed = 0;
 		upward = 0;
