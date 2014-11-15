@@ -72,7 +72,7 @@ public class Screen extends JPanel implements Runnable{
 	public static Critter[] critters2;
 	public boolean isFirst = true;
 	boolean allowCritters = false;
-	int noOfCritters = 10;
+	public static int noOfCritters = 8;
 	
 	/* Tower Variables */
 	public Tower[][] towerMap;
@@ -450,6 +450,7 @@ public class Screen extends JPanel implements Runnable{
 					// On click generate more amount of new critters 
 					@Override
 					public void actionPerformed(ActionEvent e) {	
+						noOfCritters += 2;
 						critters = new Critter[noOfCritters];
 						critters2 = new Critter[noOfCritters];
 						
@@ -463,7 +464,6 @@ public class Screen extends JPanel implements Runnable{
 						}
 						
 						isFirst = false;
-						noOfCritters += 2;
 					}
 				});
 				frame.add(sendCritters);
