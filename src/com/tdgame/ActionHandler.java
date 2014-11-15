@@ -1,5 +1,6 @@
 package com.tdgame;
 
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -288,20 +290,20 @@ public class ActionHandler extends JDialog implements ActionListener, MouseMotio
 	@Override
 	public void mousePressed(MouseEvent e) { 
 		Tower temp = (Tower) e.getSource();
-		screen.towerType=temp.getText();
-		screen.offMapTowerPropTbl.setValueAt(temp.type, 0, 1);
-		screen.offMapTowerPropTbl.setValueAt(temp.ammunition, 1, 1);
-		screen.offMapTowerPropTbl.setValueAt(temp.range, 2, 1);
-		screen.offMapTowerPropTbl.setValueAt(temp.cost, 3, 1);
-		screen.offMapTowerPropTbl.setValueAt(temp.rateOfFire, 4, 1);
-		screen.offMapTowerPropTbl.setValueAt(temp.refundRate, 5, 1);
-		screen.offMapTowerPropTbl.setValueAt(temp.costToAddAmmunition, 6, 1);
+		screen.towerType=((AbstractButton) temp).getText();
+		screen.offMapTowerPropTbl.setValueAt(temp.getType(), 0, 1);
+		screen.offMapTowerPropTbl.setValueAt(temp.getAmmunition(), 1, 1);
+		screen.offMapTowerPropTbl.setValueAt(temp.getRange(), 2, 1);
+		screen.offMapTowerPropTbl.setValueAt(temp.getCost(), 3, 1);
+		screen.offMapTowerPropTbl.setValueAt(temp.getRateOfFire(), 4, 1);
+		screen.offMapTowerPropTbl.setValueAt(temp.getRefundRate(), 5, 1);
+		screen.offMapTowerPropTbl.setValueAt(temp.getCostToAddAmmunition(),6, 1);
 		
 		//here we are setting selected tower color,image,range so we can show effect
 		//at time of placing tower
-		screen.selectedTowerColor = temp.getBackground();
-		screen.selectedTowerRange = temp.range;
-		screen.towerImgPath=temp.imgPath;
+		screen.selectedTowerColor = ((Component) temp).getBackground();
+		screen.selectedTowerRange = temp.getRange();
+		screen.towerImgPath=temp.getImgPath();
 		this.mouseButtonHandler.placecTower = true;
 		screen.inHandTower=temp;
 	}
