@@ -39,7 +39,7 @@ public class Frame extends JApplet{
 			audioIn = AudioSystem.getAudioInputStream(audioFile);
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioIn);
-			clip.start();
+			//clip.start();
 		} catch (Exception e) {
 		} 
 		

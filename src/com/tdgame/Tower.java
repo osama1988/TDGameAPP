@@ -2,15 +2,20 @@ package com.tdgame;
 
 import java.awt.Image;
 
+import javafx.beans.Observable;
+
 /** Tower Interface (or Abstract class) that is the super-type of all 
  * types of objects produced by the TowerFactory. 
  *
  */
 public interface Tower{
 	
+
  	void fire();
  	public void setTowerProperties(int id, int cost,int ammunition,int range,String type,int rateOfFire,String path);
- 	public void setAmmunition(int in_ammunition);
+ 	
+ 	public void increaseAmmunition(int in_ammunition);
+ 	//public void setAmmunition(int in_ammunition);
  	public void setPosition(int xPos,int yPos);
  	public int getCost();
  	public int getRange();
@@ -23,6 +28,15 @@ public interface Tower{
  	public int getXPosInTowerMap();
  	public int getYPosInTowerMap();
  	public String getImgPath();
+ 	
+ 	public void decreaseAmmunition(int in_ammunition);
+ 	//void setObserver(Screen screen);
+	
+ 	
+ 	public default void setObserver(Screen screen) {
+		// TODO Auto-generated method stub
+		
+	}
  	/*
  	public  String imageFile="" ;
 	public  String imgPath="";

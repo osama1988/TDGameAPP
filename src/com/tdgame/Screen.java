@@ -14,6 +14,10 @@ import java.awt.event.MouseEvent;
 import java.awt.image.CropImageFilter;
 import java.awt.image.FilteredImageSource;
 import java.io.FileNotFoundException;
+import java.util.Observable;
+import java.util.Observer;
+
+import javafx.beans.InvalidationListener;
 
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
@@ -69,6 +73,7 @@ public class Screen extends JPanel implements Runnable{
 	String towerImgPath;
 	
 	/* Critter Variables */
+	CritterWave critterWave;
 	public static Image[] crittersImgs = new Image[10];
 	public static Critter[] critters;
 	public static Critter[] critters2;
@@ -149,12 +154,14 @@ public class Screen extends JPanel implements Runnable{
 	
 	// Screen constructor
 	public Screen(Frame frame) {
+		
 		this.frame = frame;	
 		actionHandler = new ActionHandler(this, frame);
 		onMapPropertyRectangle=new Rectangle(this.frame.getWidth() - 300 ,0,300,400);
+		critterWave=new CritterWave();
 		/* set the image */
 		image = new ImageIcon("../res/TowerDefense.png").getImage();
-
+		
 	}	
 
 	/** 
@@ -430,7 +437,7 @@ public class Screen extends JPanel implements Runnable{
 						try {
 							if(user.player.money>=selectedTower.getCostToAddAmmunition()){
 								user.player.money-=selectedTower.getCostToAddAmmunition();
-								selectedTower.setAmmunition(selectedTower.getActualAmmunition());
+								selectedTower.increaseAmmunition(selectedTower.getActualAmmunition());
 								onMapTowerPropTbl.setValueAt(selectedTower.getAmmunition(), 1, 1);
 							}
 							else {
@@ -452,9 +459,15 @@ public class Screen extends JPanel implements Runnable{
 					// On click generate more amount of new critters 
 					@Override
 					public void actionPerformed(ActionEvent e) {	
+						/*critters = new Critter[noOfCritters];
+						critterWave.setStrategy(new SingleCritters());
+						critters=critterWave.startWave();
+						
+						isFirst = false;*/
+						
 						noOfCritters += 2;
 						critters = new Critter[noOfCritters];
-						critters2 = new Critter[noOfCritters];
+						//critters2 = new Critter[noOfCritters];
 						
 						if(isFirst)
 							crittersImgs[0] = new ImageIcon("../res/critter.gif").getImage();
@@ -462,7 +475,7 @@ public class Screen extends JPanel implements Runnable{
 						for(int i=0;i<critters.length;i++)
 						{
 								critters[i] = new Critter(50,50,25,0,-15,-60);
-								critters2[i] = new Critter(50,50,10,-15,0,-20);
+							//	critters2[i] = new Critter(50,50,10,-15,0,-20);
 						}
 						
 						isFirst = false;
@@ -470,6 +483,9 @@ public class Screen extends JPanel implements Runnable{
 				});
 				frame.add(sendCritters);
 				sendCritters.setBounds(this.frame.getWidth() - 6*(int)width , (int) (6.5*height), 3*(int)width, (int)(height/2));
+				
+				
+				
 				
 				//adding onMapTowerPropTbl
 				frame.add(onMapScrollPane);
@@ -486,18 +502,18 @@ public class Screen extends JPanel implements Runnable{
 				offMapScrollPane.setBounds(this.frame.getWidth() - 6*(int)width , 10*(int)height, 5*(int)width, 3*(int)height);
 
 			
-			// To draw all critters on screen
-			if (critters != null)
-			{	
-				for(int i=0;i<critters.length;i++)
-				{
-					if(critters[i].inGame)
-						critters[i].draw(g);
-					
-					if(critters2[i].inGame)
-						critters2[i].draw(g);
+				// To draw all critters on screen
+				if (critters != null)
+				{	
+					for(int i=0;i<critters.length;i++)
+					{
+						if(critters[i].inGame)
+							critters[i].draw(g);
+						
+						/*if(critters2[i].inGame)
+							critters2[i].draw(g);*/
+					}
 				}
-			}
 			
 			}
 
@@ -568,10 +584,10 @@ public class Screen extends JPanel implements Runnable{
 				if(!critters[i].inGame && !critters[i].duplicate) {
 					critters[i].createCritter(0);
 				}
-				if(!critters2[i].inGame && !critters2[i].duplicate) {
+				/*if(!critters2[i].inGame && !critters2[i].duplicate) {
 					critters2[i].createCritter(0);
 					break;
-				}
+				}*/
 			}
 			generationFrame = 0;
 		}
@@ -605,10 +621,10 @@ public class Screen extends JPanel implements Runnable{
 					{
 						critters[i].physics(520,2,49);
 					}
-					if(critters2[i].inGame)
+					/*if(critters2[i].inGame)
 					{
 						critters2[i].physics(550,1,6);
-					}
+					}*/
 				}
 			}
 
@@ -694,6 +710,8 @@ public class Screen extends JPanel implements Runnable{
 						user.player.money -= inHandTower.getCost();
 						towerMap[xPos][yPos] =TowerFactory.getTower(new_towerText);
 						towerMap[xPos][yPos].setPosition(xPos, yPos);
+						//towerMap[xPos][yPos].addListener(this);
+						//towerMap[xPos][yPos].setObserver(this);
 						//towerMap[xPos][yPos].yPosInTowerMap=yPos;
 						towerId++;
 						return true;
@@ -816,6 +834,7 @@ public class Screen extends JPanel implements Runnable{
 		
 
 	}
+
 	
 
 }

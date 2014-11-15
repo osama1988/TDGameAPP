@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 /**
  * This class has functionality to draw and manage movement of critters on screen according to path saved in map array.
@@ -50,6 +51,9 @@ public class Critter extends Rectangle {
 		rectangleX = rectX;
 		rectangleY = rectY;
 	}
+	public Critter(){
+		
+	}
 	/**
 	 * To create rectangle of critter
 	 * @param critterID index of image stored in array
@@ -73,6 +77,7 @@ public class Critter extends Rectangle {
 	public void draw(Graphics g) {
 		if (inGame) {
 			g.drawImage(Screen.crittersImgs[critterID], x + adjustX, y + adjustY, imageWidth, imageHeight, null);
+			//g.drawImage(new ImageIcon("../res/critter.gif").getImage(), x + adjustX, y + adjustY, imageWidth, imageHeight, null);
 		}
 	}
 
@@ -85,12 +90,9 @@ public class Critter extends Rectangle {
  * @param refreshValue
  */
 	public void physics(int initialDelay, int addition, int refreshValue) {
-
-// Check map array when movement is 0 or after given delay so that critters wont get direction early	
-		
+		// Check map array when movement is 0 or after given delay so that critters wont get direction early	
 		if (movement == 0 || movement == initialDelay + nextDelay) {
-			
-// Make sure that row value must not exceed array index bounds and must not already have opposite direction
+			// Make sure that row value must not exceed array index bounds and must not already have opposite direction
 			
 			if (row + 1 < Screen.map.length && Screen.map[row + 1][col] > 1 && !hasLeft) {
 				direction = right;
@@ -124,7 +126,7 @@ public class Critter extends Rectangle {
 				hasLeft = false;
 			}
 			
-// To keep on adding delay upto a certain value so that critters won't get direction early and later.
+			// To keep on adding delay upto a certain value so that critters won't get direction early and later.
 			if (nextDelay >= refreshValue)
 				nextDelay = 0;
 
@@ -145,7 +147,7 @@ public class Critter extends Rectangle {
 	}
 
 	public void moveFwd() {
-// The first check is to produce delay
+		// The first check is to produce delay
 		if (moveFrame >= moveSpeed) {
 			if (direction == right)
 				x += 1;
@@ -160,4 +162,5 @@ public class Critter extends Rectangle {
 			moveFrame += 1;
 	}
 
+	
 }
