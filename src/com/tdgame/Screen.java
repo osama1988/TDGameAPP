@@ -1,6 +1,7 @@
 package com.tdgame;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.HeadlessException;
@@ -14,6 +15,7 @@ import java.awt.image.CropImageFilter;
 import java.awt.image.FilteredImageSource;
 import java.io.FileNotFoundException;
 
+import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -72,7 +74,7 @@ public class Screen extends JPanel implements Runnable{
 	public static Critter[] critters2;
 	public boolean isFirst = true;
 	boolean allowCritters = false;
-	int noOfCritters = 10;
+	public static int noOfCritters = 8;
 	
 	/* Tower Variables */
 	public Tower[][] towerMap;
@@ -187,12 +189,12 @@ public class Screen extends JPanel implements Runnable{
 			startGame("Base.xml", typeOfOperation, user);
 			ImageIcon pic = new ImageIcon("grass.png");
 			for(int i=0;i<5;i++){
-				towers[i] = new Tower(i,towerNames[i]);
-				towers[i].setText(towerNames[i]);
-				this.add(towers[i]);
-				towers[i].addActionListener(actionHandler);
-				towers[i].addMouseListener(actionHandler);
-				towers[i].addMouseMotionListener(actionHandler);
+				towers[i] = TowerFactory.getTower(towerNames[i]);
+				((AbstractButton) towers[i]).setText(towerNames[i]);
+				this.add((Component) towers[i]);
+				((AbstractButton) towers[i]).addActionListener(actionHandler);
+				((Component) towers[i]).addMouseListener(actionHandler);
+				((Component) towers[i]).addMouseMotionListener(actionHandler);
 			}
 			Rectangle onMapPropertyRectangle=new Rectangle(this.frame.getWidth() - 300 ,0,300,400);
 			repaint(onMapPropertyRectangle);
@@ -236,12 +238,12 @@ public class Screen extends JPanel implements Runnable{
 			ImageIcon pic = new ImageIcon("grass.png");
 
 			for(int i=0;i<5;i++){
-				towers[i] = new Tower(i,towerNames[i]);
-				towers[i].setText(towerNames[i]);
-				this.add(towers[i]);
-				towers[i].addActionListener(actionHandler);
-				towers[i].addMouseListener(actionHandler);
-				towers[i].addMouseMotionListener(actionHandler);
+				towers[i] = TowerFactory.getTower(towerNames[i]);
+				((AbstractButton) towers[i]).setText(towerNames[i]);
+				this.add((Component) towers[i]);
+				((AbstractButton) towers[i]).addActionListener(actionHandler);
+				((Component) towers[i]).addMouseListener(actionHandler);
+				((Component) towers[i]).addMouseMotionListener(actionHandler);
 			}
 
 			instructions = "Map loaded!";
@@ -398,9 +400,9 @@ public class Screen extends JPanel implements Runnable{
 					public void actionPerformed(ActionEvent e) {
 						//add fund to player money and delete tower from map by placing null in towerMap array
 						//also clears onMapTowerPropTbl
-						user.player.money+=selectedTower.refundRate;
-						towerMap[selectedTower.xPosInTowerMap][selectedTower.yPosInTowerMap]=null;
-						Point location=selectedTower.getLocation();
+						user.player.money+=selectedTower.getRefundRate();
+						towerMap[selectedTower.getXPosInTowerMap()][selectedTower.getYPosInTowerMap()]=null;
+						Point location=((Component) selectedTower).getLocation();
 						onMapTowerPropTbl.setValueAt("", 0, 1);
 						onMapTowerPropTbl.setValueAt("", 1, 1);
 						onMapTowerPropTbl.setValueAt("", 2, 1);
@@ -412,7 +414,7 @@ public class Screen extends JPanel implements Runnable{
 						xPosInGridMap=location.x;
 						yPosInGridMap=location.y;
 						
-						frame.remove(selectedTower);
+						frame.remove((Component) selectedTower);
 						frame.getContentPane().validate();
 					}
 				});
@@ -426,14 +428,14 @@ public class Screen extends JPanel implements Runnable{
 						//first check money to buy ammunition if money is available decrease it from player money and
 						//increase ammunition
 						try {
-							if(user.player.money>=selectedTower.costToAddAmmunition){
-								user.player.money-=selectedTower.costToAddAmmunition;
-								selectedTower.ammunition+=selectedTower.actualAmmunition;
-								onMapTowerPropTbl.setValueAt(selectedTower.ammunition, 1, 1);
+							if(user.player.money>=selectedTower.getCostToAddAmmunition()){
+								user.player.money-=selectedTower.getCostToAddAmmunition();
+								selectedTower.setAmmunition(selectedTower.getActualAmmunition());
+								onMapTowerPropTbl.setValueAt(selectedTower.getAmmunition(), 1, 1);
 							}
 							else {
 								Object[] options = { "OK" };
-								int neededMoney=selectedTower.costToAddAmmunition-user.player.money;
+								int neededMoney=selectedTower.getCostToAddAmmunition()-user.player.money;
 								JOptionPane.showOptionDialog(null, "Not Enough Money To Buy Ammunition!! You need "+neededMoney+" more dollar to add ammunition", "Warning",
 								JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 								null, options, options[0]);
@@ -450,6 +452,7 @@ public class Screen extends JPanel implements Runnable{
 					// On click generate more amount of new critters 
 					@Override
 					public void actionPerformed(ActionEvent e) {	
+						noOfCritters += 2;
 						critters = new Critter[noOfCritters];
 						critters2 = new Critter[noOfCritters];
 						
@@ -463,7 +466,6 @@ public class Screen extends JPanel implements Runnable{
 						}
 						
 						isFirst = false;
-						noOfCritters += 2;
 					}
 				});
 				frame.add(sendCritters);
@@ -502,7 +504,7 @@ public class Screen extends JPanel implements Runnable{
 			// List of available towers	
 			for(int i=0;i < 5; i++){
 				for(int j=0; j < 1 ; j++) {
-					towers[i].setBounds((int)this.width * 5 + (i * 50), (frame.getHeight() -(frame.getHeight() -(int)this.height * 10)) + (int)this.height * (j+1), (int) width, (int) height);
+					((Component) towers[i]).setBounds((int)this.width * 5 + (i * 50), (frame.getHeight() -(frame.getHeight() -(int)this.height * 10)) + (int)this.height * (j+1), (int) width, (int) height);
 				}
 			}
 
@@ -511,22 +513,22 @@ public class Screen extends JPanel implements Runnable{
 				for(int y=0; y<valueOfY; y++){
 					if(towerMap[x][y] != null){
 						final Tower towerOnMapBtn=towerMap[x][y];
-						this.add(towerOnMapBtn);
-						towerOnMapBtn.addActionListener(new ActionListener() {
+						this.add((Component) towerOnMapBtn);
+						((AbstractButton) towerOnMapBtn).addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								//set the value onMapTowerPropTbl if that tower is pressed
 								selectedTower=towerOnMapBtn;
-								onMapTowerPropTbl.setValueAt(towerOnMapBtn.type, 0, 1);
-								onMapTowerPropTbl.setValueAt(towerOnMapBtn.ammunition, 1, 1);
-								onMapTowerPropTbl.setValueAt(towerOnMapBtn.range, 2, 1);
-								onMapTowerPropTbl.setValueAt(towerOnMapBtn.cost, 3, 1);
-								onMapTowerPropTbl.setValueAt(towerOnMapBtn.rateOfFire, 4, 1);
-								onMapTowerPropTbl.setValueAt(towerOnMapBtn.refundRate, 5, 1);
-								onMapTowerPropTbl.setValueAt(towerOnMapBtn.costToAddAmmunition, 6, 1);
+								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getType(), 0, 1);
+								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getAmmunition(), 1, 1);
+								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getRange(), 2, 1);
+								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getCost(), 3, 1);
+								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getRateOfFire(), 4, 1);
+								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getRefundRate(), 5, 1);
+								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getCostToAddAmmunition(), 6, 1);
 								
 							}
 						});
-						towerOnMapBtn.setBounds(((int)width+x*(int)width), ((int)height+y*(int)height)-(int)this.height, (int)width, (int)height);
+						((Component) towerOnMapBtn).setBounds(((int)width+x*(int)width), ((int)height+y*(int)height)-(int)this.height, (int)width, (int)height);
 					}
 				}
 			}
@@ -679,20 +681,20 @@ public class Screen extends JPanel implements Runnable{
 			if(map[xPos][yPos] == 0){
 				
 				if(towerMap[xPos][yPos] == null){
-					if(inHandTower.cost > user.player.money){
+					if(inHandTower.getCost() > user.player.money){
 						
 						//Display popup												
 						Object[] options = { "OK" };
-						JOptionPane.showOptionDialog(null, "Insufficient Funds. You need "+(inHandTower.cost- user.player.money)+" more dollar", "Warning",
+						JOptionPane.showOptionDialog(null, "Insufficient Funds. You need "+(inHandTower.getCost()- user.player.money)+" more dollar", "Warning",
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 						null, options, options[0]);
 						
 						return false;
 					}else{
-						user.player.money -= inHandTower.cost;
-						towerMap[xPos][yPos] = new Tower(towerId,new_towerText);
-						towerMap[xPos][yPos].xPosInTowerMap=xPos;
-						towerMap[xPos][yPos].yPosInTowerMap=yPos;
+						user.player.money -= inHandTower.getCost();
+						towerMap[xPos][yPos] =TowerFactory.getTower(new_towerText);
+						towerMap[xPos][yPos].setPosition(xPos, yPos);
+						//towerMap[xPos][yPos].yPosInTowerMap=yPos;
 						towerId++;
 						return true;
 					}

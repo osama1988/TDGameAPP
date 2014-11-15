@@ -3,6 +3,8 @@ package com.tdgame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+
+import javax.swing.JOptionPane;
 /**
  * This class has functionality to draw and manage movement of critters on screen according to path saved in map array.
  * @author Team2
@@ -28,6 +30,7 @@ public class Critter extends Rectangle {
 	int adjustX;
 	int adjustY;
 	int rectangleX , rectangleY;
+	static int crittersExited;
 
 	/** 
 	 * Constructor
@@ -120,16 +123,22 @@ public class Critter extends Rectangle {
 				hasRight = false;
 				hasLeft = false;
 			}
-// To keep on adding delay uptil a certain value so that critters won't get direction early and later.
+			
+// To keep on adding delay upto a certain value so that critters won't get direction early and later.
 			if (nextDelay >= refreshValue)
 				nextDelay = 0;
 
 			nextDelay += addition;
 			movement = 0;
+	
 		}
+		
 		if (Screen.map[row][col] == 2) {
 			inGame = false;
 			duplicate = true;
+			crittersExited++;
+			if (crittersExited >= Screen.noOfCritters * 2)
+				JOptionPane.showMessageDialog(null,"Game Over");
 		}
 		moveFwd();
 		movement += 1;

@@ -1,13 +1,73 @@
 package com.tdgame;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Insets;
-import java.awt.image.BufferedImage;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+/** Tower Interface (or Abstract class) that is the super-type of all 
+ * types of objects produced by the TowerFactory. 
+ *
+ */
+public interface Tower{
+	
+ 	void fire();
+ 	public void setTowerProperties(int id, int cost,int ammunition,int range,String type,int rateOfFire,String path);
+ 	public void setAmmunition(int in_ammunition);
+ 	public void setPosition(int xPos,int yPos);
+ 	public int getCost();
+ 	public int getRange();
+ 	public int getAmmunition();
+ 	public String getType();
+ 	public int getRefundRate();
+ 	public int getCostToAddAmmunition();
+ 	public int getRateOfFire();
+ 	public int getActualAmmunition();
+ 	public int getXPosInTowerMap();
+ 	public int getYPosInTowerMap();
+ 	public String getImgPath();
+ 	/*
+ 	public  String imageFile="" ;
+	public  String imgPath="";
+	public  Image image=null;
+	public  int id=0;
+	
+	public  int cost=0;
+	public  int range=0;
+	public  int ammunition=0;
+	public  String type="";
+	public  int refundRate=0;
+	public  int costToAddAmmunition=0;
+	public  int rateOfFire=0;
+	public  int xPosInTowerMap=0;
+	public  int yPosInTowerMap=0;
+	public  int actualAmmunition=0;
+ 	public default int getCost(){
+ 		return cost;
+ 	}
+ 	public default int getRange(){
+ 		return range;
+ 	}
+ 	public default  int getAmmunition() {
+		return ammunition;
+	}
+ 	public default String getType(){
+ 		return type;
+ 	}
+ 	public default int getRefundRate(){
+			return refundRate;
+	}
+ 	public default int getCostToAddAmmunition(){
+ 		return costToAddAmmunition;
+ 	}
+ 	public default int getRateOfFire(){
+ 		return rateOfFire;
+ 	}
+ 	*/
+	
+ 	
+ 	
+ 	
+}
+
+
 
 /**
  * This class is responsible for maintaining the tower characteristics like: “Type”, “Ammunition”, “Range”,
@@ -17,7 +77,7 @@ import javax.swing.JButton;
  * @author Team 2
  * @version $Revision
  * 
- */
+ *
 public class Tower extends JButton {
 	
 	public String imageFile = "";
@@ -95,7 +155,7 @@ public class Tower extends JButton {
 	 * @param type type of tower
 	 * @param rateOfFire rate at which tower fires 
 	 * @param path tower image path
-	 */
+	 *
 	public void setTowerProperties(int id, int cost,int ammunition,int range,String type,int rateOfFire,String path){
 		this.id = id;
 		this.ammunition=ammunition;
@@ -109,4 +169,4 @@ public class Tower extends JButton {
 		this.imgPath=path;
 	}
 	
-}
+}*/
