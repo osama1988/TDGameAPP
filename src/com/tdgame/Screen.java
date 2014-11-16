@@ -52,8 +52,8 @@ public class Screen extends JPanel implements Runnable{
 	LevelFile levelFile;
 	ActionHandler actionHandler;
 	MouseHandler mouseHandler;
-	Thread thread = new Thread(this);
-	boolean running = false;
+	Thread thread;// = new Thread(this);
+	static boolean running = false;
 	int scene;
 	
 	/* Map grid variables */
@@ -208,9 +208,9 @@ public class Screen extends JPanel implements Runnable{
 			Rectangle onMapPropertyRectangle=new Rectangle(this.frame.getWidth() - 300 ,0,300,400);
 			repaint(onMapPropertyRectangle);
 
-			if (thread.getState() == Thread.State.NEW) {
-				thread.start();
-			}
+			thread = new Thread(this);
+			
+			thread.start();
 		}
 	}
 	
@@ -259,9 +259,9 @@ public class Screen extends JPanel implements Runnable{
 
 			repaint(onMapPropertyRectangle);
 
-			if (thread.getState() == Thread.State.NEW) {
-				thread.start();
-			}
+			thread = new Thread(this);
+			
+			thread.start();
 		}
 	}
 	

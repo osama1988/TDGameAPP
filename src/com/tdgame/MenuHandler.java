@@ -51,9 +51,11 @@ public class MenuHandler implements ActionListener{
 		if(selectedOption.equalsIgnoreCase("Create Map")) {
 			Screen.startGame = false;
 			MouseHandler.count=0;
+			Screen.running = false;
 			screen.createMap();
 		} else if(selectedOption.equalsIgnoreCase("Load Map")) {
 			Screen.startGame = false;
+			Screen.running = false;
 			screen.loadMap();
 		} else if(selectedOption.equalsIgnoreCase("Save Map")) {
 			mouseHandler.saveMapByMenu();
