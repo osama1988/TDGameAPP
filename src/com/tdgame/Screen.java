@@ -52,10 +52,10 @@ public class Screen extends JPanel implements Runnable{
 	LevelFile levelFile;
 	ActionHandler actionHandler;
 	MouseHandler mouseHandler;
-	Thread thread = new Thread(this);
-	boolean running = false;
+	Thread thread;// = new Thread(this);
+	static boolean running = false;
 	int scene;
-	
+
 	/* Map grid variables */
 	private static Image image;
 	public static boolean startGame = true;
@@ -71,7 +71,7 @@ public class Screen extends JPanel implements Runnable{
 	static double width;
 	static double height;	
 	String towerImgPath;
-	
+
 	/* Critter Variables */
 	CritterWave critterWave;
 	public static Image[] crittersImgs = new Image[10];
@@ -80,14 +80,16 @@ public class Screen extends JPanel implements Runnable{
 	public static boolean isFirst = true;
 	boolean allowCritters = false;
 	public static int noOfCritters = 8;
-	static String waveType="Double";
-	
+	static String waveType="Single";
+
 	/* Tower Variables */
 	public Tower[][] towerMap;
 	public int towerWidth = 50;
 	public int towerHeight = 50;
 	static Tower selectedTower;
 	static Tower inHandTower;
+
+	public static int towerSize = 50;
 
 	public JButton button;
 	public Tower towers[]=new Tower[5];
@@ -101,15 +103,15 @@ public class Screen extends JPanel implements Runnable{
 	int selectedTowerRange = 0;
 	Rectangle repaintMapRectangle;
 	Rectangle onMapPropertyRectangle;
-	
-	
+
+
 	// Table for user specific details
 	Object userRowData[][] = { { "Cash","" }};
-	 static Object columnNam[] = { "User", "Data" };
-	 JTable userDataTbl = new JTable(userRowData, columnNam);
-	 
+	static Object columnNam[] = { "User", "Data" };
+	JTable userDataTbl = new JTable(userRowData, columnNam);
+
 	JScrollPane userScrollPane = new JScrollPane(userDataTbl);
-	
+
 	// Table for displaying Tower store properties
 	Object onMapRowData[][] = { { "Type","" },
 			{ "Ammunition", "" },
@@ -119,26 +121,26 @@ public class Screen extends JPanel implements Runnable{
 			{ "Refund Rate", "" },
 			{ "Add Ammunition Rate", "" },
 			{ "Increase Level Cost", "" }};
-	 static Object columnNames[] = { "Properties", "Value" };
-	 JTable onMapTowerPropTbl = new JTable(onMapRowData, columnNames);
-	 
+	static Object columnNames[] = { "Properties", "Value" };
+	JTable onMapTowerPropTbl = new JTable(onMapRowData, columnNames);
+
 	JScrollPane onMapScrollPane = new JScrollPane(onMapTowerPropTbl);
 
 	// Table for displaying Tower store properties
 	static Object offMapRowData[][] = { { "Type","" },
-			{ "Ammunition", "" },
-			{ "Range", "" },
-			{ "Cost", "" },
-			{ "Rate of Fire", "" },
-			{ "Refund Rate", "" },
-			{ "Add Ammunition Rate", "" }};
+		{ "Ammunition", "" },
+		{ "Range", "" },
+		{ "Cost", "" },
+		{ "Rate of Fire", "" },
+		{ "Refund Rate", "" },
+		{ "Add Ammunition Rate", "" }};
 	static JTable offMapTowerPropTbl = new JTable(offMapRowData, columnNames);
 	static JScrollPane offMapScrollPane = new JScrollPane(offMapTowerPropTbl);
-	
+
 	int xPosInGridMap;
 	int yPosInGridMap;
-	
-	
+
+
 	/* Instruction Variables */
 	static String welcomeMessage = "Welcome to Tower Defence Game";
 	static String instructions = "In order to play this game, you need a "
@@ -153,17 +155,17 @@ public class Screen extends JPanel implements Runnable{
 			+ "\n\nOnce the map is saved, you can buy towers"
 			+ "\nfrom the tower store and place them on the"
 			+ "\nmap.";
-	
+
 	// Screen constructor
 	public Screen(Frame frame) {
-		
+
 		this.frame = frame;	
 		actionHandler = new ActionHandler(this, frame);
 		onMapPropertyRectangle=new Rectangle(this.frame.getWidth() - 300 ,0,300,400);
 		critterWave=new CritterWave();
 		/* set the image */
 		image = new ImageIcon("../res/TowerDefense.png").getImage();
-		
+
 	}	
 
 	/** 
@@ -208,12 +210,12 @@ public class Screen extends JPanel implements Runnable{
 			Rectangle onMapPropertyRectangle=new Rectangle(this.frame.getWidth() - 300 ,0,300,400);
 			repaint(onMapPropertyRectangle);
 
-			if (thread.getState() == Thread.State.NEW) {
-				thread.start();
-			}
+			thread = new Thread(this);
+			
+			thread.start();
 		}
 	}
-	
+
 
 	/** 
 	 *  This method is called when the user wants to load an existing map
@@ -259,12 +261,12 @@ public class Screen extends JPanel implements Runnable{
 
 			repaint(onMapPropertyRectangle);
 
-			if (thread.getState() == Thread.State.NEW) {
-				thread.start();
-			}
+			thread = new Thread(this);
+			
+			thread.start();
 		}
 	}
-	
+
 	/**
 	 * Adding mouseListerner appropriately in order to avoid multiple mouse listeners added to the same object
 	 * 
@@ -315,7 +317,7 @@ public class Screen extends JPanel implements Runnable{
 	private void clearRect(Graphics g) {
 		g.clearRect(0, 0, this.frame.getWidth(), this.frame.getHeight());
 	}
-	
+
 
 	/**
 	 * This method is responsible for displaying everything on the screen including the grid, tower store, 
@@ -329,7 +331,7 @@ public class Screen extends JPanel implements Runnable{
 		super.paintComponent(g);
 		try 
 		{
-			
+
 			g.clearRect(0, 0, this.frame.getWidth(), this.frame.getHeight());
 
 			// Background
@@ -345,12 +347,12 @@ public class Screen extends JPanel implements Runnable{
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("TimesRoman", Font.BOLD, 14));
 			drawString(g,instructions, this.frame.getWidth() - 300 , 70);
-			
+
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("TimesRoman", Font.BOLD, 14));
 			drawString(g,"Tower Store", (int)this.width * 5 + 80, (frame.getHeight() -(frame.getHeight() -(int)this.height * 10) + 100));
-			
-						
+
+
 			// Main screen image
 			if(startGame) {
 				g.drawImage(image, 50, 0, null);
@@ -358,7 +360,7 @@ public class Screen extends JPanel implements Runnable{
 
 			// Grid			
 			g.setColor(Color.GRAY);			
-			
+
 			// calculate the dimensions of the tile dynamically by getting the width and height of the screen/frame
 			double width1 = this.frame.getWidth()*10000 / (valueOfX * 50);
 			double width2 = width1 / 10000;
@@ -402,7 +404,7 @@ public class Screen extends JPanel implements Runnable{
 			//this conditions only get true if map on screen is complete
 			//if the map is complete then only it shows you tower property tables
 			if(MouseHandler.mapCompleted) {
-				
+
 				//Sell tower button 			
 				JButton sellTower=new JButton("Sell Tower");
 				sellTower.addActionListener(new ActionListener() {
@@ -419,17 +421,17 @@ public class Screen extends JPanel implements Runnable{
 						onMapTowerPropTbl.setValueAt("", 4, 1);
 						onMapTowerPropTbl.setValueAt("", 5, 1);
 						onMapTowerPropTbl.setValueAt("", 6, 1);
-		
+
 						xPosInGridMap=location.x;
 						yPosInGridMap=location.y;
-						
+
 						frame.remove((Component) selectedTower);
 						frame.getContentPane().validate();
 					}
 				});
 				frame.add(sellTower);
 				sellTower.setBounds(this.frame.getWidth() - 6*(int)width , 6*(int)height, 2*(int)width, (int)(height/2));
-				
+
 				//add ammunition button
 				JButton addAmmunition=new JButton("Add Ammunition");
 				addAmmunition.addActionListener(new ActionListener() {
@@ -446,8 +448,8 @@ public class Screen extends JPanel implements Runnable{
 								Object[] options = { "OK" };
 								int neededMoney=selectedTower.getCostToAddAmmunition()-user.player.money;
 								JOptionPane.showOptionDialog(null, "Not Enough Money To Buy Ammunition!! You need "+neededMoney+" more dollar to add ammunition", "Warning",
-								JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
-								null, options, options[0]);
+										JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+										null, options, options[0]);
 							}
 						} catch (Exception e1) {
 						}
@@ -455,8 +457,8 @@ public class Screen extends JPanel implements Runnable{
 				});
 				frame.add(addAmmunition);
 				addAmmunition.setBounds(this.frame.getWidth() - 4*(int)width , 6*(int)height, 3*(int)width, (int)(height/2));
-				
-				
+
+
 				//Increase Tower Level		
 				JButton increaseLevel = new JButton("Increase Level");
 				addAmmunition.addActionListener(new ActionListener() {
@@ -475,8 +477,8 @@ public class Screen extends JPanel implements Runnable{
 								Object[] options = { "OK" };
 								int neededMoney=selectedTower.getCostToIncreaseLevel()-user.player.money;
 								JOptionPane.showOptionDialog(null, "Not Enough Money To Increase Level!! You need "+neededMoney+" more dollars", "Warning",
-								JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
-								null, options, options[0]);
+										JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+										null, options, options[0]);
 							}
 						} catch (Exception e1) {
 						}
@@ -484,12 +486,14 @@ public class Screen extends JPanel implements Runnable{
 				});
 				frame.add(increaseLevel);
 				increaseLevel.setBounds(this.frame.getWidth() - 6*(int)width , (int)(6.5* height), 3*(int)width, (int)(height/2));
+
+				//Send critters on map
 				JButton sendCritters=new JButton("Send Critters");
 				sendCritters.addActionListener(new ActionListener() {
 					// On click generate more amount of new critters 
 					@Override
 					public void actionPerformed(ActionEvent e) {	
-						
+
 						if(waveType=="Single"){
 							critterWave.setStrategy(new SingleCritters());
 							critterWave.startWave();
@@ -498,30 +502,27 @@ public class Screen extends JPanel implements Runnable{
 							critterWave.setStrategy(new DoubleCritters());
 							critterWave.startWave();
 						}
-					
+
 					}
 				});
 				frame.add(sendCritters);
 				sendCritters.setBounds(this.frame.getWidth() - 6*(int)width , (int) (8*height), 3*(int)width, (int)(height/2));
-				
-				
-				
-				
-				//adding onMapTowerPropTbl
+
+				//adding onMapTowerPropTable
 				frame.add(onMapScrollPane);
 				drawString(g,"Active Tower Properties", this.frame.getWidth() - 6*(int)width ,2*(int)height);
 				onMapScrollPane.setBounds(this.frame.getWidth() - 6*(int)width , 3*(int)height, 5*(int)width, 3*(int)height);
-				
+
 				//adding user details table
 				frame.add(userScrollPane);
 				userScrollPane.setBounds(this.frame.getWidth() - 6*(int)width , 7*(int)height, 5*(int)width, (int)height);
 				userDataTbl.setValueAt(user.player.money, 0, 1);
-				
-				//adding offMapTowerPropTbl
+
+				//adding offMapTowerPropTable
 				frame.add(offMapScrollPane);
 				offMapScrollPane.setBounds(this.frame.getWidth() - 6*(int)width , 10*(int)height, 5*(int)width, 3*(int)height);
 
-			
+
 				// To draw all critters on screen
 				if (critters != null)
 				{	
@@ -529,17 +530,17 @@ public class Screen extends JPanel implements Runnable{
 					{
 						if(critters[i].inGame)
 							critters[i].draw(g);
-						
+
 						if(waveType=="Double")
 						{
 							if(critters2[i].inGame){
 								critters2[i].draw(g);
 							}
 						}
-						
+
 					}
 				}
-			
+
 			}
 
 			// List of available towers	
@@ -567,16 +568,25 @@ public class Screen extends JPanel implements Runnable{
 								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getRefundRate(), 5, 1);
 								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getCostToAddAmmunition(), 6, 1);
 								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getTowerLevel(), 7, 1);
-								
+
 							}
 						});
 						((Component) towerOnMapBtn).setBounds(((int)width+x*(int)width), ((int)height+y*(int)height)-(int)this.height, (int)width, (int)height);
+
+						//Attacking the critters
+						if(towerMap[x][y].getTargetCritter() != null){
+							System.out.println("critter found for tower at\nX\tY\n" + x + "\t" + y);
+							System.out.println("Draw line from\n" + (50 + (x * 50) + (int)(50/2)) + "," + (50 + (y * 50) + (int)(50/2)) + "\tto " + (int)(towerMap[x][y].getTargetCritter().x) + "," + (int)(towerMap[x][y].getTargetCritter().y));
+							g.setColor(Color.RED);
+							g.drawLine((50 + (x * 50) + (int)(50/2)), (50 + (y * 50) + (int)(50/2)), (int)(towerMap[x][y].getTargetCritter().x), (int)(towerMap[x][y].getTargetCritter().y));
+							System.exit(0);
+						}
 					}
 				}
 			}
-			
-			
-			
+
+
+			//draw tower on grid while placing (Special effect)
 			if(this.placingTower){// && Tower.towerList[towerInHand - 1] != null){
 				//g.drawRect((int)this.handXPos - (int)(this.width) - (int)(this.width/2), (int)this.handYPos - ((int)this.towerWidth) - ((int)this.height/2), (int)this.width, (int)this.height);
 				int ovalWidth = (int)(this.selectedTowerRange*this.width*2);
@@ -586,7 +596,7 @@ public class Screen extends JPanel implements Runnable{
 				g.drawImage(new ImageIcon(this.towerImgPath).getImage(), (int)this.handXPos - (int)(this.width/2), 
 						(int)this.handYPos - ((int)this.towerWidth) - ((int)this.height/2), 
 						(int)this.width, (int)this.height,null);
-				
+
 				//g.drawOval((int)this.handXPos - ((int)(2*this.towerWidth)), (int)this.handYPos - ((int)(3*this.towerWidth)), );
 				g.drawOval((int)this.handXPos - ((int)(ovalWidth/2)), ((int)this.handYPos - ((int)((ovalHeight/2))) - (int)this.height), ovalWidth, ovalHeight);
 				g.setColor(new Color(64, 64, 64, 64));
@@ -597,26 +607,30 @@ public class Screen extends JPanel implements Runnable{
 
 		}
 	}
-	
+
 	public int generationTime = 500, generationFrame = 0;
-	
+
 	/* To Generate critters */ 
 	public void critterGenerator()
 	{
 		if(generationFrame >= generationTime)
 		{
-			for (int i = 0;i < critters.length;i++)
-			{
-				if(!critters[i].inGame && !critters[i].duplicate) {
-					critters[i].createCritter(0);
-					if(waveType=="Single")
-					 break;
-				}
-				if(waveType=="Double")
+			if(critters != null){
+				for (int i = 0;i < critters.length;i++)
 				{
-					if(!critters2[i].inGame && !critters2[i].duplicate) {
-						critters2[i].createCritter(0);
-						break;
+					if(critters[i] != null){
+						if(!critters[i].inGame && !critters[i].duplicate) {
+							critters[i].createCritter(0);
+							if(waveType=="Single")
+								break;
+						}
+						if(waveType=="Double")
+						{
+							if(!critters2[i].inGame && !critters2[i].duplicate) {
+								critters2[i].createCritter(0);
+								break;
+							}
+						}
 					}
 				}
 			}
@@ -646,20 +660,23 @@ public class Screen extends JPanel implements Runnable{
 			if(!isFirst)
 			{
 				critterGenerator();
-				for(int i = 0;i < critters.length;i++)
-				{
-					if(critters[i].inGame)
+				if(critters != null){
+					for(int i = 0;i < critters.length;i++)
 					{
-						critters[i].physics(520,2,49);
-					}
-					if(waveType=="Double")
-					{
-						if(critters2[i].inGame)
-						{
-							critters2[i].physics(550,1,6);
+						if(critters[i] != null){
+							if(critters[i].inGame)
+							{
+								critters[i].physics(520,2,49);
+							}
+							if(waveType=="Double")
+							{
+								if(critters2[i].inGame)
+								{
+									critters2[i].physics(550,1,6);
+								}
+							}
 						}
 					}
-
 				}
 			}
 
@@ -671,12 +688,71 @@ public class Screen extends JPanel implements Runnable{
 			repaintMapRectangle=new Rectangle((int)width,0,frame.getWidth()-350,getHeight());
 			//Rectangle repaintRectangle=new Rectangle(50,0,valueOfX*50,getHeight());
 			// to draw stuff all the time on the screen : goes around 2 millions frames per second. Which is of no use.
-			repaint(repaintMapRectangle);	
+			repaint(repaintMapRectangle);
+
+			updateMap();
 
 			try {
 				Thread.sleep(2);
 			} catch (Exception e) {}
 		}				
+	}
+
+	public void updateMap() {
+		updateTowers();
+		updateCritters();
+	}
+
+	private void updateCritters() {
+		if(critters != null){
+			for(int i=0; i<critters.length; i++){
+				if(critters[i] != null){
+					critters[i] = critters[i].update();
+				}
+			}
+		}
+	}
+
+	private void updateTowers() {
+		for(int x=0; x<valueOfX; x++){
+			for(int y=0; y<valueOfY; y++){
+				if(towerMap[x][y] != null){
+					//System.out.println("tower :\nX\tY\n" + x + "\t" + y);
+					towerAttack(x, y);
+				}
+			}
+		}
+	}
+
+
+	private void towerAttack(int x, int y) {
+		//IF the current tower does not have a critter-enemy then find next critter to shoot
+		if(this.towerMap[x][y].getTargetCritter() == null){
+			//System.out.println("this.towerMap[x][y].getAttackDelay() > this.towerMap[x][y].getMaxAttackDelay()\n" + this.towerMap[x][y].getAttackDelay() + " > " +this.towerMap[x][y].getMaxAttackDelay() + " = " + (this.towerMap[x][y].getAttackDelay() > this.towerMap[x][y].getMaxAttackDelay()));
+			if(this.towerMap[x][y].getAttackDelay() > this.towerMap[x][y].getMaxAttackDelay()){
+				//System.out.println("Finding enemy...calling findenemytoshoot...\nnumber of enemies=\t"+critters.length);
+				Critter currentEnemy = this.towerMap[x][y].findTargetCritter(critters, x, y);
+
+				if(currentEnemy != null){
+					//System.out.println("Enemy returned... need to hit...Calling tower attack");
+					this.towerMap[x][y].towerAttack(x, y, currentEnemy);
+
+					this.towerMap[x][y].setTargetCritter(currentEnemy);
+					this.towerMap[x][y].setAttackTime(0);
+					this.towerMap[x][y].setAttackDelay(0);
+				}
+			}else{
+				this.towerMap[x][y].setAttackDelay(this.towerMap[x][y].getAttackDelay() + 1);
+			}
+		}
+		//There is a critter to shoot and to show the attack, we need to keep the bullet visible until attackTime > maxAttackTime
+		else{
+			if(this.towerMap[x][y].getAttackTime() < this.towerMap[x][y].getMaxAttackTime()){
+				this.towerMap[x][y].setAttackTime(this.towerMap[x][y].getAttackTime() + 1);
+			} else {
+				this.towerMap[x][y].setTargetCritter(null);
+			}
+		}
 	}
 
 	/**
@@ -692,7 +768,7 @@ public class Screen extends JPanel implements Runnable{
 		// To load the image in the Image array
 		for(int y=0; y < 10; y++) {
 			for(int x=0; x < 10; x++) {
-	
+
 				terrain[x + (y * 10)] = new ImageIcon(cl.getResource(packagename  + "/grass.png")).getImage();
 				terrain[x + (y * 10)] = createImage(new FilteredImageSource( terrain[x + (y * 10)].getSource(), new CropImageFilter(x*(int)towerWidth, y*(int)towerHeight, (int)towerWidth, (int)towerHeight)));
 			}
@@ -724,22 +800,22 @@ public class Screen extends JPanel implements Runnable{
 	 * @return boolean returns True, if the tower was successfully placed, else, returns False
 	 */
 	public boolean placeTower(int xPos, int yPos,String new_towerText){
-		
+
 		if(xPos > 0 && xPos <= valueOfX && yPos >0 && yPos <= valueOfY){
 
 			xPos -= 1;
 			yPos -= 1;
 			if(map[xPos][yPos] == 0){
-				
+
 				if(towerMap[xPos][yPos] == null){
 					if(inHandTower.getCost() > user.player.money){
-						
+
 						//Display popup												
 						Object[] options = { "OK" };
 						JOptionPane.showOptionDialog(null, "Insufficient Funds. You need "+(inHandTower.getCost()- user.player.money)+" more dollar", "Warning",
-						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
-						null, options, options[0]);
-						
+								JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+								null, options, options[0]);
+
 						return false;
 					}else{
 						user.player.money -= inHandTower.getCost();
@@ -754,23 +830,23 @@ public class Screen extends JPanel implements Runnable{
 				}else{
 					Object[] options = { "OK" };
 					JOptionPane.showOptionDialog(null, "Tower Already Present At This Position!!", "Warning",
-					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
-					null, options, options[0]);
+							JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+							null, options, options[0]);
 					return false;
 				}
 			}else{
 				Object[] options = { "OK" };
 				JOptionPane.showOptionDialog(null, "Tower Cannot Be Placed On The Path!!", "Warning",
-				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
-				null, options, options[0]);
+						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+						null, options, options[0]);
 				return false;
 			}
 		}else{
 			if(placingTower){
 				Object[] options = { "OK" };
 				JOptionPane.showOptionDialog(null, "Tower Cannot Be Placed Outside The Map Boundary!!", "Warning",
-				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
-				null, options, options[0]);
+						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+						null, options, options[0]);
 			}
 			return false;
 		}
@@ -852,7 +928,7 @@ public class Screen extends JPanel implements Runnable{
 					typeOfOperation = "saveMap";
 					return "YES";
 				} catch (Exception e) {
-		
+
 					System.exit(0);
 				}
 			}
@@ -866,11 +942,11 @@ public class Screen extends JPanel implements Runnable{
 		public void incompleteMap() {
 			actionHandler.pathIncomplete();			
 		}
-		
+
 
 	}
 
-	
+
 
 }
 

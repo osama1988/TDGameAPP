@@ -33,7 +33,8 @@ public class Critter extends Rectangle {
 	int rectangleX , rectangleY;
 	static int crittersExited;
 	int atTime=1;
-	int health = 20 ,healthheight = 3;
+	int health = 300 ,healthheight = 3;
+	public final int originalHealth = health;
 	int healthBarSpace;
 
 	/** 
@@ -82,8 +83,11 @@ public class Critter extends Rectangle {
 	public void draw(Graphics g) {
 		if (inGame) {
 			g.drawImage(Screen.crittersImgs[critterID], x + adjustX, y + adjustY, imageWidth, imageHeight, null);
-			g.setColor(Color.RED);
-			g.fillRect(x + adjustX + 15, y + healthBarSpace, health, healthheight);
+			g.setColor(Color.GREEN);
+			if(health < originalHealth){
+				g.setColor(Color.RED);
+			}
+			g.fillRect(x + adjustX + 15, y + healthBarSpace, (int)(((double)health/(double)originalHealth)*(imageWidth/2)), healthheight);
 		}
 	}
 
@@ -184,17 +188,23 @@ public class Critter extends Rectangle {
 
 	public int getCritterX()
 	{
-		return this.x;
+		return this.x;//(x + adjustX );//this.x;
 	}
 	public int getCritterY()
 	{
-		return this.y;
+		return this.y;//(y + adjustY );//this.y;
 	}
 	public int getHealth() {
 		return health;
 	}
 	public void setHealth(int health) {
 		this.health = health;
+	}
+	public Critter update() {
+		if(this.health <= 0){
+			return null;
+		}
+		return this;
 	}
 	
 }
