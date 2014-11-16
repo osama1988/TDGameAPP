@@ -41,7 +41,7 @@ public class CritterTest {
 		LevelFile level_file = new LevelFile(valueOfX, valueOfY);
 		level_file.readAndLoadMap(filename, screen, "loadMap");
 		result = 0;
-		critter = new Critter(col, col, col, col, col, col);
+		critter = new Critter(col, col, col, col, col, col, col);
 		critter.moveFrame = 10;
 		critter.moveSpeed = 0;
 		upward = 0;
@@ -131,13 +131,72 @@ public class CritterTest {
 	
 	/**
 	 * 
-	 * Check if the critters are following the path properly,
-	 * and if the directions are followed according to the path
+	 * Checking direction - Setting conditions true for Right direction
+	 * Rest directions should be false.
 	 * 
 	 */
 	@Test
-	public void physics() {
-		
+	public void rightDirection() {
+		//boolean direction;
+		Screen.map[row + 1][col] = 10;
+		critter.physics(520, 2, 49);
+		assertTrue(critter.hasRight);
+		assertFalse(critter.hasLeft);
+		assertFalse(critter.hasUpward);
+		assertFalse(critter.hasDownward);
+	}
+	
+	/**
+	 * 
+	 * Checking direction - Setting conditions true for Left direction
+	 * Rest directions should be false.
+	 * 
+	 */
+	@Test
+	public void leftDirection() {
+		//boolean direction;
+		critter.row = 1;
+		critter.col = 1;
+				
+		row = 2;
+		//col = 5;
+		//col= 50;
+		critter.physics(520, 2, 49);
+		assertTrue(critter.hasLeft);
+		assertFalse(critter.hasRight);
+		assertFalse(critter.hasUpward);
+		assertFalse(critter.hasDownward);
+	}
+	
+	/**
+	 * 
+	 * Checking direction - Setting conditions true for Upward direction
+	 * Rest directions should be false.
+	 * 
+	 */
+	@Test
+	public void UpwardDirection() {
+		critter.col = 2;
+		critter.physics(520, 2, 49);
+		assertTrue(critter.hasUpward);
+		assertFalse(critter.hasLeft);
+		assertFalse(critter.hasRight);
+		assertFalse(critter.hasDownward);
+	}
+	
+	/**
+	 * 
+	 * Checking direction - Setting conditions true for Downwards direction
+	 * Rest directions should be false.
+	 * 
+	 */
+	@Test
+	public void DownwardDirection() {
+		critter.physics(520, 2, 49);
+		assertFalse(critter.hasUpward);
+		assertFalse(critter.hasLeft);
+		assertFalse(critter.hasRight);
+		assertTrue(critter.hasDownward);
 	}
 	
 	
@@ -149,6 +208,4 @@ public class CritterTest {
 		int expected_critterID = 0;
 		assertEquals(expected_critterID, critter.critterID);
 	}
-	
-
 }
