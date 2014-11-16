@@ -80,7 +80,7 @@ public class Screen extends JPanel implements Runnable{
 	public static boolean isFirst = true;
 	boolean allowCritters = false;
 	public static int noOfCritters = 8;
-	static String waveType="Single";
+	static String waveType="Double";
 	
 	/* Tower Variables */
 	public Tower[][] towerMap;
@@ -533,7 +533,7 @@ public class Screen extends JPanel implements Runnable{
 						if(waveType=="Double")
 						{
 							if(critters2[i].inGame){
-									critters2[i].draw(g);
+								critters2[i].draw(g);
 							}
 						}
 						

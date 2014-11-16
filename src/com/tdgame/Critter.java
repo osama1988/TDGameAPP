@@ -33,6 +33,9 @@ public class Critter extends Rectangle {
 	int rectangleX , rectangleY;
 	static int crittersExited;
 	int atTime=1;
+	int health = 20 ,healthheight = 3;
+	int healthBarSpace;
+
 	/** 
 	 * Constructor
 	 * @param imgWidth Sets critter image width
@@ -41,8 +44,9 @@ public class Critter extends Rectangle {
 	 * @param imgY Adjusts position of critter image
 	 * @param rectX Adjusts initial X position of rectangle which contains image of critter
 	 * @param rectY Adjusts initial Y position of rectangle which contains image of critter
+	 * @param healthSpace Adjusts Y position of health bar displayed over critter
 	 */
-	public Critter(int imgWidth, int imgHeight, int imgX, int imgY, int rectX, int rectY)
+	public Critter(int imgWidth, int imgHeight, int imgX, int imgY, int rectX, int rectY, int healthSpace)
 	{
 		imageHeight = imgHeight;
 		imageWidth = imgWidth;
@@ -50,6 +54,7 @@ public class Critter extends Rectangle {
 		adjustY = imgY;
 		rectangleX = rectX;
 		rectangleY = rectY;
+		healthBarSpace = healthSpace;
 	}
 	public Critter(){
 		
@@ -77,7 +82,8 @@ public class Critter extends Rectangle {
 	public void draw(Graphics g) {
 		if (inGame) {
 			g.drawImage(Screen.crittersImgs[critterID], x + adjustX, y + adjustY, imageWidth, imageHeight, null);
-			//g.drawImage(new ImageIcon("../res/critter.gif").getImage(), x + adjustX, y + adjustY, imageWidth, imageHeight, null);
+			g.setColor(Color.RED);
+			g.fillRect(x + adjustX + 15, y + healthBarSpace, health, healthheight);
 		}
 	}
 
@@ -153,7 +159,7 @@ public class Critter extends Rectangle {
 				
 				Screen.isFirst=true;
 				crittersExited=0;
-				//JOptionPane.showMessageDialog(null,"Game Over");
+				JOptionPane.showMessageDialog(null,"Game Over");
 			}
 		}
 		moveFwd();
@@ -176,5 +182,19 @@ public class Critter extends Rectangle {
 			moveFrame += 1;
 	}
 
+	public int getCritterX()
+	{
+		return this.x;
+	}
+	public int getCritterY()
+	{
+		return this.y;
+	}
+	public int getHealth() {
+		return health;
+	}
+	public void setHealth(int health) {
+		this.health = health;
+	}
 	
 }

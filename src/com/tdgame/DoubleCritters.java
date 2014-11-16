@@ -15,8 +15,8 @@ public class DoubleCritters implements CritterStrategy {
 		Screen.critters2 = new Critter[Screen.noOfCritters];
 		for(int i=0;i<Screen.critters.length;i++)
 		{
-			Screen.critters[i] = new Critter(50,50,25,0,-15,-60);
-			Screen.critters2[i] = new Critter(50,50,10,-15,0,-20);
+			Screen.critters[i] = new Critter(50,50,25,0,-15,-60,12);
+			Screen.critters2[i] = new Critter(50,50,10,-15,0,-20,0);
 		}
 		if(Screen.isFirst)
 			Screen.crittersImgs[0] = new ImageIcon("../res/critter.gif").getImage();
