@@ -199,6 +199,22 @@ public class CritterTest {
 		assertTrue(critter.hasDownward);
 	}
 	
+	/**
+	 * 
+	 * Testing if the Critter object is taking the exact values
+	 * 
+	 */
+	@Test
+	public void critterContructor() {
+		Critter critter = new Critter(50,50,25,0,-15,-60,12);
+		assertEquals(50, critter.imageHeight);
+		assertEquals(50, critter.imageWidth);
+		assertEquals(25, critter.adjustX);
+		assertEquals(0, critter.adjustY);
+		assertEquals(-15, critter.rectangleX);
+		assertEquals(-60, critter.rectangleY);
+		assertEquals(12, critter.healthBarSpace);
+	}
 	
 	/**
 	 * Validating critter ID that defines its properties e.g. Image
