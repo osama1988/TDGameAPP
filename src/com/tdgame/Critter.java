@@ -32,7 +32,7 @@ public class Critter extends Rectangle {
 	int adjustY;
 	int rectangleX , rectangleY;
 	static int crittersExited;
-
+	int atTime=1;
 	/** 
 	 * Constructor
 	 * @param imgWidth Sets critter image width
@@ -139,8 +139,22 @@ public class Critter extends Rectangle {
 			inGame = false;
 			duplicate = true;
 			crittersExited++;
-			if (crittersExited >= Screen.noOfCritters * 2)
-				JOptionPane.showMessageDialog(null,"Game Over");
+			if(Screen.waveType=="Single")
+				atTime=1;
+			else
+				atTime=2;
+			
+			if (crittersExited >= Screen.noOfCritters * atTime)
+			{
+				if(Screen.waveType=="Single")
+					Screen.waveType="Double";
+				else
+					Screen.waveType="Single";
+				
+				Screen.isFirst=true;
+				crittersExited=0;
+				//JOptionPane.showMessageDialog(null,"Game Over");
+			}
 		}
 		moveFwd();
 		movement += 1;

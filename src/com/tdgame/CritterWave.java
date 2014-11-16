@@ -8,8 +8,8 @@ public class CritterWave {
 	public void setStrategy(CritterStrategy strategy){
 		this.strategy=strategy;
 	}
-	public Critter[] startWave(){
-		return this.strategy.startWave();
+	public void startWave(){
+		this.strategy.startWave();
 	}
 	
 }

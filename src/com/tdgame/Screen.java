@@ -77,9 +77,10 @@ public class Screen extends JPanel implements Runnable{
 	public static Image[] crittersImgs = new Image[10];
 	public static Critter[] critters;
 	public static Critter[] critters2;
-	public boolean isFirst = true;
+	public static boolean isFirst = true;
 	boolean allowCritters = false;
 	public static int noOfCritters = 8;
+	static String waveType="Single";
 	
 	/* Tower Variables */
 	public Tower[][] towerMap;
@@ -459,26 +460,16 @@ public class Screen extends JPanel implements Runnable{
 					// On click generate more amount of new critters 
 					@Override
 					public void actionPerformed(ActionEvent e) {	
-						/*critters = new Critter[noOfCritters];
-						critterWave.setStrategy(new SingleCritters());
-						critters=critterWave.startWave();
 						
-						isFirst = false;*/
-						
-						noOfCritters += 2;
-						critters = new Critter[noOfCritters];
-						//critters2 = new Critter[noOfCritters];
-						
-						if(isFirst)
-							crittersImgs[0] = new ImageIcon("../res/critter.gif").getImage();
-						
-						for(int i=0;i<critters.length;i++)
-						{
-								critters[i] = new Critter(50,50,25,0,-15,-60);
-							//	critters2[i] = new Critter(50,50,10,-15,0,-20);
+						if(waveType=="Single"){
+							critterWave.setStrategy(new SingleCritters());
+							critterWave.startWave();
 						}
-						
-						isFirst = false;
+						else {
+							critterWave.setStrategy(new DoubleCritters());
+							critterWave.startWave();
+						}
+					
 					}
 				});
 				frame.add(sendCritters);
@@ -510,8 +501,13 @@ public class Screen extends JPanel implements Runnable{
 						if(critters[i].inGame)
 							critters[i].draw(g);
 						
-						/*if(critters2[i].inGame)
-							critters2[i].draw(g);*/
+						if(waveType=="Double")
+						{
+							if(critters2[i].inGame){
+									critters2[i].draw(g);
+							}
+						}
+						
 					}
 				}
 			
@@ -583,11 +579,16 @@ public class Screen extends JPanel implements Runnable{
 			{
 				if(!critters[i].inGame && !critters[i].duplicate) {
 					critters[i].createCritter(0);
+					if(waveType=="Single")
+					 break;
 				}
-				/*if(!critters2[i].inGame && !critters2[i].duplicate) {
-					critters2[i].createCritter(0);
-					break;
-				}*/
+				if(waveType=="Double")
+				{
+					if(!critters2[i].inGame && !critters2[i].duplicate) {
+						critters2[i].createCritter(0);
+						break;
+					}
+				}
 			}
 			generationFrame = 0;
 		}
@@ -621,10 +622,14 @@ public class Screen extends JPanel implements Runnable{
 					{
 						critters[i].physics(520,2,49);
 					}
-					/*if(critters2[i].inGame)
+					if(waveType=="Double")
 					{
-						critters2[i].physics(550,1,6);
-					}*/
+						if(critters2[i].inGame)
+						{
+							critters2[i].physics(550,1,6);
+						}
+					}
+
 				}
 			}
 
