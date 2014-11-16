@@ -89,8 +89,7 @@ public class Screen extends JPanel implements Runnable{
 	static Tower selectedTower;
 	static Tower inHandTower;
 
-	public static int towerSize = 50;
-
+	
 	public JButton button;
 	public Tower towers[]=new Tower[5];
 	public String towerNames[]={"Fire","Laser","Bomber","Tank","Missile"};

@@ -106,21 +106,21 @@ public abstract class Tower extends JButton{
 		this.level++;
 	}
  	 	
-	private int damageToCritters = 0;
+	public int damageToCritters = 0;
 	public int level=0;
 	public int costToIncreaseLevel=0;
  	
-	private int attackTime = 0; //Lifetime of the attack(bullet or bomb) on the map/screen
-	private int attackDelay = 0;//time delay between each attack(time for reloading bullets when finished)
+	public int attackTime = 0; //Lifetime of the attack(bullet or bomb) on the map/screen
+	public int attackDelay = 0;//time delay between each attack(time for reloading bullets when finished)
 	
-	private int maxAttackTime = 6;
-	private int maxAttackDelay = 1000;
+	public int maxAttackTime = 6;
+	public int maxAttackDelay = 1000;
 	
 	public int FIRSTENEMY = 1;//nearest enemy to base
 	public int RANDOMENEMY = 2;//random to the tower
 	
 	public int attackStrategy = RANDOMENEMY;
-	private Critter targetCritter;
+	public Critter targetCritter;
 	
 	
 	public Critter findTargetCritter(Critter[] critters, int towerXPos, int towerYPos) {
@@ -134,8 +134,8 @@ public abstract class Tower extends JButton{
 			for(int i=0; i<critters.length; i++){
 				if(critters[i] != null){
 					if(i==0){
-					critterXPos = (int) ((critters[i].x)/(int)Screen.towerSize);
-					critterYPos = (int) ((critters[i].y)/(int)Screen.towerSize);
+					critterXPos = (int) ((critters[i].x)/50);
+					critterYPos = (int) ((critters[i].y)/50);
 					System.out.println("CritterX\tCritterY\n" + critterXPos + "\t" + critterYPos);
 					int dx = critterXPos - towerXPos;
 					int dy = critterYPos - towerYPos;
