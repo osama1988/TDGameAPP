@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 	CritterTest.class,
 	ScreenTest.class,
 	ReadXMLTest.class,
-	TowerTest.class,
+//	TowerTest.class,
 	ActionHandlerTest.class
 	})
 public class TestSuite {
