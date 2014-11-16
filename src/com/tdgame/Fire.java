@@ -1,17 +1,14 @@
 package com.tdgame;
 
 import java.awt.Color;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Image;	//import java.awt.event.ActionEvent; //import java.awt.event.ActionListener; //import javafx.beans.Observable;
 
 import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-public class Fire extends JButton implements Tower,Observable {
+public class Fire extends JButton implements Tower {
 	
 	public String imageFile = "";
 	public String imgPath="";
@@ -28,10 +25,14 @@ public class Fire extends JButton implements Tower,Observable {
 	public int yPosInTowerMap=0;
 	public int actualAmmunition=0;
 	
+	public int damageToCritters=0;
+	public int level=0;
+	public int costToIncreaseLevel=0;
+	
 	public Fire()
 	{
 		setBackground(Color.orange);
-		setTowerProperties(id,100,10000,1,"Fire",10,"../res/towers/fire.png");
+		setTowerProperties(id,100,10000,1,"Fire",10,"../res/towers/fire.png", 5, 1);
 		setIcon(new ImageIcon(this.imgPath));
 	}
 	@Override
@@ -41,7 +42,7 @@ public class Fire extends JButton implements Tower,Observable {
 	}
 	@Override
 	public void setTowerProperties(int id, int cost, int ammunition, int range,
-			String type, int rateOfFire, String path) {
+			String type, int rateOfFire, String path, int damageToCritters, int level) {
 		// TODO Auto-generated method stub
 		this.id = id;
 		this.ammunition=ammunition;
@@ -51,15 +52,17 @@ public class Fire extends JButton implements Tower,Observable {
 		this.type=type;
 		this.refundRate=(int)(cost*25)/100;
 		this.rateOfFire=rateOfFire;
-		this.costToAddAmmunition=(int)(cost*50)/100;
+		this.costToAddAmmunition=(int)(cost*25)/100;
 		this.imgPath=path;
+		
+		this.damageToCritters=damageToCritters;
+		this.level=level;
+		this.costToIncreaseLevel = (int)(cost*50)/100;
 	}
-	
 	@Override
 	public void increaseAmmunition(int in_ammunition) {
 		// TODO Auto-generated method stub
 		ammunition+=in_ammunition;
-		
 	}
 	@Override
 	public void setPosition(int xPos, int yPos) {
@@ -68,33 +71,40 @@ public class Fire extends JButton implements Tower,Observable {
 		yPosInTowerMap=yPos;
 	}
 	@Override
-	public int getCost(){
- 		return cost;
- 	}
+	public int getCost() {
+		// TODO Auto-generated method stub
+		return cost;
+	}
 	@Override
- 	public int getRange(){
- 		return range;
- 	}
+	public int getRange() {
+		// TODO Auto-generated method stub
+		return range;
+	}
 	@Override
- 	public int getAmmunition() {
+	public int getAmmunition() {
+		// TODO Auto-generated method stub
 		return ammunition;
 	}
 	@Override
- 	public String getType(){
- 		return type;
- 	}
-	@Override
- 	public int getRefundRate(){
-			return refundRate;
+	public String getType() {
+		// TODO Auto-generated method stub
+		return type;
 	}
 	@Override
- 	public int getCostToAddAmmunition(){
- 		return costToAddAmmunition;
- 	}
+	public int getRefundRate() {
+		// TODO Auto-generated method stub
+		return refundRate;
+	}
 	@Override
- 	public int getRateOfFire(){
- 		return rateOfFire;
- 	}
+	public int getCostToAddAmmunition() {
+		// TODO Auto-generated method stub
+		return costToAddAmmunition;
+	}
+	@Override
+	public int getRateOfFire() {
+		// TODO Auto-generated method stub
+		return rateOfFire;
+	}
 	@Override
 	public int getActualAmmunition() {
 		// TODO Auto-generated method stub
@@ -115,14 +125,32 @@ public class Fire extends JButton implements Tower,Observable {
 		// TODO Auto-generated method stub
 		return imgPath;
 	}
-	
 	@Override
 	public void decreaseAmmunition(int in_ammunition) {
 		// TODO Auto-generated method stub
 		ammunition-=in_ammunition;
 	}
-	
 	@Override
+	public int getTowerLevel() {
+		// TODO Auto-generated method stub
+		return level;
+	}
+	@Override
+	public int getCostToIncreaseLevel() {
+		// TODO Auto-generated method stub
+		return costToIncreaseLevel;
+	}
+	@Override
+	public void increaseLevel(){
+		this.range++;
+		if((this.rateOfFire % 2) == 0){
+			this.rateOfFire += (50/100)*this.rateOfFire;
+		} else {
+			this.rateOfFire += (50/100)*this.rateOfFire + 1;
+		}
+		this.level++;
+	}
+	/*@Override
 	public void addListener(InvalidationListener arg0) {
 		// TODO Auto-generated method stub
 		
@@ -135,7 +163,7 @@ public class Fire extends JButton implements Tower,Observable {
 	@Override
 	public void setObserver(Screen screen) {
 		// TODO Auto-generated method stub
-	}
+	}*/
 	
 
 }

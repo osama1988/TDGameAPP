@@ -25,10 +25,14 @@ public class Missile extends JButton implements Tower{
 	public int yPosInTowerMap=0;
 	public int actualAmmunition=0;
 	
+	public int damageToCritters=0;
+	public int level=0;
+	public int costToIncreaseLevel=0;
+	
 	public Missile()
 	{
 		setBackground(Color.black);
-		setTowerProperties(id,1000,3,3,"Missile",1,"../res/towers/missile.png");
+		setTowerProperties(id,1000,3,3,"Missile",1,"../res/towers/missile.png", 25, 1);
 		setIcon(new ImageIcon(this.imgPath));
 	}
 	@Override
@@ -38,7 +42,7 @@ public class Missile extends JButton implements Tower{
 	}
 	@Override
 	public void setTowerProperties(int id, int cost, int ammunition, int range,
-			String type, int rateOfFire, String path) {
+			String type, int rateOfFire, String path, int damageToCritters, int level) {
 		// TODO Auto-generated method stub
 		this.id = id;
 		this.ammunition=ammunition;
@@ -48,8 +52,12 @@ public class Missile extends JButton implements Tower{
 		this.type=type;
 		this.refundRate=(int)(cost*25)/100;
 		this.rateOfFire=rateOfFire;
-		this.costToAddAmmunition=(int)(cost*50)/100;
+		this.costToAddAmmunition=(int)(cost*25)/100;
 		this.imgPath=path;
+		
+		this.damageToCritters=damageToCritters;
+		this.level=level;
+		this.costToIncreaseLevel = (int)(cost*50)/100;
 	}
 	@Override
 	public void increaseAmmunition(int in_ammunition) {
@@ -62,7 +70,6 @@ public class Missile extends JButton implements Tower{
 		xPosInTowerMap=xPos;
 		yPosInTowerMap=yPos;
 	}
-	
 	@Override
 	public int getCost() {
 		// TODO Auto-generated method stub
@@ -122,6 +129,26 @@ public class Missile extends JButton implements Tower{
 	public void decreaseAmmunition(int in_ammunition) {
 		// TODO Auto-generated method stub
 		ammunition-=in_ammunition;
+	}
+	@Override
+	public int getTowerLevel() {
+		// TODO Auto-generated method stub
+		return level;
+	}
+	@Override
+	public int getCostToIncreaseLevel() {
+		// TODO Auto-generated method stub
+		return costToIncreaseLevel;
+	}
+	@Override
+	public void increaseLevel(){
+		this.range++;
+		if((this.rateOfFire % 2) == 0){
+			this.rateOfFire += (50/100)*this.rateOfFire;
+		} else {
+			this.rateOfFire += (50/100)*this.rateOfFire + 1;
+		}
+		this.level++;
 	}
 	
 }

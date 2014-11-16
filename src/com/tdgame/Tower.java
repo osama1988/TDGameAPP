@@ -12,7 +12,11 @@ public interface Tower{
 	
 
  	void fire();
- 	public void setTowerProperties(int id, int cost,int ammunition,int range,String type,int rateOfFire,String path);
+ 	public void setTowerProperties(int id, int cost,int ammunition,int range,String type,int rateOfFire,String path, int damageToCritters, int level);
+ 	
+ 	public int getTowerLevel();
+ 	public int getCostToIncreaseLevel();
+ 	public void increaseLevel();
  	
  	public void increaseAmmunition(int in_ammunition);
  	//public void setAmmunition(int in_ammunition);

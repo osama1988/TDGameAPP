@@ -117,7 +117,8 @@ public class Screen extends JPanel implements Runnable{
 			{ "Cost", "" },
 			{ "Rate of Fire", "" },
 			{ "Refund Rate", "" },
-			{ "Add Ammunition Rate", "" }};
+			{ "Add Ammunition Rate", "" },
+			{ "Increase Level Cost", "" }};
 	 static Object columnNames[] = { "Properties", "Value" };
 	 JTable onMapTowerPropTbl = new JTable(onMapRowData, columnNames);
 	 
@@ -455,6 +456,34 @@ public class Screen extends JPanel implements Runnable{
 				frame.add(addAmmunition);
 				addAmmunition.setBounds(this.frame.getWidth() - 4*(int)width , 6*(int)height, 3*(int)width, (int)(height/2));
 				
+				
+				//Increase Tower Level		
+				JButton increaseLevel = new JButton("Increase Level");
+				addAmmunition.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						//first check money to buy ammunition if money is available decrease it from player money and
+						//increase ammunition
+						try {
+							if(user.player.money>=selectedTower.getCostToIncreaseLevel()){
+								user.player.money-=selectedTower.getCostToIncreaseLevel();
+								selectedTower.increaseLevel();
+								onMapTowerPropTbl.setValueAt(selectedTower.getRange(), 2, 1);
+								onMapTowerPropTbl.setValueAt(selectedTower.getRateOfFire(), 3, 1);
+								onMapTowerPropTbl.setValueAt(selectedTower.getTowerLevel(), 7, 1);
+							}
+							else {
+								Object[] options = { "OK" };
+								int neededMoney=selectedTower.getCostToIncreaseLevel()-user.player.money;
+								JOptionPane.showOptionDialog(null, "Not Enough Money To Increase Level!! You need "+neededMoney+" more dollars", "Warning",
+								JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+								null, options, options[0]);
+							}
+						} catch (Exception e1) {
+						}
+					}
+				});
+				frame.add(increaseLevel);
+				increaseLevel.setBounds(this.frame.getWidth() - 6*(int)width , (int)(6.5* height), 3*(int)width, (int)(height/2));
 				JButton sendCritters=new JButton("Send Critters");
 				sendCritters.addActionListener(new ActionListener() {
 					// On click generate more amount of new critters 
@@ -473,7 +502,7 @@ public class Screen extends JPanel implements Runnable{
 					}
 				});
 				frame.add(sendCritters);
-				sendCritters.setBounds(this.frame.getWidth() - 6*(int)width , (int) (6.5*height), 3*(int)width, (int)(height/2));
+				sendCritters.setBounds(this.frame.getWidth() - 6*(int)width , (int) (8*height), 3*(int)width, (int)(height/2));
 				
 				
 				
@@ -537,6 +566,7 @@ public class Screen extends JPanel implements Runnable{
 								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getRateOfFire(), 4, 1);
 								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getRefundRate(), 5, 1);
 								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getCostToAddAmmunition(), 6, 1);
+								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getTowerLevel(), 7, 1);
 								
 							}
 						});
