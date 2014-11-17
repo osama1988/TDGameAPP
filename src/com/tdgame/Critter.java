@@ -87,7 +87,7 @@ public class Critter extends Rectangle {
 		}
 	}
 
-	int moveFrame = 0, moveSpeed = 10;
+	int moveFrame = 0, moveSpeed = Screen.critterSpeed;
 	int prevdir;
 /**
  * It keep on checking map array and changes direction of critters accordingly

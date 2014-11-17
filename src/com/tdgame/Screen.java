@@ -81,6 +81,7 @@ public class Screen extends JPanel implements Runnable{
 	boolean allowCritters = false;
 	public static int noOfCritters = 8;
 	static String waveType="Double";
+	public static int critterSpeed = 10;
 	
 	/* Tower Variables */
 	public Tower[][] towerMap;
@@ -598,7 +599,7 @@ public class Screen extends JPanel implements Runnable{
 		}
 	}
 	
-	public int generationTime = 500, generationFrame = 0;
+	public int generationTime = (500 / 10)*critterSpeed, generationFrame = 0;
 	
 	/* To Generate critters */ 
 	public void critterGenerator()
@@ -650,14 +651,15 @@ public class Screen extends JPanel implements Runnable{
 				{
 					if(critters[i].inGame)
 					{
-						critters[i].physics(520,2,49);
-					}
+						critters[i].physics((int)(((float)critterSpeed/2)*100)+50-(critterSpeed*3),(int) ((float)(2/10)*critterSpeed),(int) ((float)(49/10)*critterSpeed));
+					}//(int)(((float)critterSpeed/2)*100)+50-(critterSpeed*3)
 					if(waveType=="Double")
 					{
 						if(critters2[i].inGame)
 						{
-							critters2[i].physics(550,1,6);
+							critters2[i].physics((int)(((float)critterSpeed/2)*100)+50,(int) ((float)(1/10)*critterSpeed),(int) ((float)(6/10)*critterSpeed));
 						}
+//						(int)(((float)critterSpeed/2)*100)
 					}
 
 				}
