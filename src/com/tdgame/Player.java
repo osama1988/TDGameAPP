@@ -11,13 +11,22 @@ package com.tdgame;
  */
 public class Player{
 
+	private static Player instanse;
+	
 	public int health;
 	public int money;
 	
 	
-	public Player(User user) {
-		this.money = user.startingCash; 
-		this.health = user.startingHealth;
+	private Player(int in_health,int in_money) {
+		health=in_health;
+		money=in_money;
+	}
+	
+	public static Player getInstance(User user){
+		if(instanse==null){
+			instanse=new Player(user.startingHealth,user.startingCash);
+		}
+		return instanse;
 	}
 
 }

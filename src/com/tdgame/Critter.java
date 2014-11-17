@@ -32,10 +32,14 @@ public class Critter extends Rectangle {
 	int adjustY;
 	int rectangleX , rectangleY;
 	static int crittersExited;
-	int atTime=1;
-	int health = 20 ,healthheight = 3;
+	int atTime = 1;
+	int health;
+	int healthheight = 3;
+	public int originalHealth;
 	int healthBarSpace;
-
+	int towerX;
+	int towerY;
+	boolean towerFixed;
 	/** 
 	 * Constructor
 	 * @param imgWidth Sets critter image width
@@ -46,15 +50,17 @@ public class Critter extends Rectangle {
 	 * @param rectY Adjusts initial Y position of rectangle which contains image of critter
 	 * @param healthSpace Adjusts Y position of health bar displayed over critter
 	 */
-	public Critter(int imgWidth, int imgHeight, int imgX, int imgY, int rectX, int rectY, int healthSpace)
+	public Critter(int imgWidth, int imgHeight, int imgX, int imgY, int rectX, int rectY, int healthSpace, int health)
 	{
-		imageHeight = imgHeight;
-		imageWidth = imgWidth;
-		adjustX = imgX;
-		adjustY = imgY;
-		rectangleX = rectX;
-		rectangleY = rectY;
-		healthBarSpace = healthSpace;
+		this.imageHeight = imgHeight;
+		this.imageWidth = imgWidth;
+		this.adjustX = imgX;
+		this.adjustY = imgY;
+		this.rectangleX = rectX;
+		this.rectangleY = rectY;
+		this.healthBarSpace = healthSpace;
+		this.health = health;
+		this.originalHealth = health;
 	}
 	public Critter(){
 		
@@ -82,8 +88,11 @@ public class Critter extends Rectangle {
 	public void draw(Graphics g) {
 		if (inGame) {
 			g.drawImage(Screen.crittersImgs[critterID], x + adjustX, y + adjustY, imageWidth, imageHeight, null);
-			g.setColor(Color.RED);
-			g.fillRect(x + adjustX + 15, y + healthBarSpace, health, healthheight);
+			g.setColor(Color.GREEN);
+			if(health < originalHealth){
+				g.setColor(Color.RED);
+			}
+			g.fillRect(x + adjustX + 15, y + healthBarSpace, (int)(((double)health/(double)originalHealth)*(imageWidth/2)), healthheight);
 		}
 	}
 
@@ -184,17 +193,23 @@ public class Critter extends Rectangle {
 
 	public int getCritterX()
 	{
-		return this.x;
+		return this.x;//(x + adjustX );//this.x;
 	}
 	public int getCritterY()
 	{
-		return this.y;
+		return this.y;//(y + adjustY );//this.y;
 	}
 	public int getHealth() {
 		return health;
 	}
 	public void setHealth(int health) {
 		this.health = health;
+	}
+	public Critter update() {
+		if(this.health <= 0){
+			return null;
+		}
+		return this;
 	}
 	
 }

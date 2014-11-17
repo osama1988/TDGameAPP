@@ -41,7 +41,7 @@ public class CritterTest {
 		LevelFile level_file = new LevelFile(valueOfX, valueOfY);
 		level_file.readAndLoadMap(filename, screen, "loadMap");
 		result = 0;
-		critter = new Critter(col, col, col, col, col, col, col);
+		critter = new Critter(col, col, col, col, col, col, col, col);
 		critter.moveFrame = 10;
 		critter.moveSpeed = 0;
 		upward = 0;
@@ -206,7 +206,7 @@ public class CritterTest {
 	 */
 	@Test
 	public void critterContructor() {
-		Critter critter = new Critter(50,50,25,0,-15,-60,12);
+		Critter critter = new Critter(50,50,25,0,-15,-60,12, 100);
 		assertEquals(50, critter.imageHeight);
 		assertEquals(50, critter.imageWidth);
 		assertEquals(25, critter.adjustX);
