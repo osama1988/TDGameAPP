@@ -1,5 +1,7 @@
 package com.tdgame;
 
+import java.util.Random;
+
 import javax.swing.ImageIcon;
 
 
@@ -13,9 +15,11 @@ public class SingleCritters implements CritterStrategy{
 		Screen.critters = new Critter[Screen.noOfCritters];
 		Screen.critters2 = new Critter[Screen.noOfCritters];
 		for(int i=0;i<Screen.critters.length;i++)
-		{
-			Screen.critters[i] = new Critter(50,50,25,0,-15,-60,12);
-			Screen.critters2[i] = new Critter(50,50,10,-15,0,-20,0);
+		{	
+			int random = new Random().nextInt(100);
+			//Critter(			       	 imgWidth,  imgHeight, imgX, imgY, rectX, rectY, healthSpace)
+			Screen.critters[i] = new Critter(50,      50,       25,   0,    -15,   -60,   12, random);
+			Screen.critters2[i] = new Critter(50,     50,       10,  -15,     0,   -20,   0, random);
 			
 		}
 		if(Screen.isFirst)
