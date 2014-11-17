@@ -96,7 +96,7 @@ public class Screen extends JPanel implements Runnable{
 	public String towerNames[]={"Fire","Laser","Bomber","Tank","Missile"};
 	public int towerInHand = 0;
 	static String towerType="";
-	User user;
+	public static User user;
 	static int towerId=0;
 	boolean placingTower = false;
 	Color selectedTowerColor = null;

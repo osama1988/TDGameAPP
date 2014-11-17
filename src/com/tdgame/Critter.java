@@ -154,6 +154,7 @@ public class Critter extends Rectangle {
 			inGame = false;
 			duplicate = true;
 			crittersExited++;
+			Screen.user.player.money -= health;
 			if(Screen.waveType=="Single")
 				atTime=1;
 			else

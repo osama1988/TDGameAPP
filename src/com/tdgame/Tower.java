@@ -297,6 +297,7 @@ public abstract class Tower extends JButton{
 	public void towerAttack(int x, int y, Critter critter){
 		System.out.println("Reducing health...\nOriginal\t" + critter.health +"\nNow\t" + (critter.health-this.getDamageToCritters()));
 		critter.health-=this.getDamageToCritters();
+		Screen.user.player.money += this.getDamageToCritters();
 	}
 
 	public int getDamageToCritters() {
