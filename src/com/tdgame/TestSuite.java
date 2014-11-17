@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	CritterTest.class,
-	//BomberTest.class,
+//	BomberTest.class,
 	ScreenTest.class,
 	ReadXMLTest.class,
 	TowerTest.class,

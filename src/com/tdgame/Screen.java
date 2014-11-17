@@ -464,7 +464,7 @@ public class Screen extends JPanel implements Runnable{
 
 				//Increase Tower Level		
 				JButton increaseLevel = new JButton("Increase Level");
-				addAmmunition.addActionListener(new ActionListener() {
+				increaseLevel.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						//first check money to buy ammunition if money is available decrease it from player money and
 						//increase ammunition
@@ -473,7 +473,7 @@ public class Screen extends JPanel implements Runnable{
 								user.player.money-=selectedTower.getCostToIncreaseLevel();
 								selectedTower.increaseLevel();
 								onMapTowerPropTbl.setValueAt(selectedTower.getRange(), 2, 1);
-								onMapTowerPropTbl.setValueAt(selectedTower.getRateOfFire(), 3, 1);
+								onMapTowerPropTbl.setValueAt(selectedTower.getRateOfFire(), 4, 1);
 								onMapTowerPropTbl.setValueAt(selectedTower.getTowerLevel(), 7, 1);
 							}
 							else {

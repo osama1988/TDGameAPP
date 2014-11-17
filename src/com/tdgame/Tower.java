@@ -100,9 +100,9 @@ public abstract class Tower extends JButton{
 	public void increaseLevel(){
 		this.range++;
 		if((this.rateOfFire % 2) == 0){
-			this.rateOfFire += (50/100)*this.rateOfFire;
+			this.rateOfFire +=  (int)(this.rateOfFire*50)/100 ;
 		} else {
-			this.rateOfFire += (50/100)*this.rateOfFire + 1;
+			this.rateOfFire += ((int)(this.rateOfFire*50)/100) + 1;
 		}
 		this.level++;
 	}
