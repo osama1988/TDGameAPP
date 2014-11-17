@@ -32,11 +32,14 @@ public class Critter extends Rectangle {
 	int adjustY;
 	int rectangleX , rectangleY;
 	static int crittersExited;
-	int atTime=1;
-	int health = 300 ,healthheight = 3;
-	public final int originalHealth = health;
+	int atTime = 1;
+	int health;
+	int healthheight = 3;
+	public int originalHealth;
 	int healthBarSpace;
-
+	int towerX;
+	int towerY;
+	boolean towerFixed;
 	/** 
 	 * Constructor
 	 * @param imgWidth Sets critter image width
@@ -47,15 +50,17 @@ public class Critter extends Rectangle {
 	 * @param rectY Adjusts initial Y position of rectangle which contains image of critter
 	 * @param healthSpace Adjusts Y position of health bar displayed over critter
 	 */
-	public Critter(int imgWidth, int imgHeight, int imgX, int imgY, int rectX, int rectY, int healthSpace)
+	public Critter(int imgWidth, int imgHeight, int imgX, int imgY, int rectX, int rectY, int healthSpace, int health)
 	{
-		imageHeight = imgHeight;
-		imageWidth = imgWidth;
-		adjustX = imgX;
-		adjustY = imgY;
-		rectangleX = rectX;
-		rectangleY = rectY;
-		healthBarSpace = healthSpace;
+		this.imageHeight = imgHeight;
+		this.imageWidth = imgWidth;
+		this.adjustX = imgX;
+		this.adjustY = imgY;
+		this.rectangleX = rectX;
+		this.rectangleY = rectY;
+		this.healthBarSpace = healthSpace;
+		this.health = health;
+		this.originalHealth = health;
 	}
 	public Critter(){
 		
@@ -91,7 +96,7 @@ public class Critter extends Rectangle {
 		}
 	}
 
-	int moveFrame = 0, moveSpeed = 10;
+	int moveFrame = 0, moveSpeed = Screen.critterSpeed;
 	int prevdir;
 /**
  * It keep on checking map array and changes direction of critters accordingly

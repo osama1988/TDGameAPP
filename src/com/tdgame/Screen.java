@@ -81,6 +81,7 @@ public class Screen extends JPanel implements Runnable{
 	boolean allowCritters = false;
 	public static int noOfCritters = 8;
 	static String waveType="Single";
+	public static int critterSpeed = 8;
 
 	/* Tower Variables */
 	public Tower[][] towerMap;
@@ -154,6 +155,8 @@ public class Screen extends JPanel implements Runnable{
 			+ "\n\nOnce the map is saved, you can buy towers"
 			+ "\nfrom the tower store and place them on the"
 			+ "\nmap.";
+	
+	static Graphics tempGraphics;
 
 	// Screen constructor
 	public Screen(Frame frame) {
@@ -327,6 +330,7 @@ public class Screen extends JPanel implements Runnable{
 	@Override
 	public void paintComponent(Graphics g)
 	{	
+		tempGraphics = g;
 		super.paintComponent(g);
 		try 
 		{
@@ -528,7 +532,20 @@ public class Screen extends JPanel implements Runnable{
 					for(int i=0;i<critters.length;i++)
 					{
 						if(critters[i].inGame)
+						{
 							critters[i].draw(g);
+							if(critters[i].towerFixed){
+								
+							//	System.out.println("critter found for tower at\nX\tY\n" + x + "\t" + y);
+							//	System.out.println("Draw line from\n" + (50 + (x * 50) + (int)(50/2)) + "," + (50 + (y * 50) + (int)(50/2)) + "\tto " + (int)(towerMap[x][y].getTargetCritter().x) + "," + (int)(towerMap[x][y].getTargetCritter().y));
+								System.out.println((int)(critters[i].x+critters[i].adjustX)+"\t"+(int)(critters[i].y+critters[i].adjustY)+"\t"+(50 + (critters[i].towerX * 50) + (int)(50/2))+"\t"+(50 + (critters[i].towerY * 50) + (int)(50/2) - 50));
+								g.setColor(Color.RED);
+								g.drawLine( (int)(critters[i].x)+50, (int)(critters[i].y)+50,(50 + (critters[i].towerX * 50) + (int)(50/2)), (50 + (critters[i].towerY * 50) + (int)(50/2) - 50));
+								//System.exit(0);
+							}
+							
+						}
+							
 
 						if(waveType=="Double")
 						{
@@ -571,19 +588,25 @@ public class Screen extends JPanel implements Runnable{
 							}
 						});
 						((Component) towerOnMapBtn).setBounds(((int)width+x*(int)width), ((int)height+y*(int)height)-(int)this.height, (int)width, (int)height);
-
+						
+						/*ShootingTower shooter = new ShootingTower(this);
+						if(!towerMap[x][y].shootingThread){
+							shooter.start();
+							towerMap[x][y].shootingThread = true;
+						}
 						//Attacking the critters
 						if(towerMap[x][y].getTargetCritter() != null){
 							System.out.println("critter found for tower at\nX\tY\n" + x + "\t" + y);
 							System.out.println("Draw line from\n" + (50 + (x * 50) + (int)(50/2)) + "," + (50 + (y * 50) + (int)(50/2)) + "\tto " + (int)(towerMap[x][y].getTargetCritter().x) + "," + (int)(towerMap[x][y].getTargetCritter().y));
 							g.setColor(Color.RED);
-							g.drawLine((50 + (x * 50) + (int)(50/2)), (50 + (y * 50) + (int)(50/2)), (int)(towerMap[x][y].getTargetCritter().x), (int)(towerMap[x][y].getTargetCritter().y));
-							System.exit(0);
-						}
+							g.drawLine((50 + (x * 50) + (int)(50/2)), (50 + (y * 50) + (int)(50/2) - 50), (int)(towerMap[x][y].getTargetCritter().x), (int)(towerMap[x][y].getTargetCritter().y));
+							//System.exit(0);
+						}*/
 					}
 				}
 			}
-
+			
+			
 
 			//draw tower on grid while placing (Special effect)
 			if(this.placingTower){// && Tower.towerList[towerInHand - 1] != null){
@@ -607,7 +630,7 @@ public class Screen extends JPanel implements Runnable{
 		}
 	}
 
-	public int generationTime = 500, generationFrame = 0;
+	public int generationTime = (500 / 10)*critterSpeed, generationFrame = 0;
 
 	/* To Generate critters */ 
 	public void critterGenerator()
@@ -640,6 +663,25 @@ public class Screen extends JPanel implements Runnable{
 			generationFrame += 1;
 		}
 	}
+	
+	
+	public void shootingEffect(){//Graphics tempGraphics){
+		for(int x=0; x<valueOfX; x++){
+			for(int y=0; y<valueOfY; y++){
+				if(towerMap[x][y] != null){
+					//Attacking the critters
+					if(towerMap[x][y].getTargetCritter() != null){
+						System.out.println("critter found for tower at\nX\tY\n" + x + "\t" + y);
+						System.out.println("Draw line from\n" + (50 + (x * 50) + (int)(50/2)) + "," + (50 + (y * 50) + (int)(50/2)) + "\tto " + (int)(towerMap[x][y].getTargetCritter().x) + "," + (int)(towerMap[x][y].getTargetCritter().y));
+						tempGraphics.setColor(Color.RED);
+						tempGraphics.drawLine((50 + (x * 50) + (int)(50/2)), (50 + (y * 50) + (int)(50/2)), (int)(towerMap[x][y].getTargetCritter().x + 50), (int)(towerMap[x][y].getTargetCritter().y));
+						//System.exit(0);
+					}
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Called for creating a thread that would execute separately from the main thread 
 	 */
@@ -654,7 +696,7 @@ public class Screen extends JPanel implements Runnable{
 
 		// the map grid would be refreshed every 2 ms so that we don't get the flickering effect
 		while(running) {
-
+			
 			frames++;
 			if(!isFirst)
 			{
@@ -665,14 +707,15 @@ public class Screen extends JPanel implements Runnable{
 						if(critters[i] != null){
 							if(critters[i].inGame)
 							{
-								critters[i].physics(520,2,49);
-							}
+								critters[i].physics((int)(((float)critterSpeed/2)*100)+50-(critterSpeed*3),(int) ((float)(2/10)*critterSpeed),(int) ((float)(49/10)*critterSpeed));
+							}//(int)(((float)critterSpeed/2)*100)+50-(critterSpeed*3)
 							if(waveType=="Double")
 							{
 								if(critters2[i].inGame)
 								{
-									critters2[i].physics(550,1,6);
+									critters2[i].physics((int)(((float)critterSpeed/2)*100)+50,(int) ((float)(1/10)*critterSpeed),(int) ((float)(6/10)*critterSpeed));
 								}
+//								(int)(((float)critterSpeed/2)*100)
 							}
 						}
 					}
@@ -687,8 +730,10 @@ public class Screen extends JPanel implements Runnable{
 			repaintMapRectangle=new Rectangle((int)width,0,frame.getWidth()-350,getHeight());
 			//Rectangle repaintRectangle=new Rectangle(50,0,valueOfX*50,getHeight());
 			// to draw stuff all the time on the screen : goes around 2 millions frames per second. Which is of no use.
+			
+			
 			repaint(repaintMapRectangle);
-
+			
 			updateMap();
 
 			try {

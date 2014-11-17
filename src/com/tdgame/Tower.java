@@ -105,7 +105,9 @@ public abstract class Tower extends JButton{
 		}
 		this.level++;
 	}
- 	 	
+ 	
+	public boolean shootingThread = false;
+	
 	public int damageToCritters = 0;
 	public int level=0;
 	public int costToIncreaseLevel=0;
@@ -113,13 +115,15 @@ public abstract class Tower extends JButton{
 	public int attackTime = 0; //Lifetime of the attack(bullet or bomb) on the map/screen
 	public int attackDelay = 0;//time delay between each attack(time for reloading bullets when finished)
 	
-	public int maxAttackTime = 6;
-	public int maxAttackDelay = 1000;
+	public int maxAttackTime = 200;
+	public int maxAttackDelay = 500;
 	
-	public int FIRSTENEMY = 1;//nearest enemy to base
-	public int RANDOMENEMY = 2;//random to the tower
+	public int FIRSTCRITTER = 1;			//nearest critter to the tower 
+	public int RANDOMCRITTER = 2;			//random to the tower
+	public int STRONGESTCRITTER = 3;		//Critter with 
+	public int WEAKESTCRITTER = 4;			//
 	
-	public int attackStrategy = RANDOMENEMY;
+	public int attackStrategy = RANDOMCRITTER;
 	public Critter targetCritter;
 	
 	
@@ -133,7 +137,6 @@ public abstract class Tower extends JButton{
 			int critterRadius = 1;
 			for(int i=0; i<critters.length; i++){
 				if(critters[i] != null){
-					if(i==0){
 					critterXPos = (int) ((critters[i].x)/50);
 					critterYPos = (int) ((critters[i].y)/50);
 					System.out.println("CritterX\tCritterY\n" + critterXPos + "\t" + critterYPos);
@@ -147,12 +150,12 @@ public abstract class Tower extends JButton{
 						System.out.println(i + "in range...adding to eInRange list");
 						blackListedCritters[i] = critters[i];
 					}else{
+						critters[i].towerFixed = false;
 						System.out.println(i + "not in range...");
 					}
 				}
-				}
 			}
-			if(this.attackStrategy == RANDOMENEMY){
+			if(this.attackStrategy == RANDOMCRITTER){
 				int totalTargetEnemies = 0;
 				
 				for(int i=0; i<blackListedCritters.length; i++){
@@ -174,6 +177,9 @@ public abstract class Tower extends JButton{
 						if(crittersKilled == targetCritter && blackListedCritters[noOfCritterssChecked] != null){
 							System.out.println("enemiesKilled == enemy && enemiesInRange[noOfEnemiesChecked] != null");
 							System.out.println("returning this random enemy to be killed...");
+							blackListedCritters[noOfCritterssChecked].towerX=towerXPos;
+							blackListedCritters[noOfCritterssChecked].towerY=towerYPos;
+							blackListedCritters[noOfCritterssChecked].towerFixed=true;
 							return blackListedCritters[noOfCritterssChecked];
 						}
 						if(targetCritter > crittersKilled){
@@ -188,6 +194,10 @@ public abstract class Tower extends JButton{
 						}
 					}
 				}
+			} else if(this.attackStrategy == STRONGESTCRITTER){
+				
+			} else if(this.attackStrategy == WEAKESTCRITTER){
+				
 			}
 		} else {
 			//System.out.println("Fuck");
@@ -261,5 +271,6 @@ public abstract class Tower extends JButton{
 	public void setTargetCritter(Critter targetCritter) {
 		this.targetCritter = targetCritter;
 	}
+	
 }
 
