@@ -24,7 +24,7 @@ public class User {
 	
 	// calls constructor of the player class to create a player
 	public void createPlayer(){ 
-		this.player = Player.getInstance(this);
+		this.player = new Player(this);
 	}
 
 }
