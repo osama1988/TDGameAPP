@@ -4,7 +4,11 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-
+/**
+ * To implement single critters
+ * @author TEAM 2
+ *
+ */
 public class SingleCritters implements CritterStrategy{
 	
 	@Override

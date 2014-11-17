@@ -17,7 +17,6 @@ import java.io.FileNotFoundException;
 import java.util.Observable;
 import java.util.Observer;
 
-import javafx.beans.InvalidationListener;
 
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
