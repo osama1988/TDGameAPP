@@ -3,10 +3,15 @@ package com.tdgame;
 import java.awt.Color;
 import java.awt.Image;
 
-import javafx.beans.InvalidationListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
+/**
+ * To create Tank type of tower
+ * @author TEAM 2
+ *
+ */
 
 public class Tank extends Tower{
 	

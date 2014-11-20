@@ -3,11 +3,15 @@ package com.tdgame;
 import java.awt.Color;
 import java.awt.Image;
 
-import javafx.beans.InvalidationListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+/**
+ * To set properties of tower
+ * @author TEAM 2
+ *
+ */
 public class TowerProperties extends JButton {
 
 	public String imageFile = "";

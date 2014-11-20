@@ -5,6 +5,13 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
+
+/**
+ * 
+ * To start double critters at the same time
+ * @author TEAM 2
+ *
+ */
 public class DoubleCritters implements CritterStrategy {
 	
 	@Override

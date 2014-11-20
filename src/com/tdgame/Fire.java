@@ -3,11 +3,16 @@ package com.tdgame;
 import java.awt.Color;
 import java.awt.Image;	//import java.awt.event.ActionEvent; //import java.awt.event.ActionListener; //import javafx.beans.Observable;
 
-import javafx.beans.InvalidationListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+
+/**
+ * To create Fire type of tower
+ * @author TEAM 2
+ *
+ */
 public class Fire extends Tower {
 	
 	
