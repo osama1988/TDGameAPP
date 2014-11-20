@@ -28,8 +28,8 @@ public class ReadXML {
 	int valueX, valueY;
 	String fileName="";
 	
-	String pathForTesting="D:/Java/TDGameAPP/level/";
-	//String pathForTesting="../level/";
+	//String pathForTesting="D:/Java/TDGameAPP/level/";
+	String pathForTesting="../level/";
 	public ReadXML(){}
 		
 	public ReadXML(int valueX, int valueY, Screen screen, String fileName) {

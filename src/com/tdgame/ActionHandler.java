@@ -31,8 +31,8 @@ import javax.swing.JTextField;
 public class ActionHandler extends JDialog implements ActionListener, MouseMotionListener, MouseListener{
 
 	/* Common variables */
-	String pathForTesting="D:/Java/TDGameAPP/level/";
-	//String pathForTesting="../level/";
+	//String pathForTesting="D:/Java/TDGameAPP/level/";
+	String pathForTesting="../level/";
 	Screen screen;
 	Frame frame;
 	MouseEvent me;
