@@ -40,6 +40,8 @@ public class Critter extends Rectangle {
 	int towerX;
 	int towerY;
 	boolean towerFixed;
+	boolean isHit;
+	int damageTime;
 	/** 
 	 * Constructor
 	 * @param imgWidth Sets critter image width
@@ -61,6 +63,7 @@ public class Critter extends Rectangle {
 		this.healthBarSpace = healthSpace;
 		this.health = health;
 		this.originalHealth = health;
+		this.damageTime = 0;
 	}
 	public Critter(){
 		
@@ -85,14 +88,14 @@ public class Critter extends Rectangle {
 		inGame = true;
 	}
 
-	public void draw(Graphics g) {
+	public void draw(Graphics g,int imgId) {
 		if (inGame) {
-			g.drawImage(Screen.crittersImgs[critterID], x + adjustX, y + adjustY, imageWidth, imageHeight, null);
+			g.drawImage(Screen.crittersImgs[imgId], x + adjustX, y + adjustY, imageWidth, imageHeight, null);
 			g.setColor(Color.GREEN);
 			if(health < originalHealth){
 				g.setColor(Color.RED);
 			}
-			g.fillRect(x + adjustX + 15, y + healthBarSpace, (int)(((double)health/(double)originalHealth)*(imageWidth/2)), healthheight);
+			g.fillRect(x + adjustX + 15, y + healthBarSpace, (int)(((double)health/(double)originalHealth)*(imageWidth/2)), healthheight);			
 		}
 	}
 
@@ -147,7 +150,7 @@ public class Critter extends Rectangle {
 
 			nextDelay += addition;
 			movement = 0;
-	
+			
 		}
 		
 		
@@ -195,8 +198,12 @@ public class Critter extends Rectangle {
 	}
 
 	public void moveFwd() {
+		
 		// The first check is to produce delay
 		if (moveFrame >= moveSpeed) {
+			if(damageTime > 0){
+				damageTime--;
+			}
 			if (direction == right)
 				x += 1;
 			else if (direction == left)
@@ -226,8 +233,8 @@ public class Critter extends Rectangle {
 	}
 	public Critter update() {
 		if(this.health <= 0){
-			//return null;
-			this.inGame = false;
+			return null;
+			//this.inGame = false;
 			
 		}
 		return this;

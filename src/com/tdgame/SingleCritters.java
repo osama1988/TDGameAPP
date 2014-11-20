@@ -21,12 +21,14 @@ public class SingleCritters implements CritterStrategy{
 		{	
 			int random = new Random().nextInt(100);
 			//Critter(			       	 imgWidth,  imgHeight, imgX, imgY, rectX, rectY, healthSpace)
-			Screen.critters[i] = new Critter(50,      50,       25,   0,    -15,   -60,   12, random);
+			Screen.critters[i] = new Critter(50,      50,       25,   0,    -15,   -60,   12, 100);
 			Screen.critters2[i] = new Critter(50,     50,       10,  -15,     0,   -20,   0, random);
 			
 		}
-		if(Screen.isFirst)
+		if(Screen.isFirst){
 			Screen.crittersImgs[0] = new ImageIcon("../res/critter.gif").getImage();
+			Screen.crittersImgs[1] = new ImageIcon("../res/fire2.gif").getImage();
+		}
 		Screen.isFirst=false;
 	}
 

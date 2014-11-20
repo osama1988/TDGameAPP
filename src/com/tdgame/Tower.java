@@ -133,27 +133,36 @@ public abstract class Tower extends JButton{
 			System.out.println("In findTargetCritters...\ncritters!=null\t" + (critters!=null));
 			Critter[] blackListedCritters = new Critter[critters.length];
 			int towerRadius = this.range;
-			int critterXPos = 0;
-			int critterYPos = 0;
-			int critterRadius = 1;
+			double critterXPos = 0;
+			double critterYPos = 0;
+			int critterRadius = 0;
 			for(int i=0; i<critters.length; i++){
 				if(critters[i] != null){
-					critterXPos = (int) ((critters[i].x)/50);
-					critterYPos = (int) ((critters[i].y)/50);
+					critterXPos = critters[i].x;
+					critterYPos = critters[i].y;
 					System.out.println("CritterX\tCritterY\n" + critterXPos + "\t" + critterYPos);
-					int dx = critterXPos - towerXPos;
-					int dy = critterYPos - towerYPos;
+					
+					double dx = (critterXPos - towerXPos*50)/50;
+					double dy = (critterYPos - towerYPos*50)/50;
+					
 					System.out.println("Critter distanceX\tdistanceX\n" + dx + "\t" + dy);
+					
 					int dradius = towerRadius + critterRadius;
+					
 					System.out.println("radius (towerRadius - critterRadius)\n" + towerRadius + " + " + critterRadius + " = " + (towerRadius + critterRadius));
 					System.out.println("enemy at index\t" + i);
 					//int tempmayur=critters[i].x-(towerXPos*50)-50;
 					//if(tempmayur< 50){
+					
 					if(((dx*dx) + (dy*dy)) < (dradius * dradius)){
 						System.out.println(i + "in range...adding to eInRange list");
 						blackListedCritters[i] = critters[i];
+						//System.exit(0);
 					}else{
+						if(critters[i].towerFixed == true)
+							critters[i].damageTime = 10;
 						critters[i].towerFixed = false;
+						
 						System.out.println(i + "not in range...");
 					}
 				}
@@ -173,22 +182,24 @@ public abstract class Tower extends JButton{
 
 				if(totalTargetEnemies > 0){
 					System.out.println("totalEnemies > 0\t" + (totalTargetEnemies > 0));
-					int targetCritter = new Random().nextInt(totalTargetEnemies);
+					int targetedCritter = new Random().nextInt(totalTargetEnemies);
 					System.out.println("random enemy number\t" + targetCritter);
 					int crittersKilled = 0;
 					int noOfCritterssChecked = 0;
 
 					while(true){
 						System.out.println("killed\t" + crittersKilled + "\nchecked\t" + noOfCritterssChecked);
-						if(crittersKilled == targetCritter && blackListedCritters[noOfCritterssChecked] != null && blackListedCritters[noOfCritterssChecked].inGame){
+						if(crittersKilled == targetedCritter && blackListedCritters[noOfCritterssChecked] != null && blackListedCritters[noOfCritterssChecked].inGame){
 							System.out.println("enemiesKilled == enemy && enemiesInRange[noOfEnemiesChecked] != null");
 							System.out.println("returning this random enemy to be killed...");
 							blackListedCritters[noOfCritterssChecked].towerX=towerXPos;
 							blackListedCritters[noOfCritterssChecked].towerY=towerYPos;
 							blackListedCritters[noOfCritterssChecked].towerFixed=true;
+							blackListedCritters[noOfCritterssChecked].isHit=true;
+							targetCritter = blackListedCritters[noOfCritterssChecked];
 							return blackListedCritters[noOfCritterssChecked];
 						}
-						if(targetCritter > crittersKilled){
+						if(targetedCritter > crittersKilled){
 							if(blackListedCritters != null){
 								crittersKilled++;
 								System.out.println("crittersInRange != null\tkilled\t" + crittersKilled);

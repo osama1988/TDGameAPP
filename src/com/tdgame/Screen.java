@@ -548,20 +548,26 @@ public class Screen extends JPanel implements Runnable{
 								}
 							});
 							((Component) towerOnMapBtn).setBounds(((int)width+x*(int)width), ((int)height+y*(int)height)-(int)this.height, (int)width, (int)height);
+							//g.drawOval((int)(width+x*width)-25, (int)(height+y*height)-75, 100, 100);
+							int ovalWidth = (int)(this.selectedTowerRange*this.width*2);
+							int ovalHeight = (int)(this.selectedTowerRange*this.height*2);
 							
+							g.drawOval((int)this.handXPos - ((int)(ovalWidth/2)), ((int)this.handYPos - ((int)((ovalHeight/2))) - (int)this.height), ovalWidth, ovalHeight);
 							/*ShootingTower shooter = new ShootingTower(this);
 							if(!towerMap[x][y].shootingThread){
 								shooter.start();
 								towerMap[x][y].shootingThread = true;
-							}
-							//Attacking the critters
-							if(towerMap[x][y].getTargetCritter() != null){
-								System.out.println("critter found for tower at\nX\tY\n" + x + "\t" + y);
-								System.out.println("Draw line from\n" + (50 + (x * 50) + (int)(50/2)) + "," + (50 + (y * 50) + (int)(50/2)) + "\tto " + (int)(towerMap[x][y].getTargetCritter().x) + "," + (int)(towerMap[x][y].getTargetCritter().y));
-								g.setColor(Color.RED);
-								g.drawLine((50 + (x * 50) + (int)(50/2)), (50 + (y * 50) + (int)(50/2) - 50), (int)(towerMap[x][y].getTargetCritter().x), (int)(towerMap[x][y].getTargetCritter().y));
-								//System.exit(0);
 							}*/
+							//Attacking the critters
+							/*if(towerMap[x][y].targetCritter != null){
+								System.out.println("critter found for tower at\nX\tY\n" + x + "\t" + y);
+								System.out.println("Draw line from\n" + (50 + (x * 50) + (int)(50/2)) + "," + (50 + (y * 50) + (int)(50/2)) + "\tto " + (int)(towerMap[x][y].targetCritter.x) + "," + (int)(towerMap[x][y].targetCritter.y));
+								g.setColor(Color.RED);
+								g.drawLine((50 + (x * 50) + (int)(50/2)), (50 + (y * 50) + (int)(50/2)), (int)(towerMap[x][y].targetCritter.x), (int)(towerMap[x][y].targetCritter.y));
+								Thread.sleep(2000);
+								System.exit(0);
+							}*/
+							
 						}
 					}
 				}
@@ -572,36 +578,50 @@ public class Screen extends JPanel implements Runnable{
 				{	
 					for(int i=0;i<critters.length;i++)
 					{
-						if(critters[i].inGame)
-						{
-							critters[i].draw(g);
-							if(critters[i].towerFixed){
+						if(critters[i] != null){
+							if(critters[i].inGame)
+							{
 								
-							//	System.out.println("critter found for tower at\nX\tY\n" + x + "\t" + y);
-							//	System.out.println("Draw line from\n" + (50 + (x * 50) + (int)(50/2)) + "," + (50 + (y * 50) + (int)(50/2)) + "\tto " + (int)(towerMap[x][y].getTargetCritter().x) + "," + (int)(towerMap[x][y].getTargetCritter().y));
-								System.out.println((int)(critters[i].x+critters[i].adjustX)+"\t"+(int)(critters[i].y+critters[i].adjustY)+"\t"+(50 + (critters[i].towerX * 50) + (int)(50/2))+"\t"+(50 + (critters[i].towerY * 50) + (int)(50/2) - 50));
-								/*if(towerMap[critters[i].towerX][critters[i].y].type=="Fire")
-									g.setColor(Color.ORANGE);
-								else if(towerMap[critters[i].towerX][critters[i].y].type=="Leaser")
-									g.setColor(Color.CYAN);
-								else if(towerMap[critters[i].towerX][critters[i].y].type=="Bomber")
-									g.setColor(Color.LIGHT_GRAY);
-								else if(towerMap[critters[i].towerX][critters[i].y].type=="Tank")*/
-								
-								g.setColor(Color.MAGENTA);
-								
-								
-								g.drawLine( (int)(critters[i].x)+50, (int)(critters[i].y)+25,(50 + (critters[i].towerX * 50) + (int)(50/2)), (50 + (critters[i].towerY * 50) + (int)(50/2) - 50));
-								//System.exit(0);
+								if(critters[i].towerFixed){
+									critters[i].draw(g,1);
+								//	System.out.println("critter found for tower at\nX\tY\n" + x + "\t" + y);
+								//	System.out.println("Draw line from\n" + (50 + (x * 50) + (int)(50/2)) + "," + (50 + (y * 50) + (int)(50/2)) + "\tto " + (int)(towerMap[x][y].getTargetCritter().x) + "," + (int)(towerMap[x][y].getTargetCritter().y));
+									System.out.println((int)(critters[i].x+critters[i].adjustX)+"\t"+(int)(critters[i].y+critters[i].adjustY)+"\t"+(50 + (critters[i].towerX * 50) + (int)(50/2))+"\t"+(50 + (critters[i].towerY * 50) + (int)(50/2) - 50));
+									/*if(towerMap[critters[i].towerX][critters[i].y].type=="Fire")
+										g.setColor(Color.ORANGE);
+									else if(towerMap[critters[i].towerX][critters[i].y].type=="Leaser")
+										g.setColor(Color.CYAN);
+									else if(towerMap[critters[i].towerX][critters[i].y].type=="Bomber")
+										g.setColor(Color.LIGHT_GRAY);
+									else if(towerMap[critters[i].towerX][critters[i].y].type=="Tank")*/
+									//System.exit(0);
+									g.setColor(Color.MAGENTA);
+									if(critters[i].isHit){
+										g.drawLine((int)(critters[i].x)+50, (int)(critters[i].y)+25,(50 + (critters[i].towerX * 50) + (int)(50/2)), ((critters[i].towerY * 50) + (int)(50/2)));
+									}
+									critters[i].isHit=false;
+									//critters[i].towerFixed = false;
+								}
+								else
+								{
+									if(critters[i].damageTime > 0){
+										if(!critters[i].isHit){
+											critters[i].draw(g, 1);
+										} else {
+											critters[i].draw(g, 0);
+										}
+										
+									} else {
+										critters[i].draw(g,0);
+									}
+								}
 							}
-							
-						}
-							
+						}	
 
 						if(waveType=="Double")
 						{
 							if(critters2[i].inGame){
-								critters2[i].draw(g);
+								critters2[i].draw(g,0);
 								if(critters[i].towerFixed){
 									g.setColor(Color.MAGENTA);
 									g.drawLine( (int)(critters[i].x)+50, (int)(critters[i].y)+25,(50 + (critters[i].towerX * 50) + (int)(50/2)), (50 + (critters[i].towerY * 50) + (int)(50/2) - 50));
