@@ -11,7 +11,6 @@ public class DoubleCritters implements CritterStrategy {
 	public void startWave() {
 		// TODO Auto-generated method stub
 		Screen.waveType="Double";
-		Screen.noOfCritters += 2;
 		Screen.critters = new Critter[Screen.noOfCritters];
 		Screen.critters2 = new Critter[Screen.noOfCritters];
 		for(int i=0;i<Screen.critters.length;i++)

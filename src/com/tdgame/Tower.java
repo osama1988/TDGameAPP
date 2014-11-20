@@ -147,6 +147,8 @@ public abstract class Tower extends JButton{
 					int dradius = towerRadius + critterRadius;
 					System.out.println("radius (towerRadius - critterRadius)\n" + towerRadius + " + " + critterRadius + " = " + (towerRadius + critterRadius));
 					System.out.println("enemy at index\t" + i);
+					//int tempmayur=critters[i].x-(towerXPos*50)-50;
+					//if(tempmayur< 50){
 					if(((dx*dx) + (dy*dy)) < (dradius * dradius)){
 						System.out.println(i + "in range...adding to eInRange list");
 						blackListedCritters[i] = critters[i];
@@ -155,6 +157,9 @@ public abstract class Tower extends JButton{
 						System.out.println(i + "not in range...");
 					}
 				}
+				
+				
+				
 			}
 			if(this.attackStrategy == RANDOMCRITTER){
 				int totalTargetEnemies = 0;
@@ -175,7 +180,7 @@ public abstract class Tower extends JButton{
 
 					while(true){
 						System.out.println("killed\t" + crittersKilled + "\nchecked\t" + noOfCritterssChecked);
-						if(crittersKilled == targetCritter && blackListedCritters[noOfCritterssChecked] != null){
+						if(crittersKilled == targetCritter && blackListedCritters[noOfCritterssChecked] != null && blackListedCritters[noOfCritterssChecked].inGame){
 							System.out.println("enemiesKilled == enemy && enemiesInRange[noOfEnemiesChecked] != null");
 							System.out.println("returning this random enemy to be killed...");
 							blackListedCritters[noOfCritterssChecked].towerX=towerXPos;
@@ -200,7 +205,7 @@ public abstract class Tower extends JButton{
 				int indexOfCritterWithMaxHealth = 0;
 				int maxHealth = 0;
 				for(int i=0; i<blackListedCritters.length; i++){
-					if(blackListedCritters[i] != null){
+					if(blackListedCritters[i] != null && blackListedCritters[i].inGame){
 						totalTargetEnemies++;
 						if(blackListedCritters[i].health > maxHealth){
 							indexOfCritterWithMaxHealth = i;
@@ -219,13 +224,15 @@ public abstract class Tower extends JButton{
 					return blackListedCritters[indexOfCritterWithMaxHealth];
 				}
 			} else if(this.attackStrategy == WEAKESTCRITTER){
+				
 				int totalTargetEnemies = 0;
 				int indexOfCritterWithMinHealth = 0;
-				int minHealth = 0;
+				int minHealth = 999;
+				
 				for(int i=0; i<blackListedCritters.length; i++){
-					if(blackListedCritters[i] != null){
+					if(blackListedCritters[i] != null && blackListedCritters[i].inGame){
 						totalTargetEnemies++;
-						if(blackListedCritters[i].health > minHealth){
+						if(blackListedCritters[i].health < minHealth){
 							indexOfCritterWithMinHealth = i;
 						}
 					}

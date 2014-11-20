@@ -31,7 +31,7 @@ public class Critter extends Rectangle {
 	int adjustX;
 	int adjustY;
 	int rectangleX , rectangleY;
-	static int crittersExited;
+	static int crittersExited=0;
 	int atTime = 1;
 	int health;
 	int healthheight = 3;
@@ -150,6 +150,8 @@ public class Critter extends Rectangle {
 	
 		}
 		
+		
+		
 		if (Screen.map[row][col] == 2) {
 			inGame = false;
 			duplicate = true;
@@ -160,15 +162,31 @@ public class Critter extends Rectangle {
 			else
 				atTime=2;
 			
-			if (crittersExited >= Screen.noOfCritters * atTime)
+			
+			
+			if (crittersExited == 10)
 			{
 				if(Screen.waveType=="Single")
+				{
 					Screen.waveType="Double";
+					for(int i=0;i<Screen.critters.length;i++)
+						Screen.critters[i].inGame=false;
+				}
 				else
+				{
 					Screen.waveType="Single";
+					for(int i=0;i<Screen.critters.length;i++)
+					{
+						Screen.critters[i].inGame=false;
+						Screen.critters2[i].inGame=false;
+					}
+				}
 				
 				Screen.isFirst=true;
 				crittersExited=0;
+				
+				
+				
 				JOptionPane.showMessageDialog(null,"Game Over");
 			}
 		}
@@ -210,6 +228,7 @@ public class Critter extends Rectangle {
 		if(this.health <= 0){
 			//return null;
 			this.inGame = false;
+			
 		}
 		return this;
 	}

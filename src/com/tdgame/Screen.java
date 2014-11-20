@@ -526,6 +526,48 @@ public class Screen extends JPanel implements Runnable{
 				offMapScrollPane.setBounds(this.frame.getWidth() - 6*(int)width , 10*(int)height, 5*(int)width, 3*(int)height);
 
 
+				
+				//Create towers on the grid
+				for(int x=0; x<valueOfX; x++){
+					for(int y=0; y<valueOfY; y++){
+						if(towerMap[x][y] != null){
+							final Tower towerOnMapBtn=towerMap[x][y];
+							this.add((Component) towerOnMapBtn);
+							((AbstractButton) towerOnMapBtn).addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									//set the value onMapTowerPropTbl if that tower is pressed
+									selectedTower=towerOnMapBtn;
+									onMapTowerPropTbl.setValueAt(towerOnMapBtn.getType(), 0, 1);
+									onMapTowerPropTbl.setValueAt(towerOnMapBtn.getAmmunition(), 1, 1);
+									onMapTowerPropTbl.setValueAt(towerOnMapBtn.getRange(), 2, 1);
+									onMapTowerPropTbl.setValueAt(towerOnMapBtn.getCost(), 3, 1);
+									onMapTowerPropTbl.setValueAt(towerOnMapBtn.getRateOfFire(), 4, 1);
+									onMapTowerPropTbl.setValueAt(towerOnMapBtn.getRefundRate(), 5, 1);
+									onMapTowerPropTbl.setValueAt(towerOnMapBtn.getCostToAddAmmunition(), 6, 1);
+									onMapTowerPropTbl.setValueAt(towerOnMapBtn.getTowerLevel(), 7, 1);
+
+								}
+							});
+							((Component) towerOnMapBtn).setBounds(((int)width+x*(int)width), ((int)height+y*(int)height)-(int)this.height, (int)width, (int)height);
+							
+							/*ShootingTower shooter = new ShootingTower(this);
+							if(!towerMap[x][y].shootingThread){
+								shooter.start();
+								towerMap[x][y].shootingThread = true;
+							}
+							//Attacking the critters
+							if(towerMap[x][y].getTargetCritter() != null){
+								System.out.println("critter found for tower at\nX\tY\n" + x + "\t" + y);
+								System.out.println("Draw line from\n" + (50 + (x * 50) + (int)(50/2)) + "," + (50 + (y * 50) + (int)(50/2)) + "\tto " + (int)(towerMap[x][y].getTargetCritter().x) + "," + (int)(towerMap[x][y].getTargetCritter().y));
+								g.setColor(Color.RED);
+								g.drawLine((50 + (x * 50) + (int)(50/2)), (50 + (y * 50) + (int)(50/2) - 50), (int)(towerMap[x][y].getTargetCritter().x), (int)(towerMap[x][y].getTargetCritter().y));
+								//System.exit(0);
+							}*/
+						}
+					}
+				}
+				
+				
 				// To draw all critters on screen
 				if (critters != null)
 				{	
@@ -539,8 +581,18 @@ public class Screen extends JPanel implements Runnable{
 							//	System.out.println("critter found for tower at\nX\tY\n" + x + "\t" + y);
 							//	System.out.println("Draw line from\n" + (50 + (x * 50) + (int)(50/2)) + "," + (50 + (y * 50) + (int)(50/2)) + "\tto " + (int)(towerMap[x][y].getTargetCritter().x) + "," + (int)(towerMap[x][y].getTargetCritter().y));
 								System.out.println((int)(critters[i].x+critters[i].adjustX)+"\t"+(int)(critters[i].y+critters[i].adjustY)+"\t"+(50 + (critters[i].towerX * 50) + (int)(50/2))+"\t"+(50 + (critters[i].towerY * 50) + (int)(50/2) - 50));
-								g.setColor(Color.RED);
-								g.drawLine( (int)(critters[i].x)+50, (int)(critters[i].y)+50,(50 + (critters[i].towerX * 50) + (int)(50/2)), (50 + (critters[i].towerY * 50) + (int)(50/2) - 50));
+								/*if(towerMap[critters[i].towerX][critters[i].y].type=="Fire")
+									g.setColor(Color.ORANGE);
+								else if(towerMap[critters[i].towerX][critters[i].y].type=="Leaser")
+									g.setColor(Color.CYAN);
+								else if(towerMap[critters[i].towerX][critters[i].y].type=="Bomber")
+									g.setColor(Color.LIGHT_GRAY);
+								else if(towerMap[critters[i].towerX][critters[i].y].type=="Tank")*/
+								
+								g.setColor(Color.MAGENTA);
+								
+								
+								g.drawLine( (int)(critters[i].x)+50, (int)(critters[i].y)+25,(50 + (critters[i].towerX * 50) + (int)(50/2)), (50 + (critters[i].towerY * 50) + (int)(50/2) - 50));
 								//System.exit(0);
 							}
 							
@@ -551,6 +603,10 @@ public class Screen extends JPanel implements Runnable{
 						{
 							if(critters2[i].inGame){
 								critters2[i].draw(g);
+								if(critters[i].towerFixed){
+									g.setColor(Color.MAGENTA);
+									g.drawLine( (int)(critters[i].x)+50, (int)(critters[i].y)+25,(50 + (critters[i].towerX * 50) + (int)(50/2)), (50 + (critters[i].towerY * 50) + (int)(50/2) - 50));
+								}
 							}
 						}
 
@@ -566,45 +622,7 @@ public class Screen extends JPanel implements Runnable{
 				}
 			}
 
-			//Create towers on the grid
-			for(int x=0; x<valueOfX; x++){
-				for(int y=0; y<valueOfY; y++){
-					if(towerMap[x][y] != null){
-						final Tower towerOnMapBtn=towerMap[x][y];
-						this.add((Component) towerOnMapBtn);
-						((AbstractButton) towerOnMapBtn).addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								//set the value onMapTowerPropTbl if that tower is pressed
-								selectedTower=towerOnMapBtn;
-								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getType(), 0, 1);
-								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getAmmunition(), 1, 1);
-								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getRange(), 2, 1);
-								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getCost(), 3, 1);
-								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getRateOfFire(), 4, 1);
-								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getRefundRate(), 5, 1);
-								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getCostToAddAmmunition(), 6, 1);
-								onMapTowerPropTbl.setValueAt(towerOnMapBtn.getTowerLevel(), 7, 1);
-
-							}
-						});
-						((Component) towerOnMapBtn).setBounds(((int)width+x*(int)width), ((int)height+y*(int)height)-(int)this.height, (int)width, (int)height);
-						
-						/*ShootingTower shooter = new ShootingTower(this);
-						if(!towerMap[x][y].shootingThread){
-							shooter.start();
-							towerMap[x][y].shootingThread = true;
-						}
-						//Attacking the critters
-						if(towerMap[x][y].getTargetCritter() != null){
-							System.out.println("critter found for tower at\nX\tY\n" + x + "\t" + y);
-							System.out.println("Draw line from\n" + (50 + (x * 50) + (int)(50/2)) + "," + (50 + (y * 50) + (int)(50/2)) + "\tto " + (int)(towerMap[x][y].getTargetCritter().x) + "," + (int)(towerMap[x][y].getTargetCritter().y));
-							g.setColor(Color.RED);
-							g.drawLine((50 + (x * 50) + (int)(50/2)), (50 + (y * 50) + (int)(50/2) - 50), (int)(towerMap[x][y].getTargetCritter().x), (int)(towerMap[x][y].getTargetCritter().y));
-							//System.exit(0);
-						}*/
-					}
-				}
-			}
+			
 			
 			
 
