@@ -19,7 +19,8 @@ public class Bomber extends Tower {
 	{
 		setBackground(Color.LIGHT_GRAY);
 		//setTowerProperties(id, cost, ammunition, range, type, rateOfFire,      path,       damageToCritters, level, Randomstrategy)
-		setTowerProperties(  id,  500,    100,      2,   "Bomber",  10,  "../res/towers/bomber.png", 10,         1,     2);
+		//setTowerProperties(id, cost, ammunition, range, type, rateOfFire,      path,       damageToCritters, level)
+		setTowerProperties(  id,  500,    100,      2,   "Bomber",  10,  "../res/towers/bomber.png", 10,         1);
 		setIcon(new ImageIcon(this.imgPath));
 	}
 

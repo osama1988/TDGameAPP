@@ -20,7 +20,8 @@ public class Fire extends Tower {
 	{
 		setBackground(Color.orange);
 		//setTowerProperties(id, cost, ammunition, range, type, rateOfFire,      path,               damageToCritters, level, weakStrategy)
-		setTowerProperties(id,    100,    10000,     1,  "Fire",     10,     "../res/towers/fire.png",         5,        1,         4);
+		setTowerProperties(id,    100,    10000,     1,  "Fire",     10,     "../res/towers/fire.png",         5,        1);
+		//setTowerProperties(id,    100,    10000,     1,  "Fire",     10,     "../res/towers/fire.png",         5,        1,         4);
 		setIcon(new ImageIcon(this.imgPath));
 	}
 }

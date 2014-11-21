@@ -12,7 +12,8 @@ public class BomberTest {
 	@Before
 	public void beforeContext() {
 		bomber = new Bomber();
-		bomber.setTowerProperties(1,500,100,2,"Bomber",3,"../res/towers/bomber.png", 15, 1, 2);
+		//bomber.setTowerProperties(1,500,100,2,"Bomber",3,"../res/towers/bomber.png", 15, 1, 2);
+		bomber.setTowerProperties(1,500,100,2,"Bomber",3,"../res/towers/bomber.png", 15, 1);
 	}
 	
 	/**

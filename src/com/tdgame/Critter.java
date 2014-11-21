@@ -42,6 +42,8 @@ public class Critter extends Rectangle {
 	boolean towerFixed;
 	boolean isHit;
 	int damageTime;
+	public double distanceOfBlackListedCritter=999.00;
+
 	/** 
 	 * Constructor
 	 * @param imgWidth Sets critter image width
@@ -66,7 +68,7 @@ public class Critter extends Rectangle {
 		this.damageTime = 0;
 	}
 	public Critter(){
-		
+
 	}
 	/**
 	 * To create rectangle of critter
@@ -101,17 +103,17 @@ public class Critter extends Rectangle {
 
 	int moveFrame = 0, moveSpeed = Screen.critterSpeed;
 	int prevdir;
-/**
- * It keep on checking map array and changes direction of critters accordingly
- * @param initialDelay
- * @param addition
- * @param refreshValue
- */
+	/**
+	 * It keep on checking map array and changes direction of critters accordingly
+	 * @param initialDelay
+	 * @param addition
+	 * @param refreshValue
+	 */
 	public void physics(int initialDelay, int addition, int refreshValue) {
 		// Check map array when movement is 0 or after given delay so that critters wont get direction early	
 		if (movement == 0 || movement == initialDelay + nextDelay) {
 			// Make sure that row value must not exceed array index bounds and must not already have opposite direction
-			
+
 			if (row + 1 < Screen.map.length && Screen.map[row + 1][col] > 1 && !hasLeft) {
 				direction = right;
 				this.row = row + 1;
@@ -143,19 +145,20 @@ public class Critter extends Rectangle {
 				hasRight = false;
 				hasLeft = false;
 			}
-			
+
 			// To keep on adding delay upto a certain value so that critters won't get direction early and later.
 			if (nextDelay >= refreshValue)
 				nextDelay = 0;
 
 			nextDelay += addition;
 			movement = 0;
-			
+
 		}
-		
-		
-		
+
+
+
 		if (Screen.map[row][col] == 2) {
+
 			inGame = false;
 			duplicate = true;
 			crittersExited++;
@@ -164,9 +167,9 @@ public class Critter extends Rectangle {
 				atTime=1;
 			else
 				atTime=2;
-			
-			
-			
+
+
+
 			if (crittersExited == 10)
 			{
 				if(Screen.waveType=="Single")
@@ -178,18 +181,22 @@ public class Critter extends Rectangle {
 				else
 				{
 					Screen.waveType="Single";
-					for(int i=0;i<Screen.critters.length;i++)
-					{
-						Screen.critters[i].inGame=false;
-						Screen.critters2[i].inGame=false;
+					if(Screen.critters != null){
+						for(int i=0;i<Screen.critters.length;i++)
+						{
+							if(Screen.critters[i] != null){
+								Screen.critters[i].inGame=false;
+								Screen.critters2[i].inGame=false;
+							}
+						}
 					}
 				}
-				
+
 				Screen.isFirst=true;
 				crittersExited=0;
-				
-				
-				
+
+
+
 				JOptionPane.showMessageDialog(null,"Game Over");
 			}
 		}
@@ -198,7 +205,7 @@ public class Critter extends Rectangle {
 	}
 
 	public void moveFwd() {
-		
+
 		// The first check is to produce delay
 		if (moveFrame >= moveSpeed) {
 			if(damageTime > 0){
@@ -235,9 +242,9 @@ public class Critter extends Rectangle {
 		if(this.health <= 0){
 			return null;
 			//this.inGame = false;
-			
+
 		}
 		return this;
 	}
-	
+
 }

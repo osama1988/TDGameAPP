@@ -2,9 +2,9 @@ package com.tdgame;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -14,18 +14,18 @@ import java.awt.event.MouseEvent;
 import java.awt.image.CropImageFilter;
 import java.awt.image.FilteredImageSource;
 import java.io.FileNotFoundException;
-import java.util.Observable;
-import java.util.Observer;
-
 
 import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.JTableHeader;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 
 /** 
@@ -156,6 +156,22 @@ public class Screen extends JPanel implements Runnable{
 			+ "\nmap.";
 	
 	static Graphics tempGraphics;
+	
+	JButton nearestToTowerAttackStrategyButton;
+	JButton nearestToEndPointAttackStrategyButton;
+	JButton weakestCritterAttackStrategyButton;
+	JButton strongestCritterAttackStrategyButton;
+	
+	public static final int NEARESTTOTOWERCRITTER = 1;			//nearest critter to the tower 
+	public static final int NEARESTTOENDPOINTCRITTER = 2;			//nearest critter to the end point
+	public static final int STRONGESTCRITTER = 3;		//Critter with max health------ missile & tank
+	public static final int WEAKESTCRITTER = 4;			//Critter with min health ----- laser & fire
+	public static final int RANDOMCRITTER = 5;			//random to the tower-------bomber
+	
+	public static int attackStrategy = 5;				//this strategy is set as the default strategy
+	
+	
+	public static int findEnemyTestCount = 0;
 
 	// Screen constructor
 	public Screen(Frame frame) {
@@ -344,11 +360,11 @@ public class Screen extends JPanel implements Runnable{
 			// Instructions
 			g.setColor(Color.RED);
 			g.setFont(new Font("TimesRoman", Font.BOLD, 17));
-			g.drawString(welcomeMessage, this.frame.getWidth() - 300 , 50);
+			g.drawString(welcomeMessage, this.frame.getWidth() - 300 , 25);
 
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("TimesRoman", Font.BOLD, 14));
-			drawString(g,instructions, this.frame.getWidth() - 300 , 70);
+			drawString(g,instructions, this.frame.getWidth() - 300 , 50);
 
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("TimesRoman", Font.BOLD, 14));
@@ -432,7 +448,7 @@ public class Screen extends JPanel implements Runnable{
 					}
 				});
 				frame.add(sellTower);
-				sellTower.setBounds(this.frame.getWidth() - 6*(int)width , 6*(int)height, 2*(int)width, (int)(height/2));
+				sellTower.setBounds(this.frame.getWidth() - 6*(int)width , (int)(5.5*height), 2*(int)width, (int)(height/2));
 
 				//add ammunition button
 				JButton addAmmunition=new JButton("Add Ammunition");
@@ -458,7 +474,7 @@ public class Screen extends JPanel implements Runnable{
 					}
 				});
 				frame.add(addAmmunition);
-				addAmmunition.setBounds(this.frame.getWidth() - 4*(int)width , 6*(int)height, 3*(int)width, (int)(height/2));
+				addAmmunition.setBounds(this.frame.getWidth() - 4*(int)width , (int)(5.5*height), 3*(int)width, (int)(height/2));
 
 
 				//Increase Tower Level		
@@ -487,7 +503,7 @@ public class Screen extends JPanel implements Runnable{
 					}
 				});
 				frame.add(increaseLevel);
-				increaseLevel.setBounds(this.frame.getWidth() - 6*(int)width , (int)(6.5* height), 3*(int)width, (int)(height/2));
+				increaseLevel.setBounds(this.frame.getWidth() - 6*(int)width , (int)(6* height), 3*(int)width, (int)(height/2));
 
 				//Send critters on map
 				JButton sendCritters=new JButton("Send Critters");
@@ -508,16 +524,16 @@ public class Screen extends JPanel implements Runnable{
 					}
 				});
 				frame.add(sendCritters);
-				sendCritters.setBounds(this.frame.getWidth() - 6*(int)width , (int) (8*height), 3*(int)width, (int)(height/2));
+				sendCritters.setBounds(this.frame.getWidth() - 6*(int)width , (int) (7.5*height), 3*(int)width, (int)(height/2));
 
 				//adding onMapTowerPropTable
 				frame.add(onMapScrollPane);
-				drawString(g,"Active Tower Properties", this.frame.getWidth() - 6*(int)width ,2*(int)height);
-				onMapScrollPane.setBounds(this.frame.getWidth() - 6*(int)width , 3*(int)height, 5*(int)width, 3*(int)height);
+				drawString(g,"Active Tower Properties", this.frame.getWidth() - 6*(int)width ,(int)(1.5*height));
+				onMapScrollPane.setBounds(this.frame.getWidth() - 6*(int)width , (int)(2.5*height), 5*(int)width, 3*(int)height);
 
 				//adding user details table
 				frame.add(userScrollPane);
-				userScrollPane.setBounds(this.frame.getWidth() - 6*(int)width , 7*(int)height, 5*(int)width, (int)height);
+				userScrollPane.setBounds(this.frame.getWidth() - 6*(int)width , (int)(6.5*height), 5*(int)width, (int)height);
 				userDataTbl.setValueAt(user.player.money, 0, 1);
 
 				//adding offMapTowerPropTable
@@ -525,6 +541,80 @@ public class Screen extends JPanel implements Runnable{
 				offMapScrollPane.setBounds(this.frame.getWidth() - 6*(int)width , 10*(int)height, 5*(int)width, 3*(int)height);
 
 
+				
+				//Radio buttons for tower attacking strategy
+				
+				nearestToTowerAttackStrategyButton = new JButton("Near To Tower");
+				nearestToTowerAttackStrategyButton.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						attackStrategy = NEARESTTOTOWERCRITTER;
+					}
+				});
+				frame.add(nearestToTowerAttackStrategyButton);
+				nearestToTowerAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width , (int)(8.5*height), 125, 25);
+				if(attackStrategy == NEARESTTOTOWERCRITTER){
+					nearestToTowerAttackStrategyButton.setEnabled(false);
+					nearestToEndPointAttackStrategyButton.setEnabled(true);
+					weakestCritterAttackStrategyButton.setEnabled(true);
+					strongestCritterAttackStrategyButton.setEnabled(true);
+				}
+				
+				
+				nearestToEndPointAttackStrategyButton = new JButton("Near To End Pt");
+				nearestToEndPointAttackStrategyButton.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						attackStrategy = NEARESTTOENDPOINTCRITTER;
+					}
+				});
+				frame.add(nearestToEndPointAttackStrategyButton);
+				nearestToEndPointAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width, (int)(9*height), 125, 25);
+				if(attackStrategy == NEARESTTOENDPOINTCRITTER){
+					nearestToEndPointAttackStrategyButton.setEnabled(false);
+					nearestToTowerAttackStrategyButton.setEnabled(true);
+					weakestCritterAttackStrategyButton.setEnabled(true);
+					strongestCritterAttackStrategyButton.setEnabled(true);
+				}
+				
+				
+				weakestCritterAttackStrategyButton = new JButton("Weakest");
+				weakestCritterAttackStrategyButton.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						attackStrategy = WEAKESTCRITTER;
+					}
+				});
+				frame.add(weakestCritterAttackStrategyButton);
+				weakestCritterAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width + (int)(2.5*width), (int)(8.5*height), 100, 25);
+				if(attackStrategy == WEAKESTCRITTER){
+					weakestCritterAttackStrategyButton.setEnabled(false);
+					nearestToEndPointAttackStrategyButton.setEnabled(true);
+					nearestToTowerAttackStrategyButton.setEnabled(true);
+					strongestCritterAttackStrategyButton.setEnabled(true);
+				}
+				
+				
+				strongestCritterAttackStrategyButton = new JButton("Strongest");
+				strongestCritterAttackStrategyButton.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						attackStrategy = STRONGESTCRITTER;
+					}
+				});
+				frame.add(strongestCritterAttackStrategyButton);
+				strongestCritterAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width + (int)(2.5*width), (int)(9*height), 100, 25);
+				if(attackStrategy == STRONGESTCRITTER){
+					strongestCritterAttackStrategyButton.setEnabled(false);
+					weakestCritterAttackStrategyButton.setEnabled(true);
+					nearestToEndPointAttackStrategyButton.setEnabled(true);
+					nearestToTowerAttackStrategyButton.setEnabled(true);
+				}
+				
 				
 				//Create towers on the grid
 				for(int x=0; x<valueOfX; x++){
@@ -624,11 +714,10 @@ public class Screen extends JPanel implements Runnable{
 								critters2[i].draw(g,0);
 								if(critters[i].towerFixed){
 									g.setColor(Color.MAGENTA);
-									g.drawLine( (int)(critters[i].x)+50, (int)(critters[i].y)+25,(50 + (critters[i].towerX * 50) + (int)(50/2)), (50 + (critters[i].towerY * 50) + (int)(50/2) - 50));
+									g.drawLine( (int)(critters[i].x)+50, (int)(critters[i].y)+25,(50 + (critters[i].towerX * 50) + (int)(50/2)), ((critters[i].towerY * 50) + (int)(50/2)));
 								}
 							}
 						}
-
 					}
 				}
 
