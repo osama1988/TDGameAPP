@@ -2,8 +2,6 @@ package com.tdgame;
 
 import static org.junit.Assert.*;
 
-import java.util.Random;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -72,9 +70,6 @@ public class TowerTest {
 	 */
 	@Test
 	public void strongestStrategy() {
-		
-		//sc = new SingleCritters();
-		//sc.startWave();
 		bomber.range = 5;
 		bomber.critterRadius = 5;
 		bomber.sqOfDistanceOfCritterFromTower = 10;
@@ -90,29 +85,44 @@ public class TowerTest {
 	}
 	
 	/**
+	 * Checking for weakest strategy which should return critter with max health
+	 */
+	@Test
+	public void weakestStrategy() {
+		bomber.range = 5;
+		bomber.critterRadius = 5;
+		bomber.sqOfDistanceOfCritterFromTower = 10;
+		bomber.dradius =2;
+		Screen.attackStrategy = 4;
+		
+		Critter[] critters = {critter1, critter2};
+		critter1.inGame = true;
+		critter2.inGame = true;
+		Critter critterobj = bomber.findTargetCritter(critters, 1, 1);
+		assertEquals(50, critterobj.health);
+	}
+	
+	/**
 	 * Checking for strongest strategy which should return critter with max health
 	 */
-//	@Test
-//	public void nearestToTower() {
-//		
-//		//sc = new SingleCritters();
-//		//sc.startWave();
-//		bomber.range = 5;
-//		bomber.critterRadius = 5;
-//		bomber.sqOfDistanceOfCritterFromTower = 10;
-//		bomber.dradius =2;
-//		Screen.attackStrategy = 1;
-//		
-//		Critter[] critters = {critter1, critter2};
-//		critter1.inGame = true;
-//		critter2.inGame = true;
-		//
-//		System.out.println("Distance of critter fro tower" + bomber.sqOfDistanceOfCritterFromTower);
-		//Critter critterobj = bomber.findTargetCritter(critters, 1, 1);
-//		System.out.println("Distance of critter fro tower" + bomber.sqOfDistanceOfCritterFromTower);
-//		System.out.println("OSAMA  OSAMA OSAMA \n" + critterobj.health );
-		//assertTrue(critterobj.distanceOfBlackListedCritter);
-//	}
+	@Test
+	public void nearestToTower() {
+		bomber.range = 5;
+		bomber.critterRadius = 5;
+		bomber.sqOfDistanceOfCritterFromTower = 10;
+		bomber.dradius =2;
+		Screen.attackStrategy = 1;
+		
+		Critter[] critters = {critter1, critter2};
+		critter1.inGame = true;
+		critter2.inGame = true;
+		Critter critterobj = bomber.findTargetCritter(critters, 1, 1);
+		assertTrue(critter1.towerX == 1);
+		assertTrue(critter1.towerY == 1);
+		assertTrue(critter2.towerX == 0);
+		assertTrue(critter2.towerY == 0);
+		
+	}
 	
 	
 	
