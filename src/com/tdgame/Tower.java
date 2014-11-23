@@ -31,6 +31,7 @@ public abstract class Tower extends JButton{
 	public double sqOfDistanceOfCritterFromTower;
 	public int totalTargetEnemies;
 	public double minDistance;
+	TowerFire towerFire=new TowerFire();
 	void fire() {
 	}
 
@@ -177,132 +178,19 @@ public abstract class Tower extends JButton{
 				
 			}
 			if(Screen.attackStrategy == Screen.RANDOMCRITTER){
-				totalTargetEnemies = 0;
-
-				for(int i=0; i<blackListedCritters.length; i++){
-					if(blackListedCritters[i] != null){
-						totalTargetEnemies++;
-					}
-				}
-				System.out.println("total number of inrange enemies...\t" + totalTargetEnemies);
-
-				if(totalTargetEnemies > 0){
-					System.out.println("totalEnemies > 0\t" + (totalTargetEnemies > 0));
-					int targetedCritter = new Random().nextInt(totalTargetEnemies);
-					System.out.println("random enemy number\t" + targetCritter);
-					int crittersKilled = 0;
-					int noOfCritterssChecked = 0;
-
-					while(true){
-						System.out.println("killed\t" + crittersKilled + "\nchecked\t" + noOfCritterssChecked);
-						if(crittersKilled == targetedCritter && blackListedCritters[noOfCritterssChecked] != null && blackListedCritters[noOfCritterssChecked].inGame){
-							System.out.println("enemiesKilled == enemy && enemiesInRange[noOfEnemiesChecked] != null");
-							System.out.println("returning this random enemy to be killed...");
-							blackListedCritters[noOfCritterssChecked].towerX=towerXPos;
-							blackListedCritters[noOfCritterssChecked].towerY=towerYPos;
-							blackListedCritters[noOfCritterssChecked].towerFixed=true;
-							blackListedCritters[noOfCritterssChecked].isHit=true;
-							targetCritter = blackListedCritters[noOfCritterssChecked];
-							return blackListedCritters[noOfCritterssChecked];
-						}
-						if(targetedCritter > crittersKilled){
-							if(blackListedCritters != null){
-								crittersKilled++;
-								System.out.println("crittersInRange != null\tkilled\t" + crittersKilled);
-							}
-							noOfCritterssChecked++;
-							System.out.println("inc... checked\t" + noOfCritterssChecked);
-						} else{
-							return null;
-						}
-					}
-				}
+				towerFire.setFireStrategy(new RandomFire());
+				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos);
 			} else if(Screen.attackStrategy == Screen.STRONGESTCRITTER){
 				System.out.println("Strongest Strategy");
-				totalTargetEnemies = 0;
-				int indexOfCritterWithMaxHealth = 0;
-				int maxHealth = 0;
-				for(int i=0; i<blackListedCritters.length; i++){
-					
-					// ASK SUMEET blackListedCritters[i].inGame ???
-					if(blackListedCritters[i] != null &&  blackListedCritters[i].inGame){
-						System.out.println("After IF" + blackListedCritters[i].inGame);
-						totalTargetEnemies++;
-						System.out.println("OSAMA OSAMA OSAMA " + totalTargetEnemies);
-						if(blackListedCritters[i].health > maxHealth){
-							maxHealth = blackListedCritters[i].health;
-							indexOfCritterWithMaxHealth = i;
-						}
-					}
-				}
-				System.out.println("total number of inrange enemies...\t" + totalTargetEnemies);
-
-				if(totalTargetEnemies > 0){
-					System.out.println("totalEnemies > 0\t" + (totalTargetEnemies > 0));
-					System.out.println("random enemy number\t" + targetCritter);
-
-					blackListedCritters[indexOfCritterWithMaxHealth].towerX=towerXPos;
-					blackListedCritters[indexOfCritterWithMaxHealth].towerY=towerYPos;
-					blackListedCritters[indexOfCritterWithMaxHealth].towerFixed=true;
-					System.out.println("Returned");
-					System.out.println(blackListedCritters[indexOfCritterWithMaxHealth].health);
-					return blackListedCritters[indexOfCritterWithMaxHealth];
-					
-				}
+				towerFire.setFireStrategy(new StrongestCritter());
+				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos);
 			} else if(Screen.attackStrategy == Screen.WEAKESTCRITTER){
+				towerFire.setFireStrategy(new WeakestCritter());
+				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos);
 				
-				int totalTargetEnemies = 0;
-				int indexOfCritterWithMinHealth = 0;
-				int minHealth = 999;
-				
-				for(int i=0; i<blackListedCritters.length; i++){
-					if(blackListedCritters[i] != null && blackListedCritters[i].inGame){
-						totalTargetEnemies++;
-						if(blackListedCritters[i].health < minHealth){
-							minHealth = blackListedCritters[i].health;
-							indexOfCritterWithMinHealth = i;
-						}
-					}
-				}
-				System.out.println("total number of inrange enemies...\t" + totalTargetEnemies);
-
-				if(totalTargetEnemies > 0){
-					System.out.println("totalEnemies > 0\t" + (totalTargetEnemies > 0));
-					System.out.println("random enemy number\t" + targetCritter);
-
-					blackListedCritters[indexOfCritterWithMinHealth].towerX=towerXPos;
-					blackListedCritters[indexOfCritterWithMinHealth].towerY=towerYPos;
-					blackListedCritters[indexOfCritterWithMinHealth].towerFixed=true;
-					return blackListedCritters[indexOfCritterWithMinHealth];
-				}
 			} else if(Screen.attackStrategy == Screen.NEARESTTOTOWERCRITTER){
-				
-				int totalTargetEnemies = 0;
-				int indexOfCritterWithMinDistanceFromTower = 0;
-				minDistance = 999;
-				
-				for(int i=0; i<blackListedCritters.length; i++){
-					if(blackListedCritters[i] != null && blackListedCritters[i].inGame){
-						totalTargetEnemies++;
-						if(blackListedCritters[i].distanceOfBlackListedCritter < minDistance){
-							minDistance = blackListedCritters[i].distanceOfBlackListedCritter;
-							System.out.println("Osama MIN DIST: " + minDistance);
-							indexOfCritterWithMinDistanceFromTower = i;
-						}
-					}
-				}
-				System.out.println("total number of inrange enemies...\t" + totalTargetEnemies);
-
-				if(totalTargetEnemies > 0){
-					System.out.println("totalEnemies > 0\t" + (totalTargetEnemies > 0));
-					System.out.println("random enemy number\t" + targetCritter);
-
-					blackListedCritters[indexOfCritterWithMinDistanceFromTower].towerX=towerXPos;
-					blackListedCritters[indexOfCritterWithMinDistanceFromTower].towerY=towerYPos;
-					blackListedCritters[indexOfCritterWithMinDistanceFromTower].towerFixed=true;
-					System.out.println(blackListedCritters[indexOfCritterWithMinDistanceFromTower].critterID);
-					return blackListedCritters[indexOfCritterWithMinDistanceFromTower];
-				}
+				towerFire.setFireStrategy(new NearToTower());
+				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos);
 			}
 		} else {
 			return null;

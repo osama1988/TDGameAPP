@@ -7,6 +7,6 @@ import java.awt.Graphics;
  * @author Team 2
  *
  */
-interface CritterStrategy {
-	void startWave();
+interface TowerFireStrategy {
+	Critter fire(Critter[] blackListedCritters, Critter targetCritter,int towerXPos, int towerYPos);
 }
