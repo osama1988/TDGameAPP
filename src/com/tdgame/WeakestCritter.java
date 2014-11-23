@@ -14,7 +14,7 @@ public class WeakestCritter implements TowerFireStrategy {
 			for(int i=0; i<blackListedCritters.length; i++){
 				if(blackListedCritters[i] != null && blackListedCritters[i].inGame){
 					totalTargetEnemies++;
-					if(blackListedCritters[i].health < minHealth){
+					if(blackListedCritters[i].health <= minHealth){
 						minHealth = blackListedCritters[i].health;
 						indexOfCritterWithMinHealth = i;
 					}

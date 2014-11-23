@@ -2,7 +2,6 @@ package com.tdgame;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -16,16 +15,12 @@ import java.awt.image.FilteredImageSource;
 import java.io.FileNotFoundException;
 
 import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 
 /** 
@@ -119,7 +114,8 @@ public class Screen extends JPanel implements Runnable{
 			{ "Rate of Fire", "" },
 			{ "Refund Rate", "" },
 			{ "Add Ammunition Rate", "" },
-			{ "Increase Level Cost", "" }};
+			{ "Increase Level Cost", "" },
+			{ "Fire Strategy", "" }};
 	static Object columnNames[] = { "Properties", "Value" };
 	JTable onMapTowerPropTbl = new JTable(onMapRowData, columnNames);
 
@@ -168,7 +164,7 @@ public class Screen extends JPanel implements Runnable{
 	public static final int WEAKESTCRITTER = 4;			//Critter with min health ----- laser & fire
 	public static final int RANDOMCRITTER = 5;			//random to the tower-------bomber
 	
-	public static int attackStrategy = 5;				//this strategy is set as the default strategy
+	//public static int attackStrategy = 5;				//this strategy is set as the default strategy
 	
 	
 	public static int findEnemyTestCount = 0;
@@ -215,7 +211,7 @@ public class Screen extends JPanel implements Runnable{
 
 			towerMap = new Tower[valueOfX][valueOfY];	
 			startGame("Base.xml", typeOfOperation, user);
-			ImageIcon pic = new ImageIcon("grass.png");
+			//ImageIcon pic = new ImageIcon("grass.png");
 			for(int i=0;i<5;i++){
 				towers[i] = TowerFactory.getTower(towerNames[i]);
 				((AbstractButton) towers[i]).setText(towerNames[i]);
@@ -263,7 +259,7 @@ public class Screen extends JPanel implements Runnable{
 			towerMap = new Tower[valueOfX][valueOfY];	
 			frame.getContentPane().validate();
 			startGame(newFileName, typeOfOperation, user);
-			ImageIcon pic = new ImageIcon("grass.png");
+			//ImageIcon pic = new ImageIcon("grass.png");
 
 			for(int i=0;i<5;i++){
 				towers[i] = TowerFactory.getTower(towerNames[i]);
@@ -331,9 +327,9 @@ public class Screen extends JPanel implements Runnable{
 		for (String line : text.split("\n"))
 			g.drawString(line, x, y += g.getFontMetrics().getHeight());
 	}
-	private void clearRect(Graphics g) {
+	/*private void clearRect(Graphics g) {
 		g.clearRect(0, 0, this.frame.getWidth(), this.frame.getHeight());
-	}
+	}*/
 
 
 	/**
@@ -549,17 +545,19 @@ public class Screen extends JPanel implements Runnable{
 					
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						attackStrategy = NEARESTTOTOWERCRITTER;
+						//attackStrategy = NEARESTTOTOWERCRITTER;
+						selectedTower.chngStrategy(NEARESTTOTOWERCRITTER);
+						onMapTowerPropTbl.setValueAt(selectedTower.getTowerStrategy(), 8, 1);
 					}
 				});
 				frame.add(nearestToTowerAttackStrategyButton);
 				nearestToTowerAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width , (int)(8.5*height), 125, 25);
-				if(attackStrategy == NEARESTTOTOWERCRITTER){
+				/*if(attackStrategy == NEARESTTOTOWERCRITTER){
 					nearestToTowerAttackStrategyButton.setEnabled(false);
 					nearestToEndPointAttackStrategyButton.setEnabled(true);
 					weakestCritterAttackStrategyButton.setEnabled(true);
 					strongestCritterAttackStrategyButton.setEnabled(true);
-				}
+				}*/
 				
 				
 				nearestToEndPointAttackStrategyButton = new JButton("Near To End Pt");
@@ -567,17 +565,19 @@ public class Screen extends JPanel implements Runnable{
 					
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						attackStrategy = NEARESTTOENDPOINTCRITTER;
+						//attackStrategy = NEARESTTOENDPOINTCRITTER;
+						selectedTower.chngStrategy(NEARESTTOTOWERCRITTER);
+						onMapTowerPropTbl.setValueAt(selectedTower.getTowerStrategy(), 8, 1);
 					}
 				});
 				frame.add(nearestToEndPointAttackStrategyButton);
 				nearestToEndPointAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width, (int)(9*height), 125, 25);
-				if(attackStrategy == NEARESTTOENDPOINTCRITTER){
+				/*if(attackStrategy == NEARESTTOENDPOINTCRITTER){
 					nearestToEndPointAttackStrategyButton.setEnabled(false);
 					nearestToTowerAttackStrategyButton.setEnabled(true);
 					weakestCritterAttackStrategyButton.setEnabled(true);
 					strongestCritterAttackStrategyButton.setEnabled(true);
-				}
+				}*/
 				
 				
 				weakestCritterAttackStrategyButton = new JButton("Weakest");
@@ -585,17 +585,20 @@ public class Screen extends JPanel implements Runnable{
 					
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						attackStrategy = WEAKESTCRITTER;
+						//attackStrategy = WEAKESTCRITTER;
+						selectedTower.chngStrategy(WEAKESTCRITTER);
+						onMapTowerPropTbl.setValueAt(selectedTower.getTowerStrategy(), 8, 1);
+						
 					}
 				});
 				frame.add(weakestCritterAttackStrategyButton);
 				weakestCritterAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width + (int)(2.5*width), (int)(8.5*height), 100, 25);
-				if(attackStrategy == WEAKESTCRITTER){
+				/*if(attackStrategy == WEAKESTCRITTER){
 					weakestCritterAttackStrategyButton.setEnabled(false);
 					nearestToEndPointAttackStrategyButton.setEnabled(true);
 					nearestToTowerAttackStrategyButton.setEnabled(true);
 					strongestCritterAttackStrategyButton.setEnabled(true);
-				}
+				}*/
 				
 				
 				strongestCritterAttackStrategyButton = new JButton("Strongest");
@@ -603,17 +606,19 @@ public class Screen extends JPanel implements Runnable{
 					
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						attackStrategy = STRONGESTCRITTER;
+						//attackStrategy = STRONGESTCRITTER;
+						selectedTower.chngStrategy(STRONGESTCRITTER);
+						onMapTowerPropTbl.setValueAt(selectedTower.getTowerStrategy(), 8, 1);
 					}
 				});
 				frame.add(strongestCritterAttackStrategyButton);
 				strongestCritterAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width + (int)(2.5*width), (int)(9*height), 100, 25);
-				if(attackStrategy == STRONGESTCRITTER){
+				/*if(attackStrategy == STRONGESTCRITTER){
 					strongestCritterAttackStrategyButton.setEnabled(false);
 					weakestCritterAttackStrategyButton.setEnabled(true);
 					nearestToEndPointAttackStrategyButton.setEnabled(true);
 					nearestToTowerAttackStrategyButton.setEnabled(true);
-				}
+				}*/
 				
 				
 				//Create towers on the grid
@@ -634,7 +639,7 @@ public class Screen extends JPanel implements Runnable{
 									onMapTowerPropTbl.setValueAt(towerOnMapBtn.getRefundRate(), 5, 1);
 									onMapTowerPropTbl.setValueAt(towerOnMapBtn.getCostToAddAmmunition(), 6, 1);
 									onMapTowerPropTbl.setValueAt(towerOnMapBtn.getTowerLevel(), 7, 1);
-
+									onMapTowerPropTbl.setValueAt(towerOnMapBtn.getTowerStrategy(), 8, 1);
 								}
 							});
 							((Component) towerOnMapBtn).setBounds(((int)width+x*(int)width), ((int)height+y*(int)height)-(int)this.height, (int)width, (int)height);
@@ -642,7 +647,7 @@ public class Screen extends JPanel implements Runnable{
 							int ovalWidth = (int)(this.selectedTowerRange*this.width*2);
 							int ovalHeight = (int)(this.selectedTowerRange*this.height*2);
 							
-							g.drawOval((int)this.handXPos - ((int)(ovalWidth/2)), ((int)this.handYPos - ((int)((ovalHeight/2))) - (int)this.height), ovalWidth, ovalHeight);
+							//g.drawOval((int)this.handXPos - ((int)(ovalWidth/2)), ((int)this.handYPos - ((int)((ovalHeight/2))) - (int)this.height), ovalWidth, ovalHeight);
 							/*ShootingTower shooter = new ShootingTower(this);
 							if(!towerMap[x][y].shootingThread){
 								shooter.start();

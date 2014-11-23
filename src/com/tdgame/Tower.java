@@ -31,11 +31,22 @@ public abstract class Tower extends JButton{
 	public double sqOfDistanceOfCritterFromTower;
 	public int totalTargetEnemies;
 	public double minDistance;
+	public int attackStrategy=5;
+	public String strategyName="Random";
 	TowerFire towerFire=new TowerFire();
 	void fire() {
 	}
 
-
+	public void chngStrategy(int strategy){
+		attackStrategy=strategy;
+		switch(strategy){
+		case Screen.NEARESTTOTOWERCRITTER:strategyName="NEARESTTOTOWERCRITTER";break;
+		case Screen.NEARESTTOENDPOINTCRITTER:strategyName="NEARESTTOENDPOINTCRITTER";break;
+		case Screen.STRONGESTCRITTER:strategyName="STRONGESTCRITTER";break;
+		case Screen.WEAKESTCRITTER:strategyName="WEAKESTCRITTER";break;
+		default:break;
+		}
+	}
 	public void setTowerProperties(int id, int cost, int ammunition, int range,
 			String type, int rateOfFire, String path, int damageToCritters, int level) {
 		this.id = id;
@@ -177,18 +188,19 @@ public abstract class Tower extends JButton{
 				
 				
 			}
-			if(Screen.attackStrategy == Screen.RANDOMCRITTER){
+			
+			if(attackStrategy == Screen.RANDOMCRITTER){
 				towerFire.setFireStrategy(new RandomFire());
 				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos);
-			} else if(Screen.attackStrategy == Screen.STRONGESTCRITTER){
+			} else if(attackStrategy == Screen.STRONGESTCRITTER){
 				System.out.println("Strongest Strategy");
 				towerFire.setFireStrategy(new StrongestCritter());
 				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos);
-			} else if(Screen.attackStrategy == Screen.WEAKESTCRITTER){
+			} else if(attackStrategy == Screen.WEAKESTCRITTER){
 				towerFire.setFireStrategy(new WeakestCritter());
 				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos);
 				
-			} else if(Screen.attackStrategy == Screen.NEARESTTOTOWERCRITTER){
+			} else if(attackStrategy == Screen.NEARESTTOTOWERCRITTER){
 				towerFire.setFireStrategy(new NearToTower());
 				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos);
 			}
@@ -264,6 +276,10 @@ public abstract class Tower extends JButton{
 
 	public void setTargetCritter(Critter targetCritter) {
 		this.targetCritter = targetCritter;
+	}
+	
+	public String getTowerStrategy(){
+		return strategyName;
 	}
 
 }

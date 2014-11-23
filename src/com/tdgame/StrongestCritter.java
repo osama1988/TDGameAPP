@@ -12,7 +12,7 @@ public class StrongestCritter implements TowerFireStrategy {
 		for(int i=0; i<blackListedCritters.length; i++){
 			if(blackListedCritters[i] != null && blackListedCritters[i].inGame){
 				totalTargetEnemies++;
-				if(blackListedCritters[i].health > maxHealth){
+				if(blackListedCritters[i].health >= maxHealth){
 					maxHealth = blackListedCritters[i].health;
 					indexOfCritterWithMaxHealth = i;
 				}

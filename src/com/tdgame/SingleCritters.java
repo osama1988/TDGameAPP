@@ -21,7 +21,7 @@ public class SingleCritters implements CritterStrategy{
 		{	
 			int random = new Random().nextInt(100);
 			//Critter(			       	 imgWidth,  imgHeight, imgX, imgY, rectX, rectY, healthSpace)
-			Screen.critters[i] = new Critter(50,      50,       25,   0,    -15,   -60,   12, 100);
+			Screen.critters[i] = new Critter(50,      50,       25,   0,    -15,   -60,   12, 40);
 			Screen.critters2[i] = new Critter(50,     50,       10,  -15,     0,   -20,   0, random);
 			
 		}

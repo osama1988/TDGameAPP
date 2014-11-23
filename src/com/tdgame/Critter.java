@@ -64,7 +64,7 @@ public class Critter extends Rectangle {
 		this.rectangleY = rectY;
 		this.healthBarSpace = healthSpace;
 		this.health = health;
-		this.originalHealth = health;
+		this.originalHealth = 100;
 		this.damageTime = 0;
 	}
 	public Critter(){

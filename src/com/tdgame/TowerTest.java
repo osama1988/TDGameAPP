@@ -74,7 +74,7 @@ public class TowerTest {
 		bomber.critterRadius = 5;
 		bomber.sqOfDistanceOfCritterFromTower = 10;
 		bomber.dradius =2;
-		Screen.attackStrategy = 3;
+		bomber.attackStrategy = 3;
 		
 		Critter[] critters = {critter1, critter2};
 		critter1.inGame = true;
@@ -93,7 +93,7 @@ public class TowerTest {
 		bomber.critterRadius = 5;
 		bomber.sqOfDistanceOfCritterFromTower = 10;
 		bomber.dradius =2;
-		Screen.attackStrategy = 4;
+		bomber.attackStrategy = 4;
 		
 		Critter[] critters = {critter1, critter2};
 		critter1.inGame = true;
@@ -111,7 +111,7 @@ public class TowerTest {
 		bomber.critterRadius = 5;
 		bomber.sqOfDistanceOfCritterFromTower = 10;
 		bomber.dradius =2;
-		Screen.attackStrategy = 1;
+		bomber.attackStrategy = 1;
 		
 		Critter[] critters = {critter1, critter2};
 		critter1.inGame = true;
