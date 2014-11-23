@@ -25,8 +25,12 @@ public abstract class Tower extends JButton{
 	public int xPosInTowerMap=0;
 	public int yPosInTowerMap=0;
 	public int actualAmmunition=0;
-	
-
+	public int critterRadius = 0;
+	Critter[] blackListedCritters = null;
+	public int towerRadius = 0;
+	public double sqOfDistanceOfCritterFromTower;
+	public int totalTargetEnemies;
+	public double minDistance;
 	void fire() {
 	}
 
@@ -119,6 +123,7 @@ public abstract class Tower extends JButton{
 
 	public int maxAttackTime = 200;
 	public int maxAttackDelay = 500;
+	int dradius =0;
 
 	public Critter targetCritter;
 
@@ -126,13 +131,16 @@ public abstract class Tower extends JButton{
 	public Critter findTargetCritter(Critter[] critters, int towerXPos, int towerYPos) {
 		if(critters!=null){
 			System.out.println("In findTargetCritters...\ncritters!=null\t" + (critters!=null));
-			Critter[] blackListedCritters = new Critter[critters.length];
-			int towerRadius = this.range;
+			blackListedCritters = new Critter[critters.length];
+			System.out.println("After BlackListedCritters");
+			towerRadius = this.range;
 			double critterXPos = 0;
 			double critterYPos = 0;
-			int critterRadius = 0;
 			for(int i=0; i<critters.length; i++){
-				if(critters[i] != null){
+				System.out.println(critters[i]);
+				if(critters[i] != null)
+				{
+					System.out.println("inside if");
 					critterXPos = critters[i].x;
 					critterYPos = critters[i].y;
 					System.out.println("CritterX\tCritterY\n" + critterXPos + "\t" + critterYPos);
@@ -142,13 +150,14 @@ public abstract class Tower extends JButton{
 					
 					System.out.println("Critter distanceX\tdistanceX\n" + dx + "\t" + dy);
 					
-					int dradius = towerRadius + critterRadius;
+					dradius = towerRadius + critterRadius;
 					
 					System.out.println("radius (towerRadius - critterRadius)\n" + towerRadius + " + " + critterRadius + " = " + (towerRadius + critterRadius));
 					System.out.println("enemy at index\t" + i);
 					//int tempmayur=critters[i].x-(towerXPos*50)-50;
 					//if(tempmayur< 50){
-					double sqOfDistanceOfCritterFromTower = (dx*dx) + (dy*dy);
+					sqOfDistanceOfCritterFromTower = (dx*dx) + (dy*dy);
+					System.out.println("OSAMA OSAMA OSAMA" + sqOfDistanceOfCritterFromTower);
 					if(sqOfDistanceOfCritterFromTower < (dradius * dradius)){
 						System.out.println(i + "in range...adding to eInRange list");
 						blackListedCritters[i] = critters[i];
@@ -168,7 +177,7 @@ public abstract class Tower extends JButton{
 				
 			}
 			if(Screen.attackStrategy == Screen.RANDOMCRITTER){
-				int totalTargetEnemies = 0;
+				totalTargetEnemies = 0;
 
 				for(int i=0; i<blackListedCritters.length; i++){
 					if(blackListedCritters[i] != null){
@@ -209,12 +218,17 @@ public abstract class Tower extends JButton{
 					}
 				}
 			} else if(Screen.attackStrategy == Screen.STRONGESTCRITTER){
-				int totalTargetEnemies = 0;
+				System.out.println("Strongest Strategy");
+				totalTargetEnemies = 0;
 				int indexOfCritterWithMaxHealth = 0;
 				int maxHealth = 0;
 				for(int i=0; i<blackListedCritters.length; i++){
-					if(blackListedCritters[i] != null && blackListedCritters[i].inGame){
+					
+					// ASK SUMEET blackListedCritters[i].inGame ???
+					if(blackListedCritters[i] != null &&  blackListedCritters[i].inGame){
+						System.out.println("After IF" + blackListedCritters[i].inGame);
 						totalTargetEnemies++;
+						System.out.println("OSAMA OSAMA OSAMA " + totalTargetEnemies);
 						if(blackListedCritters[i].health > maxHealth){
 							maxHealth = blackListedCritters[i].health;
 							indexOfCritterWithMaxHealth = i;
@@ -230,7 +244,10 @@ public abstract class Tower extends JButton{
 					blackListedCritters[indexOfCritterWithMaxHealth].towerX=towerXPos;
 					blackListedCritters[indexOfCritterWithMaxHealth].towerY=towerYPos;
 					blackListedCritters[indexOfCritterWithMaxHealth].towerFixed=true;
+					System.out.println("Returned");
+					System.out.println(blackListedCritters[indexOfCritterWithMaxHealth].health);
 					return blackListedCritters[indexOfCritterWithMaxHealth];
+					
 				}
 			} else if(Screen.attackStrategy == Screen.WEAKESTCRITTER){
 				
@@ -262,13 +279,14 @@ public abstract class Tower extends JButton{
 				
 				int totalTargetEnemies = 0;
 				int indexOfCritterWithMinDistanceFromTower = 0;
-				double minDistance = 999;
+				minDistance = 999;
 				
 				for(int i=0; i<blackListedCritters.length; i++){
 					if(blackListedCritters[i] != null && blackListedCritters[i].inGame){
 						totalTargetEnemies++;
 						if(blackListedCritters[i].distanceOfBlackListedCritter < minDistance){
 							minDistance = blackListedCritters[i].distanceOfBlackListedCritter;
+							System.out.println("Osama MIN DIST: " + minDistance);
 							indexOfCritterWithMinDistanceFromTower = i;
 						}
 					}
@@ -282,6 +300,7 @@ public abstract class Tower extends JButton{
 					blackListedCritters[indexOfCritterWithMinDistanceFromTower].towerX=towerXPos;
 					blackListedCritters[indexOfCritterWithMinDistanceFromTower].towerY=towerYPos;
 					blackListedCritters[indexOfCritterWithMinDistanceFromTower].towerFixed=true;
+					System.out.println(blackListedCritters[indexOfCritterWithMinDistanceFromTower].critterID);
 					return blackListedCritters[indexOfCritterWithMinDistanceFromTower];
 				}
 			}
