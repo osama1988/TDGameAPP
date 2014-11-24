@@ -8,5 +8,5 @@ import java.awt.Graphics;
  *
  */
 interface TowerFireStrategy {
-	Critter fire(Critter[] blackListedCritters, Critter targetCritter,int towerXPos, int towerYPos);
+	Critter fire(Critter[] blackListedCritters, Critter targetCritter,int towerXPos, int towerYPos, String type);
 }

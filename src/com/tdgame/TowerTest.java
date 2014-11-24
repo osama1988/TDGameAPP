@@ -40,8 +40,8 @@ public class TowerTest {
 		level_file.readAndLoadMap(filename, screen, "loadMap");
 		bomber = new Bomber();
 	    
-		critter1 = new Critter(40,      40,       25,   0,    -15,   -60,   12, 80);
-		critter2 = new Critter(50,      50,       25,   0,    -15,   -60,   12, 50);
+		critter1 = new Critter(40,      40,       25,   0,    -15,   -60,   12, 80, 8);
+		critter2 = new Critter(50,      50,       25,   0,    -15,   -60,   12, 50, 8);
 		critter1.inGame = true;
 		critter2.inGame = true;
 	    

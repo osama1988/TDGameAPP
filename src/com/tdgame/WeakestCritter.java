@@ -5,7 +5,7 @@ public class WeakestCritter implements TowerFireStrategy {
 	
 	@Override
 	public Critter fire(Critter[] blackListedCritters, Critter targetCritter,
-			int towerXPos, int towerYPos) {
+			int towerXPos, int towerYPos, String type) {
 		// TODO Auto-generated method stub
 			int totalTargetEnemies = 0;
 			int indexOfCritterWithMinHealth = 0;
@@ -29,6 +29,10 @@ public class WeakestCritter implements TowerFireStrategy {
 				blackListedCritters[indexOfCritterWithMinHealth].towerX=towerXPos;
 				blackListedCritters[indexOfCritterWithMinHealth].towerY=towerYPos;
 				blackListedCritters[indexOfCritterWithMinHealth].towerFixed=true;
+				if (type.equals("Tank"))
+				{	
+					blackListedCritters[indexOfCritterWithMinHealth].slowdown=true;
+				}
 				return blackListedCritters[indexOfCritterWithMinHealth];
 			}
 			return null;

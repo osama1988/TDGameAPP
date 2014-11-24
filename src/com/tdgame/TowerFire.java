@@ -5,8 +5,8 @@ public class TowerFire {
 	public void setFireStrategy(TowerFireStrategy strategy){
 		this.strategy=strategy;
 	}
-	public Critter fire(Critter[] blackListedCritters, Critter targetCritter,int towerXPos, int towerYPos){
-		return this.strategy.fire(blackListedCritters,targetCritter,towerXPos,towerYPos);
+	public Critter fire(Critter[] blackListedCritters, Critter targetCritter,int towerXPos, int towerYPos, String type){
+		return this.strategy.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
 	}
 
 }

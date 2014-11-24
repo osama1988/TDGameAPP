@@ -169,7 +169,7 @@ public abstract class Tower extends JButton{
 					//int tempmayur=critters[i].x-(towerXPos*50)-50;
 					//if(tempmayur< 50){
 					sqOfDistanceOfCritterFromTower = (dx*dx) + (dy*dy);
-					System.out.println("OSAMA OSAMA OSAMA" + sqOfDistanceOfCritterFromTower);
+//					System.out.println("OSAMA OSAMA OSAMA" + sqOfDistanceOfCritterFromTower);
 					if(sqOfDistanceOfCritterFromTower < (dradius * dradius)){
 						System.out.println(i + "in range...adding to eInRange list");
 						blackListedCritters[i] = critters[i];
@@ -191,18 +191,18 @@ public abstract class Tower extends JButton{
 			
 			if(attackStrategy == Screen.RANDOMCRITTER){
 				towerFire.setFireStrategy(new RandomFire());
-				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos);
+				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
 			} else if(attackStrategy == Screen.STRONGESTCRITTER){
 				System.out.println("Strongest Strategy");
 				towerFire.setFireStrategy(new StrongestCritter());
-				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos);
+				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
 			} else if(attackStrategy == Screen.WEAKESTCRITTER){
 				towerFire.setFireStrategy(new WeakestCritter());
-				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos);
+				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
 				
 			} else if(attackStrategy == Screen.NEARESTTOTOWERCRITTER){
 				towerFire.setFireStrategy(new NearToTower());
-				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos);
+				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
 			}
 		} else {
 			return null;

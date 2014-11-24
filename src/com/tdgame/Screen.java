@@ -75,7 +75,7 @@ public class Screen extends JPanel implements Runnable{
 	boolean allowCritters = false;
 	public static int noOfCritters = 8;
 	static String waveType="Single";
-	public static int critterSpeed = 8;
+	public static int critterSpeed = 7;
 
 	/* Tower Variables */
 	public Tower[][] towerMap;
@@ -472,7 +472,6 @@ public class Screen extends JPanel implements Runnable{
 				frame.add(addAmmunition);
 				addAmmunition.setBounds(this.frame.getWidth() - 4*(int)width , (int)(5.5*height), 3*(int)width, (int)(height/2));
 
-
 				//Increase Tower Level		
 				JButton increaseLevel = new JButton("Increase Level");
 				increaseLevel.addActionListener(new ActionListener() {
@@ -516,7 +515,6 @@ public class Screen extends JPanel implements Runnable{
 							critterWave.setStrategy(new DoubleCritters());
 							critterWave.startWave();
 						}
-
 					}
 				});
 				frame.add(sendCritters);
@@ -695,6 +693,14 @@ public class Screen extends JPanel implements Runnable{
 										g.drawLine((int)(critters[i].x)+50, (int)(critters[i].y)+25,(50 + (critters[i].towerX * 50) + (int)(50/2)), ((critters[i].towerY * 50) + (int)(50/2)));
 									}
 									critters[i].isHit=false;
+							//		critters[i].slowdown=false;
+									if (critters[i].slowdown)
+									{
+										if (critters[i].moveSpeed <= critterSpeed)
+										{	
+											critters[i].moveSpeed += 2;
+										}
+									}
 									//critters[i].towerFixed = false;
 								}
 								else
@@ -707,6 +713,7 @@ public class Screen extends JPanel implements Runnable{
 										}
 										
 									} else {
+										critters[i].moveSpeed = critterSpeed;
 										critters[i].draw(g,0);
 									}
 								}
@@ -822,6 +829,7 @@ public class Screen extends JPanel implements Runnable{
 		long lastFrame = System.currentTimeMillis();
 
 		int frames = 0;
+		int speed1, speed2;
 		running = true;
 		scene=0;	
 
@@ -836,17 +844,18 @@ public class Screen extends JPanel implements Runnable{
 					for(int i = 0;i < critters.length;i++)
 					{
 						if(critters[i] != null){
+							speed1 = critters[i].moveSpeed;
 							if(critters[i].inGame)
 							{
-								critters[i].physics((int)(((float)critterSpeed/2)*100)+50-(critterSpeed*3),(int) ((float)(2/10)*critterSpeed),(int) ((float)(49/10)*critterSpeed));
-							}//(int)(((float)critterSpeed/2)*100)+50-(critterSpeed*3)
+								critters[i].physics((int)(((float)speed1/2)*100)+50-(speed1*3),(int) ((float)(2/10)*speed1),(int) ((float)(49/10)*speed1));
+							}
 							if(waveType=="Double")
 							{
+								speed2 = critters2[i].moveSpeed;
 								if(critters2[i].inGame)
 								{
-									critters2[i].physics((int)(((float)critterSpeed/2)*100)+50,(int) ((float)(1/10)*critterSpeed),(int) ((float)(6/10)*critterSpeed));
+									critters2[i].physics((int)(((float)speed2/2)*100)+50,(int) ((float)(1/10)*speed2),(int) ((float)(6/10)*speed2));
 								}
-//								(int)(((float)critterSpeed/2)*100)
 							}
 						}
 					}

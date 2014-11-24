@@ -6,7 +6,7 @@ public class RandomFire implements TowerFireStrategy {
 
 	@Override
 	public Critter fire(Critter[] blackListedCritters,
-			Critter targetCritter, int towerXPos, int towerYPos) {
+			Critter targetCritter, int towerXPos, int towerYPos, String type) {
 		// TODO Auto-generated method stub
 		int totalTargetEnemies = 0;
 
@@ -33,6 +33,10 @@ public class RandomFire implements TowerFireStrategy {
 					blackListedCritters[noOfCritterssChecked].towerY=towerYPos;
 					blackListedCritters[noOfCritterssChecked].towerFixed=true;
 					blackListedCritters[noOfCritterssChecked].isHit=true;
+					if (type.equals("Tank"))
+					{	
+						blackListedCritters[noOfCritterssChecked].slowdown=true;
+					}
 					targetCritter = blackListedCritters[noOfCritterssChecked];
 					return blackListedCritters[noOfCritterssChecked];
 				}

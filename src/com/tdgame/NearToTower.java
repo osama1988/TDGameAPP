@@ -4,7 +4,7 @@ public class NearToTower implements TowerFireStrategy {
 
 	@Override
 	public Critter fire(Critter[] blackListedCritters,
-			Critter targetCritter, int towerXPos, int towerYPos) {
+			Critter targetCritter, int towerXPos, int towerYPos, String type) {
 		// TODO Auto-generated method stub
 		int totalTargetEnemies = 0;
 		int indexOfCritterWithMinDistanceFromTower = 0;
@@ -28,6 +28,11 @@ public class NearToTower implements TowerFireStrategy {
 			blackListedCritters[indexOfCritterWithMinDistanceFromTower].towerX=towerXPos;
 			blackListedCritters[indexOfCritterWithMinDistanceFromTower].towerY=towerYPos;
 			blackListedCritters[indexOfCritterWithMinDistanceFromTower].towerFixed=true;
+			if (type.equals("Tank"))
+			{	
+				blackListedCritters[indexOfCritterWithMinDistanceFromTower].slowdown=true;
+			}
+
 			return blackListedCritters[indexOfCritterWithMinDistanceFromTower];
 		}
 		return null;

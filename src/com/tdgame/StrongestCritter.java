@@ -4,7 +4,7 @@ public class StrongestCritter implements TowerFireStrategy {
 
 	@Override
 	public Critter fire(Critter[] blackListedCritters, Critter targetCritter,
-			int towerXPos, int towerYPos) {
+			int towerXPos, int towerYPos, String type) {
 		// TODO Auto-generated method stub
 		int totalTargetEnemies = 0;
 		int indexOfCritterWithMaxHealth = 0;
@@ -27,6 +27,11 @@ public class StrongestCritter implements TowerFireStrategy {
 			blackListedCritters[indexOfCritterWithMaxHealth].towerX=towerXPos;
 			blackListedCritters[indexOfCritterWithMaxHealth].towerY=towerYPos;
 			blackListedCritters[indexOfCritterWithMaxHealth].towerFixed=true;
+			if (type.equals("Tank"))
+			{	
+				blackListedCritters[indexOfCritterWithMaxHealth].slowdown=true;
+			}
+
 			return blackListedCritters[indexOfCritterWithMaxHealth];
 		}
 		return null;

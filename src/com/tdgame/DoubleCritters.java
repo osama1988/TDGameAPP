@@ -24,8 +24,8 @@ public class DoubleCritters implements CritterStrategy {
 		{
 			int random = new Random().nextInt(100);
 			//Critter(			       	 imgWidth,  imgHeight, imgX, imgY, rectX, rectY, healthSpace, randomHealth)
-			Screen.critters[i] = new Critter(50,      50,       25,   0,    -15,   -60,   12,         random);
-			Screen.critters2[i] = new Critter(50,     50,       10,  -15,     0,   -20,   0,          random);
+			Screen.critters[i] = new Critter(50,      50,       25,   0,    -15,   -60,   12,         random, Screen.critterSpeed);
+			Screen.critters2[i] = new Critter(50,     50,       10,  -15,     0,   -20,   0,          random, Screen.critterSpeed);
 		}
 		if(Screen.isFirst)
 			Screen.crittersImgs[0] = new ImageIcon("../res/critter.gif").getImage();

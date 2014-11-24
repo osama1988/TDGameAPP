@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 /**
  * This class has functionality to draw and manage movement of critters on screen according to path saved in map array.
@@ -41,8 +42,11 @@ public class Critter extends Rectangle {
 	int towerY;
 	boolean towerFixed;
 	boolean isHit;
+	boolean slowdown = false;
 	int damageTime;
 	public double distanceOfBlackListedCritter=999.00;
+	JLabel testlabel;
+	int moveFrame = 0, moveSpeed;
 
 	/** 
 	 * Constructor
@@ -54,7 +58,7 @@ public class Critter extends Rectangle {
 	 * @param rectY Adjusts initial Y position of rectangle which contains image of critter
 	 * @param healthSpace Adjusts Y position of health bar displayed over critter
 	 */
-	public Critter(int imgWidth, int imgHeight, int imgX, int imgY, int rectX, int rectY, int healthSpace, int health)
+	public Critter(int imgWidth, int imgHeight, int imgX, int imgY, int rectX, int rectY, int healthSpace, int health, int speed)
 	{
 		this.imageHeight = imgHeight;
 		this.imageWidth = imgWidth;
@@ -66,6 +70,7 @@ public class Critter extends Rectangle {
 		this.health = health;
 		this.originalHealth = 100;
 		this.damageTime = 0;
+		this.moveSpeed = speed;
 	}
 	public Critter(){
 
@@ -101,8 +106,6 @@ public class Critter extends Rectangle {
 		}
 	}
 
-	int moveFrame = 0, moveSpeed = Screen.critterSpeed;
-	int prevdir;
 	/**
 	 * It keep on checking map array and changes direction of critters accordingly
 	 * @param initialDelay
@@ -194,9 +197,6 @@ public class Critter extends Rectangle {
 
 				Screen.isFirst=true;
 				crittersExited=0;
-
-
-
 				JOptionPane.showMessageDialog(null,"Game Over");
 			}
 		}
@@ -206,11 +206,13 @@ public class Critter extends Rectangle {
 
 	public void moveFwd() {
 
-		// The first check is to produce delay
+		if(damageTime > 0){
+			damageTime--;
+		}
+		
 		if (moveFrame >= moveSpeed) {
-			if(damageTime > 0){
-				damageTime--;
-			}
+			
+			
 			if (direction == right)
 				x += 1;
 			else if (direction == left)
