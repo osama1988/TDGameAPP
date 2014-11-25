@@ -92,6 +92,53 @@ public class SaveXML {
 						
 						tile.setAttributeNode(attribute);
 						
+						// logic for saving state
+						if(Screen.towerMap != null && null != Screen.towerMap[i][j]) {
+							
+							Tower towerOnMapBtn=Screen.towerMap[i][j];	
+							
+							attribute = document.createAttribute("tower");
+							attribute.setValue(towerOnMapBtn.getType());
+							tile.setAttributeNode(attribute);
+							
+							attribute = document.createAttribute("ammunition");
+							attribute.setValue(towerOnMapBtn.getAmmunition()+"");
+							tile.setAttributeNode(attribute);
+							
+							attribute = document.createAttribute("range");
+							attribute.setValue(towerOnMapBtn.getRange()+"");
+							tile.setAttributeNode(attribute);
+							
+							attribute = document.createAttribute("cost");
+							attribute.setValue(towerOnMapBtn.getCost()+"");
+							tile.setAttributeNode(attribute);
+							
+							attribute = document.createAttribute("rateOfFire");
+							attribute.setValue(towerOnMapBtn.getRateOfFire()+"");
+							tile.setAttributeNode(attribute);
+							
+							attribute = document.createAttribute("refundRate");
+							attribute.setValue(towerOnMapBtn.getRefundRate()+"");
+							tile.setAttributeNode(attribute);
+							
+							attribute = document.createAttribute("costToAddAmmunition");
+							attribute.setValue(towerOnMapBtn.getCostToAddAmmunition()+"");
+							tile.setAttributeNode(attribute);
+							
+							attribute = document.createAttribute("towerLevel");
+							attribute.setValue(towerOnMapBtn.getTowerLevel()+"");
+							tile.setAttributeNode(attribute);
+							
+							attribute = document.createAttribute("towerStrategy");
+							attribute.setValue(towerOnMapBtn.getTowerStrategy()+"");
+							tile.setAttributeNode(attribute);
+							
+							
+						}
+//						attribute = document.createAttribute("tower");
+						
+						
+						
 						break;
 					}
 				}

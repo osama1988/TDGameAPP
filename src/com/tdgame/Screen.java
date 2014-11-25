@@ -78,7 +78,7 @@ public class Screen extends JPanel implements Runnable{
 	public static int critterSpeed = 7;
 
 	/* Tower Variables */
-	public Tower[][] towerMap;
+	static public Tower[][] towerMap;
 	public int towerWidth = 50;
 	public int towerHeight = 50;
 	static Tower selectedTower;
@@ -205,7 +205,7 @@ public class Screen extends JPanel implements Runnable{
 
 			addingMouseListener(typeOfOperation);			
 
-			towerMap = new Tower[valueOfX][valueOfY];
+//			towerMap = new Tower[valueOfX][valueOfY];
 
 			loadGame();
 
@@ -255,7 +255,7 @@ public class Screen extends JPanel implements Runnable{
 			addingMouseListener(typeOfOperation);			
 
 			loadGame();
-			towerMap=null;
+//			towerMap=null;
 			towerMap = new Tower[valueOfX][valueOfY];	
 			frame.getContentPane().validate();
 			startGame(newFileName, typeOfOperation, user);
@@ -1004,6 +1004,8 @@ public class Screen extends JPanel implements Runnable{
 					}else{
 						user.player.money -= inHandTower.getCost();
 						towerMap[xPos][yPos] =TowerFactory.getTower(new_towerText);
+//						System.out.println(xPos+" " +yPos);
+//						System.exit(0);
 						towerMap[xPos][yPos].setPosition(xPos, yPos);
 						//towerMap[xPos][yPos].addListener(this);
 						//towerMap[xPos][yPos].setObserver(this);
@@ -1107,13 +1109,18 @@ public class Screen extends JPanel implements Runnable{
 			if(userReply == JOptionPane.YES_OPTION) {
 
 				try {
-					saveMap();
+					try {
+						saveMap();
+					} catch (FileNotFoundException e) {
+
+						e.printStackTrace();
+					}
 					instructions = "Map Saved..!!";
 					typeOfOperation = "saveMap";
 					return "YES";
-				} catch (Exception e) {
-
-					System.exit(0);
+				} catch (NullPointerException e) {
+					e.getStackTrace();
+//					System.exit(0);
 				}
 			}
 			else {
