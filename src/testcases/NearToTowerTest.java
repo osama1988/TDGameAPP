@@ -1,9 +1,11 @@
-package com.tdgame;
+package testcases;
 
 import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
+import com.tdgame.NearToTower;
+import com.tdgame.Critter;
+
 
 public class NearToTowerTest {
 

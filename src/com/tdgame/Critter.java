@@ -44,8 +44,8 @@ public class Critter extends Rectangle {
 	public int towerY;
 	boolean towerFixed;
 	boolean isHit;
-	boolean showFire = false;
-	boolean slowdown = false;
+	public boolean showFire = false;
+	public boolean slowdown = false;
 	int damageTime;
 	public double distanceOfBlackListedCritter=999.00;
 	JLabel testlabel;
