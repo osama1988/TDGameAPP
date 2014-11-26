@@ -343,7 +343,15 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
 			}
 		}
 		else {
-			JOptionPane.showMessageDialog(null, "You can only use this option when creating or editing a map");
+//			JOptionPane.showMessageDialog(null, "You can only use this option when creating or editing a map");
+			String userReply = mouseHeld.pathCompleted(screen);
+			
+			if(userReply.equalsIgnoreCase("YES")) {
+				mapCompleted  = true;
+			}
+			else {
+				rightClick = true;
+			}
 		}		
 	}
 
