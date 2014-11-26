@@ -42,6 +42,7 @@ public class Critter extends Rectangle {
 	int towerY;
 	boolean towerFixed;
 	boolean isHit;
+	boolean showFire = false;
 	boolean slowdown = false;
 	int damageTime;
 	public double distanceOfBlackListedCritter=999.00;

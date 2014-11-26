@@ -677,7 +677,11 @@ public class Screen extends JPanel implements Runnable{
 							{
 								
 								if(critters[i].towerFixed){
-									critters[i].draw(g,1);
+									if (critters[i].showFire)
+										critters[i].draw(g, 1);
+									else
+										critters[i].draw(g, 0);
+								//	critters[i].draw(g,0);
 								//	System.out.println("critter found for tower at\nX\tY\n" + x + "\t" + y);
 								//	System.out.println("Draw line from\n" + (50 + (x * 50) + (int)(50/2)) + "," + (50 + (y * 50) + (int)(50/2)) + "\tto " + (int)(towerMap[x][y].getTargetCritter().x) + "," + (int)(towerMap[x][y].getTargetCritter().y));
 									System.out.println((int)(critters[i].x+critters[i].adjustX)+"\t"+(int)(critters[i].y+critters[i].adjustY)+"\t"+(50 + (critters[i].towerX * 50) + (int)(50/2))+"\t"+(50 + (critters[i].towerY * 50) + (int)(50/2) - 50));
@@ -707,7 +711,7 @@ public class Screen extends JPanel implements Runnable{
 								else
 								{
 									if(critters[i].damageTime > 0){
-										if(!critters[i].isHit){
+										if(critters[i].showFire){
 											critters[i].draw(g, 1);
 										} else {
 											critters[i].draw(g, 0);
@@ -844,16 +848,16 @@ public class Screen extends JPanel implements Runnable{
 					for(int i = 0;i < critters.length;i++)
 					{
 						if(critters[i] != null){
-							speed1 = critters[i].moveSpeed;
 							if(critters[i].inGame)
 							{
+								speed1 = critters[i].moveSpeed;
 								critters[i].physics((int)(((float)speed1/2)*100)+50-(speed1*3),(int) ((float)(2/10)*speed1),(int) ((float)(49/10)*speed1));
 							}
 							if(waveType=="Double")
 							{
-								speed2 = critters2[i].moveSpeed;
 								if(critters2[i].inGame)
 								{
+									speed2 = critters2[i].moveSpeed;
 									critters2[i].physics((int)(((float)speed2/2)*100)+50,(int) ((float)(1/10)*speed2),(int) ((float)(6/10)*speed2));
 								}
 							}
