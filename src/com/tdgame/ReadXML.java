@@ -132,6 +132,7 @@ public class ReadXML {
 	public void loadXML() {
 		Node tile;
 		int x, y, value, position;
+		Tower towerObjAfterLoading; 
 		MouseHandler.hashMap_of_pathIndex_with_position = new TreeMap<Integer, String>(); 
 		
 		try {
@@ -144,6 +145,16 @@ public class ReadXML {
 			Document doc = documentBuilder.parse(xmlFile);
 
 			doc.getDocumentElement().normalize();
+			
+			NodeList mapList = doc.getElementsByTagName("Map");			
+			Node userMoney = mapList.item(0);
+			Element moneyElement = (Element) userMoney;
+			
+			if(moneyElement != null && moneyElement.getAttribute("userMoney") != "")
+			{
+				Screen.user.player.money = Integer.parseInt(moneyElement.getAttribute("userMoney"));
+			}
+			
 			NodeList nodeList = doc.getElementsByTagName("Row");
 
 			for (int row = 0; row < nodeList.getLength(); row++) {
@@ -168,9 +179,26 @@ public class ReadXML {
 							MouseHandler.largestPositionValue_inMap = position;
 						}
 						
+						if(col.getAttribute("tower") != null && col.getAttribute("tower") != "" && !col.getAttribute("tower").isEmpty()) {
+							Screen.towerMap[y][row]=TowerFactory.getTower(col.getAttribute("tower"));
+							System.out.println(col.getAttribute("tower"));
+							towerObjAfterLoading = Screen.towerMap[y][row];		
+							
+							towerObjAfterLoading.ammunition=Integer.parseInt(col.getAttribute("ammunition"));
+//							towerObjAfterLoading.actualAmmunition=Integer.parseInt(col.getAttribute("ammunition"));
+//							towerObjAfterLoading.cost = Integer.parseInt(col.getAttribute("cost"));
+							towerObjAfterLoading.range = Integer.parseInt(col.getAttribute("range"));
+//							towerObjAfterLoading.type=col.getAttribute("tower");
+//							towerObjAfterLoading.refundRate=Integer.parseInt(col.getAttribute("refundRate"));
+							towerObjAfterLoading.rateOfFire=Integer.parseInt(col.getAttribute("rateOfFire"));
+//							towerObjAfterLoading.costToAddAmmunition=Integer.parseInt(col.getAttribute("costToAddAmmunition"));
+							towerObjAfterLoading.level=Integer.parseInt(col.getAttribute("towerLevel"));
+							towerObjAfterLoading.setTowerStrategy(col.getAttribute("towerStrategy"));
+							
+						}		
 						
 												
-						screen.map[y][row] = value;
+						Screen.map[y][row] = value;
 						
 						//setting 1 for the start point
 						if(value == 1) { 

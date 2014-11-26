@@ -33,7 +33,7 @@ public abstract class Tower extends JButton{
 	public double minDistance;
 	public int attackStrategy=5;
 	public String strategyName="Random";
-//	TowerFire towerFire=new TowerFire();
+	TowerFire towerFire=new TowerFire();
 	void fire() {
 	}
 
@@ -189,25 +189,25 @@ public abstract class Tower extends JButton{
 				
 			}
 			
-//			if(attackStrategy == Screen.RANDOMCRITTER){
-//				towerFire.setFireStrategy(new RandomFire());
-//				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
-//			} else if(attackStrategy == Screen.STRONGESTCRITTER){
-//				System.out.println("Strongest Strategy");
-//				towerFire.setFireStrategy(new StrongestCritter());
-//				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
-//			} else if(attackStrategy == Screen.WEAKESTCRITTER){
-//				towerFire.setFireStrategy(new WeakestCritter());
-//				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
-//				
-//			} else if(attackStrategy == Screen.NEARESTTOTOWERCRITTER){
-//				towerFire.setFireStrategy(new NearToTower());
-//				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
-//			}
-//		} else {
-//			return null;
-//		}
+			if(attackStrategy == Screen.RANDOMCRITTER){
+				towerFire.setFireStrategy(new RandomFire());
+				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
+			} else if(attackStrategy == Screen.STRONGESTCRITTER){
+				System.out.println("Strongest Strategy");
+				towerFire.setFireStrategy(new StrongestCritter());
+				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
+			} else if(attackStrategy == Screen.WEAKESTCRITTER){
+				towerFire.setFireStrategy(new WeakestCritter());
+				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
+				
+			} else if(attackStrategy == Screen.NEARESTTOTOWERCRITTER){
+				towerFire.setFireStrategy(new NearToTower());
+				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
+			}
+		} else {
+			return null;
 		}
+		
 		return null;
 	}
 	/*@Override
@@ -277,6 +277,33 @@ public abstract class Tower extends JButton{
 
 	public void setTargetCritter(Critter targetCritter) {
 		this.targetCritter = targetCritter;
+	}
+	
+	// method added by sumeet
+	public void setTowerStrategy(String strategy) {
+		switch (strategy)
+		{
+			case "NEARESTTOTOWERCRITTER":
+				this.attackStrategy = 1;
+				this.strategyName = "NEARESTTOTOWERCRITTER";
+				break;
+			case "NEARESTTOENDPOINTCRITTER": 
+				this.attackStrategy = 2;	
+				this.strategyName = "NEARESTTOENDPOINTCRITTER";
+				break;//nearest critter to the end point
+			case "STRONGESTCRITTER":
+				this.attackStrategy = 3; 
+				this.strategyName="STRONGESTCRITTER";
+				break;//Critter with max health------ missile & tank
+			case "WEAKESTCRITTER":
+				this.attackStrategy = 4;
+				this.strategyName = "WEAKESTCRITTER";
+				break;//Critter with min health ----- laser & fire
+			case "RANDOMCRITTER":
+				this.attackStrategy = 5;
+				this.strategyName = "RANDOMCRITTER";
+				break;
+		}
 	}
 	
 	public String getTowerStrategy(){

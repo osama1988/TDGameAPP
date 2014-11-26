@@ -623,7 +623,8 @@ public class Screen extends JPanel implements Runnable{
 				for(int x=0; x<valueOfX; x++){
 					for(int y=0; y<valueOfY; y++){
 						if(towerMap[x][y] != null){
-							final Tower towerOnMapBtn=towerMap[x][y];
+							//final 
+							Tower towerOnMapBtn=towerMap[x][y];
 							this.add((Component) towerOnMapBtn);
 							((AbstractButton) towerOnMapBtn).addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
@@ -835,7 +836,6 @@ public class Screen extends JPanel implements Runnable{
 
 		// the map grid would be refreshed every 2 ms so that we don't get the flickering effect
 		while(running) {
-			
 			frames++;
 			if(!isFirst)
 			{

@@ -47,8 +47,12 @@ public class SaveXML {
 			// define root elements
 			Document document = documentBuilder.newDocument();
 			Element rootElement = document.createElement("Map");
-			document.appendChild(rootElement);
+			Attr attribute = document.createAttribute("userMoney");
+			attribute.setValue(screen.user.player.money+"");
+			rootElement.setAttributeNode(attribute);
 			
+			document.appendChild(rootElement);
+						
 			for(int k=0; k < this.screen.map[0].length; k++) {
 				// define row elements
 				Element row = document.createElement("Row");
@@ -64,7 +68,7 @@ public class SaveXML {
 						row.appendChild(tile);
 						
 						// add attributes to tile											
-						Attr attribute = document.createAttribute("x");
+						attribute = document.createAttribute("x");
 						attribute.setValue(j+"");
 						tile.setAttributeNode(attribute);
 						
