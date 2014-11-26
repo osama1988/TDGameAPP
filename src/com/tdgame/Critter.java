@@ -21,25 +21,27 @@ public class Critter extends Rectangle {
 	public int movement = 0;
 	public int upward = 0, downward = 1, right = 2, left = 3;
 	public int direction;
-	int row = 0, col = 0;
-	boolean hasUpward = false;
-	boolean hasDownward = false;
-	boolean hasLeft = false;
-	boolean hasRight = false;
+	public int row = 0;
+	public int col = 0;
+	public boolean hasUpward = false;
+	public boolean hasDownward = false;
+	public boolean hasLeft = false;
+	public boolean hasRight = false;
 	int nextDelay = 0;
-	int imageWidth;
-	int imageHeight;
-	int adjustX;
-	int adjustY;
-	int rectangleX , rectangleY;
+	public int imageWidth;
+	public int imageHeight;
+	public int adjustX;
+	public int adjustY;
+	public int rectangleX;
+	public int rectangleY;
 	static int crittersExited=0;
 	int atTime = 1;
-	int health;
+	public int health;
 	int healthheight = 3;
 	public int originalHealth;
-	int healthBarSpace;
-	int towerX;
-	int towerY;
+	public int healthBarSpace;
+	public int towerX;
+	public int towerY;
 	boolean towerFixed;
 	boolean isHit;
 	boolean showFire = false;
@@ -47,7 +49,8 @@ public class Critter extends Rectangle {
 	int damageTime;
 	public double distanceOfBlackListedCritter=999.00;
 	JLabel testlabel;
-	int moveFrame = 0, moveSpeed;
+	public int moveFrame = 0;
+	public int moveSpeed;
 
 	/** 
 	 * Constructor

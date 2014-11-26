@@ -1,4 +1,4 @@
-package com.tdgame;
+package testcases;
 
 
 import org.junit.runners.Suite;

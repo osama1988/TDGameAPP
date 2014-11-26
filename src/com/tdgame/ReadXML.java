@@ -29,6 +29,7 @@ public class ReadXML {
 	String fileName="";
 	
 	//String pathForTesting="D:/Java/TDGameAPP/level/";
+//	String pathForTesting = "/Users/osamayawar/Desktop/eclipse/wordspace/TDGameAPP/level/"; //Added for MAC by Osama
 	String pathForTesting="../level/";
 	public ReadXML(){}
 		

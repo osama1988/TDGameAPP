@@ -1,10 +1,14 @@
-package com.tdgame;
+package testcases;
 
 import static org.junit.Assert.*;
 
 import javax.swing.JTextField;
 
 import org.junit.Test;
+
+import com.tdgame.Frame;
+import com.tdgame.ReadXML;
+import com.tdgame.Screen;
 
 public class ReadXMLTest {
 

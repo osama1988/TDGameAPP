@@ -1,9 +1,15 @@
-package com.tdgame;
+package testcases;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.tdgame.Critter;
+import com.tdgame.Frame;
+import com.tdgame.LevelFile;
+import com.tdgame.ReadXML;
+import com.tdgame.Screen;
 
 public class CritterTest {
 

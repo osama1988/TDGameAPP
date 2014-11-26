@@ -41,6 +41,7 @@ public class Screen extends JPanel implements Runnable{
 
 	/* Common variables */
 	//String pathForTesting="D:/Java/TDGameAPP/level/";
+//	String pathForTesting = "/Users/osamayawar/Desktop/eclipse/wordspace/TDGameAPP/level/"; //Path for testing on MAC by Osama
 	String pathForTesting="../level/";
 	Frame frame;
 	LevelFile levelFile;
@@ -62,8 +63,8 @@ public class Screen extends JPanel implements Runnable{
 	static String newFileName;	
 	static int valueOfX;
 	static int valueOfY;
-	static double width;
-	static double height;	
+	public static double width;
+	public static double height;	
 	String towerImgPath;
 
 	/* Critter Variables */
@@ -624,7 +625,7 @@ public class Screen extends JPanel implements Runnable{
 					for(int y=0; y<valueOfY; y++){
 						if(towerMap[x][y] != null){
 							//final 
-							Tower towerOnMapBtn=towerMap[x][y];
+							final Tower towerOnMapBtn=towerMap[x][y];
 							this.add((Component) towerOnMapBtn);
 							((AbstractButton) towerOnMapBtn).addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {

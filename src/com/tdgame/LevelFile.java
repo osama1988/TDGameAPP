@@ -18,7 +18,7 @@ public class LevelFile {
 	int valueX;
 	int valueY;
 	
-	LevelFile(int x, int y) {
+	public LevelFile(int x, int y) {
 		this.valueX = x;
 		this.valueY = y;
 	}

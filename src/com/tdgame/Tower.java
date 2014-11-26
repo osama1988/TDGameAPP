@@ -26,7 +26,7 @@ public abstract class Tower extends JButton{
 	public int yPosInTowerMap=0;
 	public int actualAmmunition=0;
 	public int critterRadius = 0;
-	Critter[] blackListedCritters = null;
+	public Critter[] blackListedCritters = null;
 	public int towerRadius = 0;
 	public double sqOfDistanceOfCritterFromTower;
 	public int totalTargetEnemies;
@@ -135,7 +135,7 @@ public abstract class Tower extends JButton{
 
 	public int maxAttackTime = 200;
 	public int maxAttackDelay = 500;
-	int dradius =0;
+	public int dradius =0;
 
 	public Critter targetCritter;
 

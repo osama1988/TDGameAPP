@@ -32,6 +32,7 @@ public class ActionHandler extends JDialog implements ActionListener, MouseMotio
 
 	/* Common variables */
 	//String pathForTesting="D:/Java/TDGameAPP/level/";
+	//String pathForTesting = "/Users/osamayawar/Desktop/eclipse/wordspace/TDGameAPP/level/";
 	String pathForTesting="../level/";
 	Screen screen;
 	Frame frame;
@@ -215,6 +216,7 @@ public class ActionHandler extends JDialog implements ActionListener, MouseMotio
 		if (input != null) {
 
 			return (input.toString()).split("\\\\")[2]; 
+//			return (input.toString()).split("\\")[8]; // Added by Osama for path separation in MAC
 		}    
 
 		return null;		   
