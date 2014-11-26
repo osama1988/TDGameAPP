@@ -94,7 +94,7 @@ public class TowerTest {
 	}
 	
 	/**
-	 * Checking for weakest strategy which should return critter with max health
+	 * Checking for weakest strategy which should return critter with min health
 	 */
 	@Test
 	public void weakestStrategy() {
@@ -112,10 +112,32 @@ public class TowerTest {
 	}
 	
 	/**
-	 * Checking for strongest strategy which should return critter with max health
+	 * Checking for near to Tower strategy which should return nearest critter to tower
 	 */
 	@Test
 	public void nearestToTower() {
+		bomber.range = 5;
+		bomber.critterRadius = 5;
+		bomber.sqOfDistanceOfCritterFromTower = 10;
+		bomber.dradius =2;
+		bomber.attackStrategy = 1;
+		
+		Critter[] critters = {critter1, critter2};
+		critter1.inGame = true;
+		critter2.inGame = true;
+		Critter critterobj = bomber.findTargetCritter(critters, 1, 1);
+		assertTrue(critter1.towerX == 1);
+		assertTrue(critter1.towerY == 1);
+		assertTrue(critter2.towerX == 0);
+		assertTrue(critter2.towerY == 0);
+		
+	}
+	
+	/**
+	 * Checking for near To End strategy which should return critter that is near to end
+	 */
+	@Test
+	public void nearToEnd() {
 		bomber.range = 5;
 		bomber.critterRadius = 5;
 		bomber.sqOfDistanceOfCritterFromTower = 10;
