@@ -33,7 +33,7 @@ public abstract class Tower extends JButton{
 	public double minDistance;
 	public int attackStrategy=5;
 	public String strategyName="Random";
-//	TowerFire towerFire=new TowerFire();
+	TowerFire towerFire=new TowerFire();
 	void fire() {
 	}
 
@@ -189,24 +189,24 @@ public abstract class Tower extends JButton{
 				
 			}
 			
-//			if(attackStrategy == Screen.RANDOMCRITTER){
-//				towerFire.setFireStrategy(new RandomFire());
-//				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
-//			} else if(attackStrategy == Screen.STRONGESTCRITTER){
-//				System.out.println("Strongest Strategy");
-//				towerFire.setFireStrategy(new StrongestCritter());
-//				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
-//			} else if(attackStrategy == Screen.WEAKESTCRITTER){
-//				towerFire.setFireStrategy(new WeakestCritter());
-//				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
-//				
-//			} else if(attackStrategy == Screen.NEARESTTOTOWERCRITTER){
-//				towerFire.setFireStrategy(new NearToTower());
-//				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
-//			}
-//		} else {
-//			return null;
-//		}
+			if(attackStrategy == Screen.RANDOMCRITTER){
+				towerFire.setFireStrategy(new RandomFire());
+				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
+			} else if(attackStrategy == Screen.STRONGESTCRITTER){
+				System.out.println("Strongest Strategy");
+				towerFire.setFireStrategy(new StrongestCritter());
+				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
+			} else if(attackStrategy == Screen.WEAKESTCRITTER){
+				towerFire.setFireStrategy(new WeakestCritter());
+				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
+				
+			} else if(attackStrategy == Screen.NEARESTTOTOWERCRITTER){
+				towerFire.setFireStrategy(new NearToTower());
+				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
+			}
+		} else {
+			return null;
+		
 		}
 		return null;
 	}
