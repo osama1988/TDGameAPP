@@ -32,6 +32,11 @@ public class NearToTower implements TowerFireStrategy {
 			{	
 				blackListedCritters[indexOfCritterWithMinDistanceFromTower].slowdown=true;
 			}
+			if (type.equals("Fire"))
+			{	
+				blackListedCritters[indexOfCritterWithMinDistanceFromTower].showFire=true;
+			}
+
 
 			return blackListedCritters[indexOfCritterWithMinDistanceFromTower];
 		}

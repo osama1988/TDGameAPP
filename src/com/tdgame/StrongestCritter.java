@@ -31,7 +31,10 @@ public class StrongestCritter implements TowerFireStrategy {
 			{	
 				blackListedCritters[indexOfCritterWithMaxHealth].slowdown=true;
 			}
-
+			if (type.equals("Fire"))
+			{	
+				blackListedCritters[indexOfCritterWithMaxHealth].showFire=true;
+			}
 			return blackListedCritters[indexOfCritterWithMaxHealth];
 		}
 		return null;

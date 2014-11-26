@@ -33,6 +33,10 @@ public class WeakestCritter implements TowerFireStrategy {
 				{	
 					blackListedCritters[indexOfCritterWithMinHealth].slowdown=true;
 				}
+				if (type.equals("Fire"))
+				{	
+					blackListedCritters[indexOfCritterWithMinHealth].showFire=true;
+				}
 				return blackListedCritters[indexOfCritterWithMinHealth];
 			}
 			return null;
