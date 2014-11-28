@@ -32,8 +32,8 @@ public class ActionHandler extends JDialog implements ActionListener, MouseMotio
 
 	/* Common variables */
 	//String pathForTesting="D:/Java/TDGameAPP/level/";
-	String pathForTesting = "/Users/osamayawar/Desktop/eclipse/wordspace/TDGameAPP/level/";
-//	String pathForTesting="../level/";
+	//String pathForTesting = "/Users/osamayawar/Desktop/eclipse/wordspace/TDGameAPP/level/";
+	String pathForTesting="../level/";
 	Screen screen;
 	Frame frame;
 	MouseEvent me;
