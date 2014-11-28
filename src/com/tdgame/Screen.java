@@ -74,7 +74,7 @@ public class Screen extends JPanel implements Runnable{
 	public static Critter[] critters2;
 	public static boolean isFirst = true;
 	boolean allowCritters = false;
-	public static int noOfCritters = 8;
+	public static int noOfCritters = 0;
 	static String waveType="Single";
 	public static int critterSpeed = 7;
 
@@ -169,6 +169,9 @@ public class Screen extends JPanel implements Runnable{
 	
 	
 	public static int findEnemyTestCount = 0;
+	public static boolean isWaveRunning=false;
+	
+	public static SaveXML saveLogXML = new SaveXML("Log");
 
 	// Screen constructor
 	public Screen(Frame frame) {
@@ -179,6 +182,8 @@ public class Screen extends JPanel implements Runnable{
 		critterWave=new CritterWave();
 		/* set the image */
 		image = new ImageIcon("../res/TowerDefense.png").getImage();
+		
+		
 
 	}	
 
@@ -439,7 +444,10 @@ public class Screen extends JPanel implements Runnable{
 
 						xPosInGridMap=location.x;
 						yPosInGridMap=location.y;
-
+						if(isWaveRunning)
+							saveLogXML.writeLog("Wave_Tower", selectedTower.type, "User sold "+selectedTower.type);
+						else
+							saveLogXML.writeLog("Tower", selectedTower.type, "User sold "+selectedTower.type);
 						frame.remove((Component) selectedTower);
 						frame.getContentPane().validate();
 					}
@@ -458,6 +466,10 @@ public class Screen extends JPanel implements Runnable{
 								user.player.money-=selectedTower.getCostToAddAmmunition();
 								selectedTower.increaseAmmunition(selectedTower.getActualAmmunition());
 								onMapTowerPropTbl.setValueAt(selectedTower.getAmmunition(), 1, 1);
+								if(isWaveRunning)
+									saveLogXML.writeLog("Wave_Tower", selectedTower.type, selectedTower.type+" ammunition increased by "+selectedTower.getActualAmmunition());
+								else
+									saveLogXML.writeLog("Tower", selectedTower.type, selectedTower.type+" ammunition increased by "+selectedTower.getActualAmmunition());
 							}
 							else {
 								Object[] options = { "OK" };
@@ -465,6 +477,10 @@ public class Screen extends JPanel implements Runnable{
 								JOptionPane.showOptionDialog(null, "Not Enough Money To Buy Ammunition!! You need "+neededMoney+" more dollar to add ammunition", "Warning",
 										JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 										null, options, options[0]);
+								if(isWaveRunning)
+									saveLogXML.writeLog("Wave_Tower", selectedTower.type, selectedTower.type+" ammunition increase failed due to insuffiecient fund");
+								else
+									saveLogXML.writeLog("Tower", selectedTower.type, selectedTower.type+" ammunition increase failed due to insuffiecient fund");
 							}
 						} catch (Exception e1) {
 						}
@@ -486,6 +502,10 @@ public class Screen extends JPanel implements Runnable{
 								onMapTowerPropTbl.setValueAt(selectedTower.getRange(), 2, 1);
 								onMapTowerPropTbl.setValueAt(selectedTower.getRateOfFire(), 4, 1);
 								onMapTowerPropTbl.setValueAt(selectedTower.getTowerLevel(), 7, 1);
+								if(isWaveRunning)
+									saveLogXML.writeLog("Wave_Tower", selectedTower.type, selectedTower.type+" tower level increased");
+								else
+									saveLogXML.writeLog("Tower", selectedTower.type, selectedTower.type+" tower level increased");
 							}
 							else {
 								Object[] options = { "OK" };
@@ -493,6 +513,10 @@ public class Screen extends JPanel implements Runnable{
 								JOptionPane.showOptionDialog(null, "Not Enough Money To Increase Level!! You need "+neededMoney+" more dollars", "Warning",
 										JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 										null, options, options[0]);
+								if(isWaveRunning)
+									saveLogXML.writeLog("Wave_Tower", selectedTower.type, selectedTower.type+" level increase failed due to insuffiecient fund");
+								else
+									saveLogXML.writeLog("Tower", selectedTower.type, selectedTower.type+" level increase failed due to insuffiecient fund");
 							}
 						} catch (Exception e1) {
 						}
@@ -507,7 +531,7 @@ public class Screen extends JPanel implements Runnable{
 					// On click generate more amount of new critters 
 					@Override
 					public void actionPerformed(ActionEvent e) {	
-
+						isWaveRunning=true;
 						if(waveType=="Single"){
 							critterWave.setStrategy(new SingleCritters());
 							critterWave.startWave();
@@ -516,6 +540,8 @@ public class Screen extends JPanel implements Runnable{
 							critterWave.setStrategy(new DoubleCritters());
 							critterWave.startWave();
 						}
+						saveLogXML.writeLog("Wave",waveType+" "+noOfCritters , waveType+" wave of "+noOfCritters+" critters started");
+						
 					}
 				});
 				frame.add(sendCritters);
@@ -537,7 +563,7 @@ public class Screen extends JPanel implements Runnable{
 
 
 				
-				//Radio buttons for tower attacking strategy
+				//buttons for tower attacking strategy
 				
 				nearestToTowerAttackStrategyButton = new JButton("Near To Tower");
 				nearestToTowerAttackStrategyButton.addActionListener(new ActionListener() {
@@ -547,17 +573,17 @@ public class Screen extends JPanel implements Runnable{
 						//attackStrategy = NEARESTTOTOWERCRITTER;
 						selectedTower.chngStrategy(NEARESTTOTOWERCRITTER);
 						onMapTowerPropTbl.setValueAt(selectedTower.getTowerStrategy(), 8, 1);
+						if(isWaveRunning)
+							saveLogXML.writeLog("Wave_Tower", selectedTower.type, selectedTower.type+" fire strategy changed to NEAREST TO TOWER");
+						else
+							saveLogXML.writeLog("Tower", selectedTower.type, selectedTower.type+" fire strategy changed to NEAREST TO TOWER");
 					}
+					
 				});
+				
 				frame.add(nearestToTowerAttackStrategyButton);
 				nearestToTowerAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width , (int)(8.5*height), 125, 25);
-				/*if(attackStrategy == NEARESTTOTOWERCRITTER){
-					nearestToTowerAttackStrategyButton.setEnabled(false);
-					nearestToEndPointAttackStrategyButton.setEnabled(true);
-					weakestCritterAttackStrategyButton.setEnabled(true);
-					strongestCritterAttackStrategyButton.setEnabled(true);
-				}*/
-				
+			
 				
 				nearestToEndPointAttackStrategyButton = new JButton("Near To End Pt");
 				nearestToEndPointAttackStrategyButton.addActionListener(new ActionListener() {
@@ -567,16 +593,14 @@ public class Screen extends JPanel implements Runnable{
 						//attackStrategy = NEARESTTOENDPOINTCRITTER;
 						selectedTower.chngStrategy(NEARESTTOTOWERCRITTER);
 						onMapTowerPropTbl.setValueAt(selectedTower.getTowerStrategy(), 8, 1);
+						if(isWaveRunning)
+							saveLogXML.writeLog("Wave_Tower", selectedTower.type, selectedTower.type+" fire strategy changed to NEAREST TO END POINT");
+						else
+							saveLogXML.writeLog("Tower", selectedTower.type, selectedTower.type+" fire strategy changed to NEAREST TO END POINT");
 					}
 				});
 				frame.add(nearestToEndPointAttackStrategyButton);
 				nearestToEndPointAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width, (int)(9*height), 125, 25);
-				/*if(attackStrategy == NEARESTTOENDPOINTCRITTER){
-					nearestToEndPointAttackStrategyButton.setEnabled(false);
-					nearestToTowerAttackStrategyButton.setEnabled(true);
-					weakestCritterAttackStrategyButton.setEnabled(true);
-					strongestCritterAttackStrategyButton.setEnabled(true);
-				}*/
 				
 				
 				weakestCritterAttackStrategyButton = new JButton("Weakest");
@@ -587,18 +611,14 @@ public class Screen extends JPanel implements Runnable{
 						//attackStrategy = WEAKESTCRITTER;
 						selectedTower.chngStrategy(WEAKESTCRITTER);
 						onMapTowerPropTbl.setValueAt(selectedTower.getTowerStrategy(), 8, 1);
-						
+						if(isWaveRunning)
+							saveLogXML.writeLog("Wave_Tower", selectedTower.type, selectedTower.type+" fire strategy changed to WEAKEST CRITTER");
+						else
+							saveLogXML.writeLog("Tower", selectedTower.type, selectedTower.type+" fire strategy changed to WEAKEST CRITTER");
 					}
 				});
 				frame.add(weakestCritterAttackStrategyButton);
 				weakestCritterAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width + (int)(2.5*width), (int)(8.5*height), 100, 25);
-				/*if(attackStrategy == WEAKESTCRITTER){
-					weakestCritterAttackStrategyButton.setEnabled(false);
-					nearestToEndPointAttackStrategyButton.setEnabled(true);
-					nearestToTowerAttackStrategyButton.setEnabled(true);
-					strongestCritterAttackStrategyButton.setEnabled(true);
-				}*/
-				
 				
 				strongestCritterAttackStrategyButton = new JButton("Strongest");
 				strongestCritterAttackStrategyButton.addActionListener(new ActionListener() {
@@ -608,16 +628,15 @@ public class Screen extends JPanel implements Runnable{
 						//attackStrategy = STRONGESTCRITTER;
 						selectedTower.chngStrategy(STRONGESTCRITTER);
 						onMapTowerPropTbl.setValueAt(selectedTower.getTowerStrategy(), 8, 1);
+						if(isWaveRunning)
+							saveLogXML.writeLog("Wave_Tower", selectedTower.type, selectedTower.type+" fire strategy changed to STRONGEST CRITTER");
+						else	
+							saveLogXML.writeLog("Tower", selectedTower.type, selectedTower.type+" fire strategy changed to STRONGEST CRITTER");
 					}
 				});
 				frame.add(strongestCritterAttackStrategyButton);
 				strongestCritterAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width + (int)(2.5*width), (int)(9*height), 100, 25);
-				/*if(attackStrategy == STRONGESTCRITTER){
-					strongestCritterAttackStrategyButton.setEnabled(false);
-					weakestCritterAttackStrategyButton.setEnabled(true);
-					nearestToEndPointAttackStrategyButton.setEnabled(true);
-					nearestToTowerAttackStrategyButton.setEnabled(true);
-				}*/
+				
 				
 				
 				//Create towers on the grid
@@ -646,22 +665,6 @@ public class Screen extends JPanel implements Runnable{
 							//g.drawOval((int)(width+x*width)-25, (int)(height+y*height)-75, 100, 100);
 							int ovalWidth = (int)(this.selectedTowerRange*this.width*2);
 							int ovalHeight = (int)(this.selectedTowerRange*this.height*2);
-							
-							//g.drawOval((int)this.handXPos - ((int)(ovalWidth/2)), ((int)this.handYPos - ((int)((ovalHeight/2))) - (int)this.height), ovalWidth, ovalHeight);
-							/*ShootingTower shooter = new ShootingTower(this);
-							if(!towerMap[x][y].shootingThread){
-								shooter.start();
-								towerMap[x][y].shootingThread = true;
-							}*/
-							//Attacking the critters
-							/*if(towerMap[x][y].targetCritter != null){
-								System.out.println("critter found for tower at\nX\tY\n" + x + "\t" + y);
-								System.out.println("Draw line from\n" + (50 + (x * 50) + (int)(50/2)) + "," + (50 + (y * 50) + (int)(50/2)) + "\tto " + (int)(towerMap[x][y].targetCritter.x) + "," + (int)(towerMap[x][y].targetCritter.y));
-								g.setColor(Color.RED);
-								g.drawLine((50 + (x * 50) + (int)(50/2)), (50 + (y * 50) + (int)(50/2)), (int)(towerMap[x][y].targetCritter.x), (int)(towerMap[x][y].targetCritter.y));
-								Thread.sleep(2000);
-								System.exit(0);
-							}*/
 							
 						}
 					}
@@ -1016,6 +1019,10 @@ public class Screen extends JPanel implements Runnable{
 						//towerMap[xPos][yPos].setObserver(this);
 						//towerMap[xPos][yPos].yPosInTowerMap=yPos;
 						towerId++;
+						if(isWaveRunning)
+							saveLogXML.writeLog("Wave_Tower", towerMap[xPos][yPos].type, towerMap[xPos][yPos].type+" Placed On Map");
+						else
+							saveLogXML.writeLog("Tower", towerMap[xPos][yPos].type, towerMap[xPos][yPos].type+" Placed On Map");
 						return true;
 					}
 				}else{

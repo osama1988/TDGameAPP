@@ -1,6 +1,8 @@
 package com.tdgame;
 
 import java.io.File;  
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Map.Entry;
 
 import javax.xml.parsers.DocumentBuilder;  
@@ -27,10 +29,40 @@ public class SaveXML {
 	
 	private Screen screen;
 	private String newFileName;
+	DocumentBuilderFactory documentFactory = DocumentBuilderFactory
+			.newInstance();
+	DocumentBuilder documentBuilder;
+	Document document;
+	Element logRootElement; 
+	Attr attribute;
+
 
 	public SaveXML(Screen screen, String newFileName) {
 		this.screen = screen;
 		this.newFileName = newFileName;
+		
+	}
+	public SaveXML(String log)
+	{
+		try
+		{
+			documentBuilder = documentFactory.newDocumentBuilder();
+			document = documentBuilder.newDocument();
+			logRootElement = document.createElement("Log");
+			document.appendChild(logRootElement);
+			
+			
+			TransformerFactory transformerFactory = TransformerFactory
+					.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource domSource = new DOMSource(document);
+			StreamResult streamResult = new StreamResult(new File(
+					"../level/log.xml"));
+
+			transformer.transform(domSource, streamResult);
+
+		}
+		catch(Exception e){}
 	}
 	
 	/**
@@ -168,4 +200,53 @@ public class SaveXML {
 			tfe.printStackTrace();
 		}
 	}
+
+	/**
+	 * To write log file
+	 */
+	public void writeLog(String logType,String elementType,String msg){
+		
+		 Date date= new Date();
+		 //getTime() returns current time in milliseconds
+		 long time = date.getTime();
+         //Passed the milliseconds to constructor of Timestamp class 
+		 Timestamp ts = new Timestamp(time);
+		 String timeStamp=ts.toString();
+	 
+		try{
+			
+			Element entry = document.createElement("Entry");
+			logRootElement.appendChild(entry);
+			
+			// add attributes to tile											
+			attribute = document.createAttribute("ATimeStamp");
+			attribute.setValue(timeStamp);
+			entry.setAttributeNode(attribute);
+			
+			attribute = document.createAttribute("BLogType");
+			attribute.setValue(logType);
+			entry.setAttributeNode(attribute);
+			
+			attribute = document.createAttribute("CElementType");
+			attribute.setValue(elementType);
+			entry.setAttributeNode(attribute);
+			
+			attribute = document.createAttribute("DMsg");
+			attribute.setValue(msg);
+			entry.setAttributeNode(attribute);
+			
+			DOMSource source = new DOMSource(document);
+
+	        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	        Transformer transformer = transformerFactory.newTransformer();
+	        StreamResult result = new StreamResult("../level/log.xml");
+	        transformer.transform(source, result);
+			
+			
+		}
+		catch(Exception e){
+			
+		}
+	}
+	
 }

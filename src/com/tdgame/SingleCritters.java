@@ -14,6 +14,7 @@ public class SingleCritters implements CritterStrategy{
 	@Override
 	public void startWave() {
 		// TODO Auto-generated method stub
+		Screen.noOfCritters+=5;
 		Screen.waveType="Single";
 		Screen.critters = new Critter[Screen.noOfCritters];
 		Screen.critters2 = new Critter[Screen.noOfCritters];
@@ -21,7 +22,7 @@ public class SingleCritters implements CritterStrategy{
 		{	
 			int random = new Random().nextInt(100);
 			//Critter(			       	 imgWidth,  imgHeight, imgX, imgY, rectX, rectY, healthSpace)
-			Screen.critters[i] = new Critter(50,      50,       25,   0,    -15,   -60,   12, 40, Screen.critterSpeed);
+			Screen.critters[i] = new Critter(50,      50,       25,   0,    -15,   -60,   12, 100, Screen.critterSpeed);
 			Screen.critters2[i] = new Critter(50,     50,       10,  -15,     0,   -20,   0, random, Screen.critterSpeed);
 			
 		}
