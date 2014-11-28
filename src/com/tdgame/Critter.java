@@ -203,6 +203,12 @@ public class Critter extends Rectangle {
 				crittersExited=0;
 				JOptionPane.showMessageDialog(null,"Game Over");
 			}
+			else if(crittersExited==Screen.noOfCritters)
+			{
+				Screen.isWaveRunning=false;
+				Screen.saveLogXML.writeLog("Wave",Screen.waveType+" "+Screen.noOfCritters , Screen.waveType+" wave of "+Screen.noOfCritters+" finished");
+				
+			}
 		}
 		moveFwd();
 		movement += 1;

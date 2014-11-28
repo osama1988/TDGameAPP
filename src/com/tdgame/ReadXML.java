@@ -27,6 +27,7 @@ public class ReadXML {
 	Screen screen;
 	int valueX, valueY;
 	String fileName="";
+	public int usermoney=0;
 	
 	//String pathForTesting="D:/Java/TDGameAPP/level/";
 //	String pathForTesting = "/Users/osamayawar/Desktop/eclipse/wordspace/TDGameAPP/level/"; //Added for MAC by Osama
@@ -135,7 +136,7 @@ public class ReadXML {
 		int x, y, value, position;
 		Tower towerObjAfterLoading; 
 		MouseHandler.hashMap_of_pathIndex_with_position = new TreeMap<Integer, String>(); 
-		
+		Element moneyElement = null;
 		try {
 
 			File xmlFile = new File(pathForTesting+ fileName);
@@ -149,7 +150,7 @@ public class ReadXML {
 			
 			NodeList mapList = doc.getElementsByTagName("Map");			
 			Node userMoney = mapList.item(0);
-			Element moneyElement = (Element) userMoney;
+			 moneyElement = (Element) userMoney;
 			
 			if(moneyElement != null && moneyElement.getAttribute("userMoney") != "")
 			{
@@ -219,6 +220,7 @@ public class ReadXML {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			usermoney=Integer.parseInt(moneyElement.getAttribute("userMoney"));
 		}
 	}
 

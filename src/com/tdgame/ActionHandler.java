@@ -319,6 +319,7 @@ public class ActionHandler extends JDialog implements ActionListener, MouseMotio
 		screen.towerInHand = 1;
 		screen.placeTower(x, y,screen.towerType);
 		this.screen.placingTower = false;
+		
 	}
 
 	@Override
