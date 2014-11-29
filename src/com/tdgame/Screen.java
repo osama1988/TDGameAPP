@@ -41,7 +41,7 @@ public class Screen extends JPanel implements Runnable{
 
 	/* Common variables */
 	//String pathForTesting="D:/Java/TDGameAPP/level/";
-//	String pathForTesting = "/Users/osamayawar/Desktop/eclipse/wordspace/TDGameAPP/level/"; //Path for testing on MAC by Osama
+	//	String pathForTesting = "/Users/osamayawar/Desktop/eclipse/wordspace/TDGameAPP/level/"; //Path for testing on MAC by Osama
 	String pathForTesting="../level/";
 	Frame frame;
 	LevelFile levelFile;
@@ -85,7 +85,7 @@ public class Screen extends JPanel implements Runnable{
 	static Tower selectedTower;
 	static Tower inHandTower;
 
-	
+
 	public JButton button;
 	public Tower towers[]=new Tower[5];
 	public String towerNames[]={"Fire","Laser","Bomber","Tank","Missile"};
@@ -151,23 +151,23 @@ public class Screen extends JPanel implements Runnable{
 			+ "\n\nOnce the map is saved, you can buy towers"
 			+ "\nfrom the tower store and place them on the"
 			+ "\nmap.";
-	
+
 	static Graphics tempGraphics;
-	
+
 	JButton nearestToTowerAttackStrategyButton;
 	JButton nearestToEndPointAttackStrategyButton;
 	JButton weakestCritterAttackStrategyButton;
 	JButton strongestCritterAttackStrategyButton;
-	
+
 	public static final int NEARESTTOTOWERCRITTER = 1;			//nearest critter to the tower 
 	public static final int NEARESTTOENDPOINTCRITTER = 2;			//nearest critter to the end point
 	public static final int STRONGESTCRITTER = 3;		//Critter with max health------ missile & tank
 	public static final int WEAKESTCRITTER = 4;			//Critter with min health ----- laser & fire
 	public static final int RANDOMCRITTER = 5;			//random to the tower-------bomber
-	
+
 	//public static int attackStrategy = 5;				//this strategy is set as the default strategy
-	
-	
+
+
 	public static int findEnemyTestCount = 0;
 	public static boolean isWaveRunning=false;
 	
@@ -182,8 +182,8 @@ public class Screen extends JPanel implements Runnable{
 		critterWave=new CritterWave();
 		/* set the image */
 		image = new ImageIcon("../res/TowerDefense.png").getImage();
-		
-		
+
+
 
 	}	
 
@@ -211,7 +211,7 @@ public class Screen extends JPanel implements Runnable{
 
 			addingMouseListener(typeOfOperation);			
 
-//			towerMap = new Tower[valueOfX][valueOfY];
+			//			towerMap = new Tower[valueOfX][valueOfY];
 
 			loadGame();
 
@@ -230,7 +230,7 @@ public class Screen extends JPanel implements Runnable{
 			repaint(onMapPropertyRectangle);
 
 			thread = new Thread(this);
-			
+
 			thread.start();
 		}
 	}
@@ -261,7 +261,7 @@ public class Screen extends JPanel implements Runnable{
 			addingMouseListener(typeOfOperation);			
 
 			loadGame();
-//			towerMap=null;
+			//			towerMap=null;
 			towerMap = new Tower[valueOfX][valueOfY];	
 			frame.getContentPane().validate();
 			startGame(newFileName, typeOfOperation, user);
@@ -281,7 +281,7 @@ public class Screen extends JPanel implements Runnable{
 			repaint(onMapPropertyRectangle);
 
 			thread = new Thread(this);
-			
+
 			thread.start();
 		}
 	}
@@ -541,7 +541,7 @@ public class Screen extends JPanel implements Runnable{
 							critterWave.startWave();
 						}
 						saveLogXML.writeLog("Wave",waveType+" "+noOfCritters , waveType+" wave of "+noOfCritters+" critters started");
-						
+
 					}
 				});
 				frame.add(sendCritters);
@@ -562,12 +562,12 @@ public class Screen extends JPanel implements Runnable{
 				offMapScrollPane.setBounds(this.frame.getWidth() - 6*(int)width , 10*(int)height, 5*(int)width, 3*(int)height);
 
 
-				
+
 				//buttons for tower attacking strategy
-				
+
 				nearestToTowerAttackStrategyButton = new JButton("Near To Tower");
 				nearestToTowerAttackStrategyButton.addActionListener(new ActionListener() {
-					
+
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						//attackStrategy = NEARESTTOTOWERCRITTER;
@@ -578,16 +578,16 @@ public class Screen extends JPanel implements Runnable{
 						else
 							saveLogXML.writeLog("Tower", selectedTower.type, selectedTower.type+" fire strategy changed to NEAREST TO TOWER");
 					}
-					
+
 				});
-				
+
 				frame.add(nearestToTowerAttackStrategyButton);
 				nearestToTowerAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width , (int)(8.5*height), 125, 25);
-			
-				
+
+
 				nearestToEndPointAttackStrategyButton = new JButton("Near To End Pt");
 				nearestToEndPointAttackStrategyButton.addActionListener(new ActionListener() {
-					
+
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						//attackStrategy = NEARESTTOENDPOINTCRITTER;
@@ -601,11 +601,11 @@ public class Screen extends JPanel implements Runnable{
 				});
 				frame.add(nearestToEndPointAttackStrategyButton);
 				nearestToEndPointAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width, (int)(9*height), 125, 25);
-				
-				
+
+
 				weakestCritterAttackStrategyButton = new JButton("Weakest");
 				weakestCritterAttackStrategyButton.addActionListener(new ActionListener() {
-					
+
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						//attackStrategy = WEAKESTCRITTER;
@@ -619,10 +619,10 @@ public class Screen extends JPanel implements Runnable{
 				});
 				frame.add(weakestCritterAttackStrategyButton);
 				weakestCritterAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width + (int)(2.5*width), (int)(8.5*height), 100, 25);
-				
+
 				strongestCritterAttackStrategyButton = new JButton("Strongest");
 				strongestCritterAttackStrategyButton.addActionListener(new ActionListener() {
-					
+
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						//attackStrategy = STRONGESTCRITTER;
@@ -636,9 +636,9 @@ public class Screen extends JPanel implements Runnable{
 				});
 				frame.add(strongestCritterAttackStrategyButton);
 				strongestCritterAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width + (int)(2.5*width), (int)(9*height), 100, 25);
-				
-				
-				
+
+
+
 				//Create towers on the grid
 				for(int x=0; x<valueOfX; x++){
 					for(int y=0; y<valueOfY; y++){
@@ -665,12 +665,12 @@ public class Screen extends JPanel implements Runnable{
 							g.drawOval((int)(x*width)-25, (int)(y*height)-75, (int)(2*towerOnMapBtn.range*width), (int)(2*towerOnMapBtn.range*height));
 							int ovalWidth = (int)(this.selectedTowerRange*this.width*2);
 							int ovalHeight = (int)(this.selectedTowerRange*this.height*2);
-							
+
 						}
 					}
 				}
-				
-				
+
+
 				// To draw all critters on screen
 				if (critters != null)
 				{	
@@ -679,15 +679,17 @@ public class Screen extends JPanel implements Runnable{
 						if(critters[i] != null){
 							if(critters[i].inGame)
 							{
-								
+
 								if(critters[i].towerFixed){
 									if (critters[i].showFire)
 										critters[i].draw(g, 1);
+									/*else if(critters[i].splash)
+										critters[i].draw(g, 2);*/
 									else
 										critters[i].draw(g, 0);
-								//	critters[i].draw(g,0);
-								//	System.out.println("critter found for tower at\nX\tY\n" + x + "\t" + y);
-								//	System.out.println("Draw line from\n" + (50 + (x * 50) + (int)(50/2)) + "," + (50 + (y * 50) + (int)(50/2)) + "\tto " + (int)(towerMap[x][y].getTargetCritter().x) + "," + (int)(towerMap[x][y].getTargetCritter().y));
+									//	critters[i].draw(g,0);
+									//	System.out.println("critter found for tower at\nX\tY\n" + x + "\t" + y);
+									//	System.out.println("Draw line from\n" + (50 + (x * 50) + (int)(50/2)) + "," + (50 + (y * 50) + (int)(50/2)) + "\tto " + (int)(towerMap[x][y].getTargetCritter().x) + "," + (int)(towerMap[x][y].getTargetCritter().y));
 									System.out.println((int)(critters[i].x+critters[i].adjustX)+"\t"+(int)(critters[i].y+critters[i].adjustY)+"\t"+(50 + (critters[i].towerX * 50) + (int)(50/2))+"\t"+(50 + (critters[i].towerY * 50) + (int)(50/2) - 50));
 									/*if(towerMap[critters[i].towerX][critters[i].y].type=="Fire")
 										g.setColor(Color.ORANGE);
@@ -702,7 +704,7 @@ public class Screen extends JPanel implements Runnable{
 										g.drawLine((int)(critters[i].x)+50, (int)(critters[i].y)+25,(50 + (critters[i].towerX * 50) + (int)(50/2)), ((critters[i].towerY * 50) + (int)(50/2)));
 									}
 									critters[i].isHit=false;
-							//		critters[i].slowdown=false;
+									//		critters[i].slowdown=false;
 									if (critters[i].slowdown)
 									{
 										if (critters[i].moveSpeed <= critterSpeed)
@@ -710,6 +712,7 @@ public class Screen extends JPanel implements Runnable{
 											critters[i].moveSpeed += 2;
 										}
 									}
+									
 									//critters[i].towerFixed = false;
 								}
 								else
@@ -717,10 +720,12 @@ public class Screen extends JPanel implements Runnable{
 									if(critters[i].damageTime > 0){
 										if(critters[i].showFire){
 											critters[i].draw(g, 1);
-										} else {
-											critters[i].draw(g, 0);
+										} /*else if(critters[i].splash){
+											critters[i].draw(g, 2);
+										}*/else{
+											critters[i].draw(g,0);
 										}
-										
+
 									} else {
 										critters[i].moveSpeed = critterSpeed;
 										critters[i].draw(g,0);
@@ -750,10 +755,6 @@ public class Screen extends JPanel implements Runnable{
 					((Component) towers[i]).setBounds((int)this.width * 5 + (i * 50), (frame.getHeight() -(frame.getHeight() -(int)this.height * 10)) + (int)this.height * (j+1), (int) width, (int) height);
 				}
 			}
-
-			
-			
-			
 
 			//draw tower on grid while placing (Special effect)
 			if(this.placingTower){// && Tower.towerList[towerInHand - 1] != null){
@@ -810,9 +811,9 @@ public class Screen extends JPanel implements Runnable{
 			generationFrame += 1;
 		}
 	}
-	
-	
-	public void shootingEffect(){//Graphics tempGraphics){
+
+
+	/*public void shootingEffect(){//Graphics tempGraphics){
 		for(int x=0; x<valueOfX; x++){
 			for(int y=0; y<valueOfY; y++){
 				if(towerMap[x][y] != null){
@@ -827,8 +828,8 @@ public class Screen extends JPanel implements Runnable{
 				}
 			}
 		}
-	}
-	
+	}*/
+
 	/**
 	 * Called for creating a thread that would execute separately from the main thread 
 	 */
@@ -878,10 +879,10 @@ public class Screen extends JPanel implements Runnable{
 			repaintMapRectangle=new Rectangle((int)width,0,frame.getWidth()-350,getHeight());
 			//Rectangle repaintRectangle=new Rectangle(50,0,valueOfX*50,getHeight());
 			// to draw stuff all the time on the screen : goes around 2 millions frames per second. Which is of no use.
-			
-			
+
+
 			repaint(repaintMapRectangle);
-			
+
 			updateMap();
 
 			try {
@@ -927,29 +928,49 @@ public class Screen extends JPanel implements Runnable{
 					{	//System.out.println("Finding enemy...calling findenemytoshoot...\nnumber of enemies=\t"+critters.length);
 						Critter currentEnemy = towerMap[x][y].findTargetCritter(critters, x, y);
 						if(currentEnemy != null){
-							if(!towerMap[x][y].splashEffect){
-								//System.out.println("Enemy returned... need to hit...Calling tower attack");
-								towerMap[x][y].setTargetCritter(currentEnemy);
-								towerMap[x][y].towerAttack(x, y, currentEnemy);
-								towerMap[x][y].setAttackTime(0);
-								towerMap[x][y].setAttackDelay(0);
-							} else {
+							towerMap[x][y].setTargetCritter(currentEnemy);
+							towerMap[x][y].towerAttack(x, y, currentEnemy);
+							towerMap[x][y].setAttackTime(0);
+							towerMap[x][y].setAttackDelay(0);
+							if(towerMap[x][y].splashEffect){
+								//System.exit(0);
+								int neighbouringBoxUP = 999;
+								int neighbouringBoxRight = 999;
+								int neighbouringBoxDown = 999;
+								int neighbouringBoxLeft = 999;
+
+								String upSearchKey = (currentEnemy.x/50) + "_" + (currentEnemy.y/50);
+								String downSearchKey = ((currentEnemy.x/50)) + "_" + ((currentEnemy.y/50) + 2);
+								String leftSearchKey = ((currentEnemy.x/50) - 1) + "_" + ((currentEnemy.y/50) + 1);
+								String rightSearchKey = ((currentEnemy.x/50) + 1) + "_" + ((currentEnemy.y/50) + 1);
+
+								if(MouseHandler.boxPositionPathNumberMap.containsKey(upSearchKey)){
+									neighbouringBoxUP = MouseHandler.boxPositionPathNumberMap.get(upSearchKey);
+								}
+								if(MouseHandler.boxPositionPathNumberMap.containsKey(downSearchKey)){
+									neighbouringBoxUP = MouseHandler.boxPositionPathNumberMap.get(downSearchKey);
+								}
+								if(MouseHandler.boxPositionPathNumberMap.containsKey(leftSearchKey)){
+									neighbouringBoxUP = MouseHandler.boxPositionPathNumberMap.get(leftSearchKey);
+								}
+								if(MouseHandler.boxPositionPathNumberMap.containsKey(rightSearchKey)){
+									neighbouringBoxUP = MouseHandler.boxPositionPathNumberMap.get(rightSearchKey);
+								}
+
 								for(int i=0; i<critters.length; i++){
 									if(critters[i] != null){
 										String searchKey = (currentEnemy.x/50) + "_" + ((currentEnemy.y/50) + 1);
-										int currentEnemyBoxNumber = mouseHandler.boxPositionPathNumberMap.get(searchKey);
-										int neighbouringBoxUP = mouseHandler.boxPositionPathNumberMap.get((currentEnemy.x/50) + "_" + ((currentEnemy.y/50)));
-										int neighbouringBoxRight = mouseHandler.boxPositionPathNumberMap.get(((currentEnemy.x/50) + 1) + "_" + ((currentEnemy.y/50)));
-										int neighbouringBoxDown = mouseHandler.boxPositionPathNumberMap.get((currentEnemy.x/50) + "_" + ((currentEnemy.y/50) - 1));
-										int neighbouringBoxLeft = mouseHandler.boxPositionPathNumberMap.get(((currentEnemy.x/50) - 1) + "_" + ((currentEnemy.y/50)));
-										
+										int currentEnemyBoxNumber = MouseHandler.boxPositionPathNumberMap.get(searchKey);
+										if(currentEnemyBoxNumber == neighbouringBoxUP || currentEnemyBoxNumber == neighbouringBoxDown || currentEnemyBoxNumber == neighbouringBoxLeft || currentEnemyBoxNumber == neighbouringBoxRight){
+											towerMap[x][y].towerAttack(x, y, critters[i]);
+										}
 									}
 								}
 							}
 						}
 					} //else {
 					{
-						
+
 					}
 				}else{
 					towerMap[x][y].setAttackDelay(towerMap[x][y].getAttackDelay() + 1);
@@ -957,7 +978,7 @@ public class Screen extends JPanel implements Runnable{
 			}
 			//else
 			{
-				
+
 			}
 		}
 		//There is a critter to shoot and to show the attack, we need to keep the bullet visible until attackTime > maxAttackTime
@@ -1035,8 +1056,8 @@ public class Screen extends JPanel implements Runnable{
 					}else{
 						user.player.money -= inHandTower.getCost();
 						towerMap[xPos][yPos] =TowerFactory.getTower(new_towerText);
-//						System.out.println(xPos+" " +yPos);
-//						System.exit(0);
+						//						System.out.println(xPos+" " +yPos);
+						//						System.exit(0);
 						towerMap[xPos][yPos].setPosition(xPos, yPos);
 						//towerMap[xPos][yPos].addListener(this);
 						//towerMap[xPos][yPos].setObserver(this);
@@ -1155,7 +1176,7 @@ public class Screen extends JPanel implements Runnable{
 					return "YES";
 				} catch (NullPointerException e) {
 					e.getStackTrace();
-//					System.exit(0);
+					//					System.exit(0);
 				}
 			}
 			else {

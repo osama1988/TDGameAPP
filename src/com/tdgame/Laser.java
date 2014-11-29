@@ -20,7 +20,7 @@ public class Laser extends Tower{
 	{
 		setBackground(Color.CYAN);
 		//setTowerProperties(id, cost, ammunition, range, type,    rateOfFire,      path,           damageToCritters, level, weakstrategy)
-		setTowerProperties(  id,  200,     1000,      1,  "Laser",   5,       "../res/towers/laser.png",     10,        1);
+		setTowerProperties(  id,  200,     1000,      2,  "Laser",   5,       "../res/towers/laser.png",     10,        1);
 		//setTowerProperties(  id,  200,     1000,      1,  "Laser",   5,       "../res/towers/laser.png",     10,        1,     4);
 		setIcon(new ImageIcon(this.imgPath));
 		

@@ -175,9 +175,6 @@ public class Critter extends Rectangle {
 				atTime=1;
 			else
 				atTime=2;
-
-
-
 			if (crittersExited == 10)
 			{
 				if(Screen.waveType=="Single")

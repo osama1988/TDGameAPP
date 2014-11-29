@@ -29,6 +29,8 @@ public class SingleCritters implements CritterStrategy{
 		if(Screen.isFirst){
 			Screen.crittersImgs[0] = new ImageIcon("../res/critter.gif").getImage();
 			Screen.crittersImgs[1] = new ImageIcon("../res/firee.gif").getImage();
+			Screen.crittersImgs[2] = new ImageIcon("../res/laser.gif").getImage();
+			Screen.crittersImgs[3] = new ImageIcon("../res/laser2.gif").getImage();
 		}
 		Screen.isFirst=false;
 	}
