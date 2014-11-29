@@ -19,11 +19,12 @@ import javax.swing.event.MenuListener;
  * @version $revision
  */
 
-public class MenuHandler implements ActionListener{
+public class MenuHandler implements ActionListener {
 	
 	Screen screen;
 	Frame frame;
 	JButton myButton; 
+	static boolean mapLoadedorCreated = false;
 	
 	MenuHandler() {}
 	
@@ -52,10 +53,12 @@ public class MenuHandler implements ActionListener{
 			Screen.startGame = false;
 			MouseHandler.count=0;
 			Screen.running = false;
+			mapLoadedorCreated= true;
 			screen.createMap();
 		} else if(selectedOption.equalsIgnoreCase("Load Map")) {
 			Screen.startGame = false;
 			Screen.running = false;
+			mapLoadedorCreated= true;
 			screen.loadMap();
 		} else if(selectedOption.equalsIgnoreCase("Save Map")) {
 			mouseHandler.saveMapByMenu();
@@ -65,6 +68,19 @@ public class MenuHandler implements ActionListener{
 			actionHandler.editMap();
 			MouseHandler.saveEditedMap = true;
 			mouseHandler.mapReadyForEditing();
+		}
+		else if(selectedOption.equalsIgnoreCase("Save Game")) {
+			
+			if(mapLoadedorCreated) {
+				MouseHandler.saveGame = true;				
+			}
+			
+			mouseHandler.saveGame();
+			MouseHandler.saveGame = false;
+			
+		}
+		else if(selectedOption.equalsIgnoreCase("Log")) {
+			String logFileName = actionHandler.loadLogFiles();
 		}
 		
 //		screen.repaint();

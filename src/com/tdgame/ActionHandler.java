@@ -221,12 +221,30 @@ public class ActionHandler extends JDialog implements ActionListener, MouseMotio
 
 		return null;		   
 	}
+	
+	// log files
+	public String loadLogFiles() {
+		
+		String logFilesList[] = {"Individual Tower Log", "Collective Tower Log", "Critter Log", "Global Log"};
+		
+		String logFileSelected = (String) JOptionPane.showInputDialog(null,"Please select the log type that you would like to see!","Load Log",
+				JOptionPane.QUESTION_MESSAGE,null,logFilesList,logFilesList[0]);
+		
+		return logFileSelected;
+	}
 
 	// If path is complete, ask if the user wants to save it
 	public int pathCompleted() {
-
-		int input = JOptionPane.showOptionDialog(null, "Would you like to save this map?" , "Map Completed..!!" , 0, 3, null, null, null);
-
+		
+		int input;
+		
+		if(!MouseHandler.saveGame) {
+			input = JOptionPane.showOptionDialog(null, "Would you like to save this map?" , "Map Completed..!!" , 0, 3, null, null, null);
+		}
+		else {
+			input = JOptionPane.showOptionDialog(null, "Would you like to save this State?" , "Save State..!!" , 0, 3, null, null, null);
+		}
+		
 		return input;
 	}
 	

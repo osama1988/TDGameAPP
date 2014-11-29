@@ -31,6 +31,10 @@ public class Frame extends JApplet{
 	JButton menuLoadMap;
 	JButton menuEditMap;
 	JButton menuSaveMap;
+	JButton menuSaveGame;
+	JButton menuLog;
+	
+	
 	public void init() {
 		
 		File audioFile = new File("../res/gamestart.wav");
@@ -59,18 +63,24 @@ public class Frame extends JApplet{
         menuLoadMap = new JButton("Load Map");
         menuEditMap = new JButton("Edit Map");
         menuSaveMap = new JButton("Save Map");
+        menuSaveGame = new JButton("Save Game");
+        menuLog = new JButton("Log");
         
         instructions.addActionListener(new MenuHandler(this));
         menuCreateMap.addActionListener(new MenuHandler(this));        
         menuLoadMap.addActionListener(new MenuHandler(this));
         menuEditMap.addActionListener(new MenuHandler(this));
         menuSaveMap.addActionListener(new MenuHandler(this));
+        menuSaveGame.addActionListener(new MenuHandler(this));
+        menuLog.addActionListener(new MenuHandler(this));
         
         menubar.add(instructions);
         menubar.add(menuCreateMap);
         menubar.add(menuLoadMap);
-        menubar.add(menuEditMap);
         menubar.add(menuSaveMap);
+        menubar.add(menuEditMap);        
+        menubar.add(menuSaveGame);
+        menubar.add(menuLog);
                         
         // to set the size of the menu bar
         menubar.setPreferredSize(new Dimension(1000, 29));
