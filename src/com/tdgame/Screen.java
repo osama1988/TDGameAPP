@@ -9,6 +9,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.CropImageFilter;
 import java.awt.image.FilteredImageSource;
@@ -17,6 +19,7 @@ import java.io.FileNotFoundException;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -132,6 +135,8 @@ public class Screen extends JPanel implements Runnable{
 		{ "Add Ammunition Rate", "" }};
 	static JTable offMapTowerPropTbl = new JTable(offMapRowData, columnNames);
 	static JScrollPane offMapScrollPane = new JScrollPane(offMapTowerPropTbl);
+	String[] strategyList = {"RANDOM", "NEARESTTOTOWERCRITTER", "NEARESTTOENDPOINTCRITTER", "WEAKESTCRITTER", "STRONGESTCRITTER"};
+	JComboBox towerStrategyList;
 
 	int xPosInGridMap;
 	int yPosInGridMap;
@@ -171,7 +176,7 @@ public class Screen extends JPanel implements Runnable{
 	public static int findEnemyTestCount = 0;
 	public static boolean isWaveRunning=false;
 	
-	public static SaveXML saveLogXML = new SaveXML("Log");
+	public static SaveXML saveLogXML;
 
 	// Screen constructor
 	public Screen(Frame frame) {
@@ -445,9 +450,15 @@ public class Screen extends JPanel implements Runnable{
 						xPosInGridMap=location.x;
 						yPosInGridMap=location.y;
 						if(isWaveRunning)
+						{
 							saveLogXML.writeLog("Wave_Tower", selectedTower.type, "User sold "+selectedTower.type);
+							saveLogXML.writeLog("Wave_User","User", "User sold "+selectedTower.type+" Current Money "+user.player.money);
+						}
 						else
+						{
 							saveLogXML.writeLog("Tower", selectedTower.type, "User sold "+selectedTower.type);
+							saveLogXML.writeLog("User","User", "User sold "+selectedTower.type+" Current Money "+user.player.money);
+						}
 						frame.remove((Component) selectedTower);
 						frame.getContentPane().validate();
 					}
@@ -467,9 +478,15 @@ public class Screen extends JPanel implements Runnable{
 								selectedTower.increaseAmmunition(selectedTower.getActualAmmunition());
 								onMapTowerPropTbl.setValueAt(selectedTower.getAmmunition(), 1, 1);
 								if(isWaveRunning)
+								{
 									saveLogXML.writeLog("Wave_Tower", selectedTower.type, selectedTower.type+" ammunition increased by "+selectedTower.getActualAmmunition());
+									saveLogXML.writeLog("Wave_User","User", "User buy ammunition for  "+selectedTower.type+" Current Money "+user.player.money);
+								}
 								else
+								{
 									saveLogXML.writeLog("Tower", selectedTower.type, selectedTower.type+" ammunition increased by "+selectedTower.getActualAmmunition());
+									saveLogXML.writeLog("User","User", "User buy ammunition for  "+selectedTower.type+" Current Money "+user.player.money);
+								}
 							}
 							else {
 								Object[] options = { "OK" };
@@ -561,84 +578,33 @@ public class Screen extends JPanel implements Runnable{
 				frame.add(offMapScrollPane);
 				offMapScrollPane.setBounds(this.frame.getWidth() - 6*(int)width , 10*(int)height, 5*(int)width, 3*(int)height);
 
-
-
-				//buttons for tower attacking strategy
-
-				nearestToTowerAttackStrategyButton = new JButton("Near To Tower");
-				nearestToTowerAttackStrategyButton.addActionListener(new ActionListener() {
-
+				
+				towerStrategyList = new JComboBox(strategyList);
+				frame.add(towerStrategyList);
+				if(selectedTower!=null){
+					towerStrategyList.setSelectedItem(selectedTower.strategyName);
+				}
+				else{
+					towerStrategyList.setSelectedIndex(0);
+				}
+				
+				towerStrategyList.setBounds(this.frame.getWidth() - 6*(int)width , (int)(8.5*height), 5*(int)width, (int)(height/2) );
+				towerStrategyList.addItemListener(new ItemListener() {
 					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						//attackStrategy = NEARESTTOTOWERCRITTER;
-						selectedTower.chngStrategy(NEARESTTOTOWERCRITTER);
-						onMapTowerPropTbl.setValueAt(selectedTower.getTowerStrategy(), 8, 1);
-						if(isWaveRunning)
-							saveLogXML.writeLog("Wave_Tower", selectedTower.type, selectedTower.type+" fire strategy changed to NEAREST TO TOWER");
-						else
-							saveLogXML.writeLog("Tower", selectedTower.type, selectedTower.type+" fire strategy changed to NEAREST TO TOWER");
-					}
-
-				});
-
-				frame.add(nearestToTowerAttackStrategyButton);
-				nearestToTowerAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width , (int)(8.5*height), 125, 25);
-
-
-				nearestToEndPointAttackStrategyButton = new JButton("Near To End Pt");
-				nearestToEndPointAttackStrategyButton.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						//attackStrategy = NEARESTTOENDPOINTCRITTER;
-						selectedTower.chngStrategy(NEARESTTOENDPOINTCRITTER);
-						onMapTowerPropTbl.setValueAt(selectedTower.getTowerStrategy(), 8, 1);
-						if(isWaveRunning)
-							saveLogXML.writeLog("Wave_Tower", selectedTower.type, selectedTower.type+" fire strategy changed to NEAREST TO END POINT");
-						else
-							saveLogXML.writeLog("Tower", selectedTower.type, selectedTower.type+" fire strategy changed to NEAREST TO END POINT");
+					public void itemStateChanged(ItemEvent e) {
+						// TODO Auto-generated method stub
+						if(e.getStateChange()==ItemEvent.SELECTED)
+						{
+							towerStrategyList.setSelectedItem(e.getItem());
+							selectedTower.chngStrategy(e.getItem().toString());
+							onMapTowerPropTbl.setValueAt(selectedTower.getTowerStrategy(), 8, 1);
+							if(isWaveRunning)
+								saveLogXML.writeLog("Wave_Tower", selectedTower.type, selectedTower.type+" fire strategy changed to "+selectedTower.strategyName);
+							else
+								saveLogXML.writeLog("Tower", selectedTower.type, selectedTower.type+" fire strategy changed to "+selectedTower.strategyName);
+						}
 					}
 				});
-				frame.add(nearestToEndPointAttackStrategyButton);
-				nearestToEndPointAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width, (int)(9*height), 125, 25);
-
-
-				weakestCritterAttackStrategyButton = new JButton("Weakest");
-				weakestCritterAttackStrategyButton.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						//attackStrategy = WEAKESTCRITTER;
-						selectedTower.chngStrategy(WEAKESTCRITTER);
-						onMapTowerPropTbl.setValueAt(selectedTower.getTowerStrategy(), 8, 1);
-						if(isWaveRunning)
-							saveLogXML.writeLog("Wave_Tower", selectedTower.type, selectedTower.type+" fire strategy changed to WEAKEST CRITTER");
-						else
-							saveLogXML.writeLog("Tower", selectedTower.type, selectedTower.type+" fire strategy changed to WEAKEST CRITTER");
-					}
-				});
-				frame.add(weakestCritterAttackStrategyButton);
-				weakestCritterAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width + (int)(2.5*width), (int)(8.5*height), 100, 25);
-
-				strongestCritterAttackStrategyButton = new JButton("Strongest");
-				strongestCritterAttackStrategyButton.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						//attackStrategy = STRONGESTCRITTER;
-						selectedTower.chngStrategy(STRONGESTCRITTER);
-						onMapTowerPropTbl.setValueAt(selectedTower.getTowerStrategy(), 8, 1);
-						if(isWaveRunning)
-							saveLogXML.writeLog("Wave_Tower", selectedTower.type, selectedTower.type+" fire strategy changed to STRONGEST CRITTER");
-						else	
-							saveLogXML.writeLog("Tower", selectedTower.type, selectedTower.type+" fire strategy changed to STRONGEST CRITTER");
-					}
-				});
-				frame.add(strongestCritterAttackStrategyButton);
-				strongestCritterAttackStrategyButton.setBounds(this.frame.getWidth() - 6*(int)width + (int)(2.5*width), (int)(9*height), 100, 25);
-
-
-
 				//Create towers on the grid
 				for(int x=0; x<valueOfX; x++){
 					for(int y=0; y<valueOfY; y++){
@@ -659,6 +625,7 @@ public class Screen extends JPanel implements Runnable{
 									onMapTowerPropTbl.setValueAt(towerOnMapBtn.getCostToAddAmmunition(), 6, 1);
 									onMapTowerPropTbl.setValueAt(towerOnMapBtn.getTowerLevel(), 7, 1);
 									onMapTowerPropTbl.setValueAt(towerOnMapBtn.getTowerStrategy(), 8, 1);
+									towerStrategyList.setSelectedIndex(towerOnMapBtn.attackStrategy);
 								}
 							});
 							((Component) towerOnMapBtn).setBounds(((int)width+x*(int)width), ((int)height+y*(int)height)-(int)this.height, (int)width, (int)height);
@@ -1022,7 +989,9 @@ public class Screen extends JPanel implements Runnable{
 	 */
 
 	public void startGame(String fileName, String typeOfOperation, User user) {
+		saveLogXML = new SaveXML("Log");
 		user.createPlayer();
+		saveLogXML.writeLog("User","User", "User created with "+user.startingCash+" money");
 		levelFile.readAndLoadMap(fileName, this, typeOfOperation);		
 		this.scene = 1;	// game level 1
 	}

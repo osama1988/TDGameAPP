@@ -31,21 +31,22 @@ public abstract class Tower extends JButton{
 	public double sqOfDistanceOfCritterFromTower;
 	public int totalTargetEnemies;
 	public double minDistance;
-	public int attackStrategy=5;
+	public int attackStrategy=0;
 	public String strategyName="Random";
 	TowerFire towerFire=new TowerFire();
 	void fire() {
 	}
 
-	public void chngStrategy(int strategy){
-		attackStrategy=strategy;
+	public void chngStrategy(String strategy){
+		strategyName=strategy;
+		/*attackStrategy=strategy;
 		switch(strategy){
 		case Screen.NEARESTTOTOWERCRITTER:strategyName="NEARESTTOTOWERCRITTER";break;
 		case Screen.NEARESTTOENDPOINTCRITTER:strategyName="NEARESTTOENDPOINTCRITTER";break;
 		case Screen.STRONGESTCRITTER:strategyName="STRONGESTCRITTER";break;
 		case Screen.WEAKESTCRITTER:strategyName="WEAKESTCRITTER";break;
 		default:break;
-		}
+		}*/
 	}
 	public void setTowerProperties(int id, int cost, int ammunition, int range,
 			String type, int rateOfFire, String path, int damageToCritters, int level) {

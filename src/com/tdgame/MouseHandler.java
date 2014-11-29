@@ -1,5 +1,6 @@
 package com.tdgame;
 
+import java.awt.HeadlessException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -47,6 +48,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
 	public static String startPoint_while_loadingMap;
 	public static String endPoint_while_loadingMap;
 	public static boolean saveEditedMap;
+	public static boolean saveGame = false;
 	
 	/* Data structure variables */
 	static LinkedList<String> arrayList_to_hold_occupied_blocks;
@@ -326,11 +328,34 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
 		}
 		
 	}
+	
+	// this method save the map with the current state
+	public void saveGame() {
+		
+		try {
+			if(saveGame && !Screen.isWaveRunning) {// && path_completion_detection.contains(arrayIndex) && arrayList_to_hold_occupied_blocks.contains(arrayIndex)) {
+				
+				String userReply = mouseHeld.pathCompleted(screen);
+				
+				if(userReply.equalsIgnoreCase("YES")) {
+					mapCompleted  = true;
+				}
+				else {
+					rightClick = true;
+				}
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "No valid state to save");
+			}
+		} catch (NullPointerException e) {
+			JOptionPane.showMessageDialog(null, "No valid state to save");
+		}
+	}
 
 	// this method saves the map based upon the menu option
 	public void saveMapByMenu() {
 		
-		if("createMap".equals(Screen.typeOfOperation) || saveEditedMap) {
+		if(!saveGame && "createMap".equals(Screen.typeOfOperation) || saveEditedMap) {
 			if(path_completion_detection.contains(arrayIndex) && arrayList_to_hold_occupied_blocks.contains(arrayIndex)) {
 				String userReply = mouseHeld.pathCompleted(screen);
 			
@@ -347,15 +372,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
 			}
 		}
 		else {
-//			JOptionPane.showMessageDialog(null, "You can only use this option when creating or editing a map");
-			String userReply = mouseHeld.pathCompleted(screen);
-			
-			if(userReply.equalsIgnoreCase("YES")) {
-				mapCompleted  = true;
-			}
-			else {
-				rightClick = true;
-			}
+			JOptionPane.showMessageDialog(null, "You can only use this option when creating or editing a map");			
 		}		
 	}
 
