@@ -591,7 +591,7 @@ public class Screen extends JPanel implements Runnable{
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						//attackStrategy = NEARESTTOENDPOINTCRITTER;
-						selectedTower.chngStrategy(NEARESTTOTOWERCRITTER);
+						selectedTower.chngStrategy(NEARESTTOENDPOINTCRITTER);
 						onMapTowerPropTbl.setValueAt(selectedTower.getTowerStrategy(), 8, 1);
 						if(isWaveRunning)
 							saveLogXML.writeLog("Wave_Tower", selectedTower.type, selectedTower.type+" fire strategy changed to NEAREST TO END POINT");
@@ -662,7 +662,7 @@ public class Screen extends JPanel implements Runnable{
 								}
 							});
 							((Component) towerOnMapBtn).setBounds(((int)width+x*(int)width), ((int)height+y*(int)height)-(int)this.height, (int)width, (int)height);
-							//g.drawOval((int)(width+x*width)-25, (int)(height+y*height)-75, 100, 100);
+							g.drawOval((int)(x*width)-25, (int)(y*height)-75, (int)(2*towerOnMapBtn.range*width), (int)(2*towerOnMapBtn.range*height));
 							int ovalWidth = (int)(this.selectedTowerRange*this.width*2);
 							int ovalHeight = (int)(this.selectedTowerRange*this.height*2);
 							
@@ -919,30 +919,53 @@ public class Screen extends JPanel implements Runnable{
 
 	private void towerAttack(int x, int y) {
 		//IF the current tower does not have a critter-enemy then find next critter to shoot
-		if(this.towerMap[x][y].getTargetCritter() == null){
-			//System.out.println("this.towerMap[x][y].getAttackDelay() > this.towerMap[x][y].getMaxAttackDelay()\n" + this.towerMap[x][y].getAttackDelay() + " > " +this.towerMap[x][y].getMaxAttackDelay() + " = " + (this.towerMap[x][y].getAttackDelay() > this.towerMap[x][y].getMaxAttackDelay()));
-			if(this.towerMap[x][y].getAttackDelay() > this.towerMap[x][y].getMaxAttackDelay()){
-				//System.out.println("Finding enemy...calling findenemytoshoot...\nnumber of enemies=\t"+critters.length);
-				Critter currentEnemy = this.towerMap[x][y].findTargetCritter(critters, x, y);
-
-				if(currentEnemy != null){
-					//System.out.println("Enemy returned... need to hit...Calling tower attack");
-					this.towerMap[x][y].towerAttack(x, y, currentEnemy);
-
-					this.towerMap[x][y].setTargetCritter(currentEnemy);
-					this.towerMap[x][y].setAttackTime(0);
-					this.towerMap[x][y].setAttackDelay(0);
+		if(towerMap[x][y].getTargetCritter() == null){
+			//if(towerMap[x][y].splashEffect)
+			{
+				//System.out.println("this.towerMap[x][y].getAttackDelay() > this.towerMap[x][y].getMaxAttackDelay()\n" + this.towerMap[x][y].getAttackDelay() + " > " +this.towerMap[x][y].getMaxAttackDelay() + " = " + (this.towerMap[x][y].getAttackDelay() > this.towerMap[x][y].getMaxAttackDelay()));
+				if(towerMap[x][y].getAttackDelay() > towerMap[x][y].getMaxAttackDelay()){
+					{	//System.out.println("Finding enemy...calling findenemytoshoot...\nnumber of enemies=\t"+critters.length);
+						Critter currentEnemy = towerMap[x][y].findTargetCritter(critters, x, y);
+						if(currentEnemy != null){
+							if(!towerMap[x][y].splashEffect){
+								//System.out.println("Enemy returned... need to hit...Calling tower attack");
+								towerMap[x][y].setTargetCritter(currentEnemy);
+								towerMap[x][y].towerAttack(x, y, currentEnemy);
+								towerMap[x][y].setAttackTime(0);
+								towerMap[x][y].setAttackDelay(0);
+							} else {
+								for(int i=0; i<critters.length; i++){
+									if(critters[i] != null){
+										String searchKey = (currentEnemy.x/50) + "_" + ((currentEnemy.y/50) + 1);
+										int currentEnemyBoxNumber = mouseHandler.boxPositionPathNumberMap.get(searchKey);
+										int neighbouringBoxUP = mouseHandler.boxPositionPathNumberMap.get((currentEnemy.x/50) + "_" + ((currentEnemy.y/50)));
+										int neighbouringBoxRight = mouseHandler.boxPositionPathNumberMap.get(((currentEnemy.x/50) + 1) + "_" + ((currentEnemy.y/50)));
+										int neighbouringBoxDown = mouseHandler.boxPositionPathNumberMap.get((currentEnemy.x/50) + "_" + ((currentEnemy.y/50) - 1));
+										int neighbouringBoxLeft = mouseHandler.boxPositionPathNumberMap.get(((currentEnemy.x/50) - 1) + "_" + ((currentEnemy.y/50)));
+										
+									}
+								}
+							}
+						}
+					} //else {
+					{
+						
+					}
+				}else{
+					towerMap[x][y].setAttackDelay(towerMap[x][y].getAttackDelay() + 1);
 				}
-			}else{
-				this.towerMap[x][y].setAttackDelay(this.towerMap[x][y].getAttackDelay() + 1);
+			}
+			//else
+			{
+				
 			}
 		}
 		//There is a critter to shoot and to show the attack, we need to keep the bullet visible until attackTime > maxAttackTime
 		else{
-			if(this.towerMap[x][y].getAttackTime() < this.towerMap[x][y].getMaxAttackTime()){
-				this.towerMap[x][y].setAttackTime(this.towerMap[x][y].getAttackTime() + 1);
-			} else {
-				this.towerMap[x][y].setTargetCritter(null);
+			if(towerMap[x][y].getAttackTime() < towerMap[x][y].getMaxAttackTime()){
+				towerMap[x][y].setAttackTime(towerMap[x][y].getAttackTime() + 1);
+			} else {	//Why the fuck this is null here ??
+				towerMap[x][y].setTargetCritter(null);
 			}
 		}
 	}

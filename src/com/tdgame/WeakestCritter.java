@@ -29,14 +29,19 @@ public class WeakestCritter implements TowerFireStrategy {
 				blackListedCritters[indexOfCritterWithMinHealth].towerX=towerXPos;
 				blackListedCritters[indexOfCritterWithMinHealth].towerY=towerYPos;
 				blackListedCritters[indexOfCritterWithMinHealth].towerFixed=true;
+				blackListedCritters[indexOfCritterWithMinHealth].isHit=true;
 				if (type.equals("Tank"))
 				{	
 					blackListedCritters[indexOfCritterWithMinHealth].slowdown=true;
 				}
-				if (type.equals("Fire"))
+				else if (type.equals("Fire"))
 				{	
 					blackListedCritters[indexOfCritterWithMinHealth].showFire=true;
 				}
+				else if(type.equals("Laser")){
+					blackListedCritters[indexOfCritterWithMinHealth].splash = true;
+				}
+				targetCritter = blackListedCritters[indexOfCritterWithMinHealth];
 				return blackListedCritters[indexOfCritterWithMinHealth];
 			}
 			return null;

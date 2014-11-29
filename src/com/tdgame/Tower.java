@@ -65,6 +65,9 @@ public abstract class Tower extends JButton{
 		this.costToIncreaseLevel = (int)((cost*50)/100);
 		//this.attackStrategy = strategy;
 	}
+	public void setSplashDamageEffect(){
+		this.splashEffect = true;
+	}
 	public void increaseAmmunition(int in_ammunition) {
 		ammunition+=in_ammunition;
 	}
@@ -138,6 +141,7 @@ public abstract class Tower extends JButton{
 	public int dradius =0;
 
 	public Critter targetCritter;
+	public boolean splashEffect = false;
 
 
 	public Critter findTargetCritter(Critter[] critters, int towerXPos, int towerYPos) {
@@ -173,7 +177,7 @@ public abstract class Tower extends JButton{
 					if(sqOfDistanceOfCritterFromTower < (dradius * dradius)){
 						System.out.println(i + "in range...adding to eInRange list");
 						System.out.println("critterx crittery\n" + critters[i].x + "\t" + critters[i].y);
-						System.exit(0);
+						//System.exit(0);
 						blackListedCritters[i] = critters[i];
 						blackListedCritters[i].distanceOfBlackListedCritter = sqOfDistanceOfCritterFromTower;
 						//System.exit(0);
@@ -264,7 +268,7 @@ public abstract class Tower extends JButton{
 	public void towerAttack(int x, int y, Critter critter){
 		System.out.println("Reducing health...\nOriginal\t" + critter.health +"\nNow\t" + (critter.health-this.getDamageToCritters()));
 		critter.health-=this.getDamageToCritters();
-		Screen.user.player.money += this.getDamageToCritters();
+		Screen.user.player.money += this.getDamageToCritters()*100;
 	}
 
 	public int getDamageToCritters() {

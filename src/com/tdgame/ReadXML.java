@@ -213,6 +213,7 @@ public class ReadXML {
 						//setting 3 for the path
 						else if(value == 3) {							
 							MouseHandler.hashMap_of_pathIndex_with_position.put(position, y+"_"+row);
+							MouseHandler.boxPositionPathNumberMap.put(y+"_"+row, position);
 						}
 					}
 
