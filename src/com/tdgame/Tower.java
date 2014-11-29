@@ -55,15 +55,18 @@ public abstract class Tower extends JButton{
 		this.cost = cost;
 		this.range = range;
 		this.type=type;
-		this.refundRate=(int)(cost*25)/100;
+		this.refundRate=(int)((cost*25)/100);
 		this.rateOfFire=rateOfFire;
-		this.costToAddAmmunition=(int)(cost*25)/100;
+		this.costToAddAmmunition=(int)((cost*25)/100);
 		this.imgPath=path;
 
 		this.damageToCritters=damageToCritters;
 		this.level=level;
-		this.costToIncreaseLevel = (int)(cost*50)/100;
+		this.costToIncreaseLevel = (int)((cost*50)/100);
 		//this.attackStrategy = strategy;
+	}
+	public void setSplashDamageEffect(){
+		this.splashEffect = true;
 	}
 	public void increaseAmmunition(int in_ammunition) {
 		ammunition+=in_ammunition;
@@ -117,7 +120,7 @@ public abstract class Tower extends JButton{
 	public void increaseLevel(){
 		this.range++;
 		if((this.rateOfFire % 2) == 0){
-			this.rateOfFire +=  (int)(this.rateOfFire*50)/100 ;
+			this.rateOfFire +=  (int)((this.rateOfFire*50)/100) ;
 		} else {
 			this.rateOfFire += ((int)(this.rateOfFire*50)/100) + 1;
 		}
@@ -138,6 +141,7 @@ public abstract class Tower extends JButton{
 	public int dradius =0;
 
 	public Critter targetCritter;
+	public boolean splashEffect = false;
 
 
 	public Critter findTargetCritter(Critter[] critters, int towerXPos, int towerYPos) {
@@ -172,6 +176,8 @@ public abstract class Tower extends JButton{
 //					System.out.println("OSAMA OSAMA OSAMA" + sqOfDistanceOfCritterFromTower);
 					if(sqOfDistanceOfCritterFromTower < (dradius * dradius)){
 						System.out.println(i + "in range...adding to eInRange list");
+						System.out.println("critterx crittery\n" + critters[i].x + "\t" + critters[i].y);
+						//System.exit(0);
 						blackListedCritters[i] = critters[i];
 						blackListedCritters[i].distanceOfBlackListedCritter = sqOfDistanceOfCritterFromTower;
 						//System.exit(0);
@@ -199,9 +205,11 @@ public abstract class Tower extends JButton{
 			} else if(attackStrategy == Screen.WEAKESTCRITTER){
 				towerFire.setFireStrategy(new WeakestCritter());
 				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
-				
 			} else if(attackStrategy == Screen.NEARESTTOTOWERCRITTER){
 				towerFire.setFireStrategy(new NearToTower());
+				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
+			} else if(attackStrategy == Screen.NEARESTTOENDPOINTCRITTER){
+				towerFire.setFireStrategy(new NearToEnd());
 				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
 			}
 		} else {
@@ -260,7 +268,7 @@ public abstract class Tower extends JButton{
 	public void towerAttack(int x, int y, Critter critter){
 		System.out.println("Reducing health...\nOriginal\t" + critter.health +"\nNow\t" + (critter.health-this.getDamageToCritters()));
 		critter.health-=this.getDamageToCritters();
-		Screen.user.player.money += this.getDamageToCritters();
+		Screen.user.player.money += this.getDamageToCritters()*100;
 	}
 
 	public int getDamageToCritters() {

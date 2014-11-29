@@ -5,18 +5,18 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Map.Entry;
 
-import javax.xml.parsers.DocumentBuilder;  
-import javax.xml.parsers.DocumentBuilderFactory;  
-import javax.xml.parsers.ParserConfigurationException;  
-import javax.xml.transform.Transformer;  
-import javax.xml.transform.TransformerException;  
-import javax.xml.transform.TransformerFactory;  
-import javax.xml.transform.dom.DOMSource;  
-import javax.xml.transform.stream.StreamResult;  
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Attr;  
-import org.w3c.dom.Document;  
-import org.w3c.dom.Element;  
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * This class contains the code to create an XML file and load it into the 2D array for creating a new map
@@ -35,7 +35,6 @@ public class SaveXML {
 	Document document;
 	Element logRootElement; 
 	Attr attribute;
-
 
 	public SaveXML(Screen screen, String newFileName) {
 		this.screen = screen;

@@ -116,7 +116,6 @@ public class ReadXMLTest {
 		}
 		readXML.loadXML();
 		assertEquals(money, readXML.usermoney);
-		
 	}
 	
 	/**

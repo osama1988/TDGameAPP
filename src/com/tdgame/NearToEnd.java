@@ -1,62 +1,90 @@
 package com.tdgame;
 
-import java.util.Random;
+import java.util.Map.Entry;
+
+import javax.swing.text.html.StyleSheet.BoxPainter;
 
 public class NearToEnd implements TowerFireStrategy {
 
 	@Override
 	public Critter fire(Critter[] blackListedCritters, Critter targetCritter,int towerXPos, int towerYPos, String type) {
 		// TODO Auto-generated method stub
+		System.out.println("ATTACK**********************************************");
 		int totalTargetEnemies = 0;
-
+		boolean isFirstInRange=false;
+		int firstInRangeIndex = 0;
 		for(int i=0; i<blackListedCritters.length; i++){
 			if(blackListedCritters[i] != null){
 				totalTargetEnemies++;
+				if(!isFirstInRange){
+					isFirstInRange = true;
+					firstInRangeIndex =i;
+				}
+				//indexOfSingleCritter = i;
 			}
 		}
 		System.out.println("total number of inrange enemies...\t" + totalTargetEnemies);
-
+		int indexOfTargetCritter = 0;
+		String searchKey = "";
+		int blockPositionOfFirstCritter = 0;
 		if(totalTargetEnemies > 0){
-			System.out.println("totalEnemies > 0\t" + (totalTargetEnemies > 0));
-			int targetedCritter = new Random().nextInt(totalTargetEnemies);
-			System.out.println("random enemy number\t" + targetCritter);
-			int crittersKilled = 0;
-			int noOfCritterssChecked = 0;
-
-			while(true){
-				System.out.println("killed\t" + crittersKilled + "\nchecked\t" + noOfCritterssChecked);
-				if(crittersKilled == targetedCritter && blackListedCritters[noOfCritterssChecked] != null && blackListedCritters[noOfCritterssChecked].inGame){
-					System.out.println("enemiesKilled == enemy && enemiesInRange[noOfEnemiesChecked] != null");
-					System.out.println("returning this random enemy to be killed...");
-					blackListedCritters[noOfCritterssChecked].towerX=towerXPos;
-					blackListedCritters[noOfCritterssChecked].towerY=towerYPos;
-					blackListedCritters[noOfCritterssChecked].towerFixed=true;
-					blackListedCritters[noOfCritterssChecked].isHit=true;
-					if (type.equals("Tank"))
-					{	
-						blackListedCritters[noOfCritterssChecked].slowdown=true;
+			searchKey = ""+(blackListedCritters[firstInRangeIndex].x/50) + "_" + ((blackListedCritters[firstInRangeIndex].y/50)+1)+"";
+			indexOfTargetCritter = firstInRangeIndex;
+			System.out.println("searchKey\t" + searchKey.trim());
+			blockPositionOfFirstCritter = MouseHandler.boxPositionPathNumberMap.get(searchKey.trim());
+			if(totalTargetEnemies > 1){
+				for(int i=0; i<blackListedCritters.length; i++){
+					if((i != firstInRangeIndex) && (blackListedCritters[i] != null)){
+						searchKey = (blackListedCritters[i].x/50) + "_" + ((blackListedCritters[i].y/50) + 1);
+						System.out.println("Current critter search key\t" + searchKey);
+						int blockPositionOfCurrentCritter = MouseHandler.boxPositionPathNumberMap.get(searchKey);
+						if(blockPositionOfFirstCritter <= blockPositionOfCurrentCritter){
+							blockPositionOfFirstCritter = blockPositionOfCurrentCritter;
+							indexOfTargetCritter = i;
+						}
 					}
-					if (type.equals("Fire"))
-					{	
-						blackListedCritters[noOfCritterssChecked].showFire=true;
-					}
-					targetCritter = blackListedCritters[noOfCritterssChecked];
-					return blackListedCritters[noOfCritterssChecked];
 				}
-				if(targetedCritter > crittersKilled){
-					if(blackListedCritters != null){
-						crittersKilled++;
-						System.out.println("crittersInRange != null\tkilled\t" + crittersKilled);
-					}
-					noOfCritterssChecked++;
-					System.out.println("inc... checked\t" + noOfCritterssChecked);
-				} else{
-					return null;
+				blackListedCritters[indexOfTargetCritter].towerX=towerXPos;
+				blackListedCritters[indexOfTargetCritter].towerY=towerYPos;
+				blackListedCritters[indexOfTargetCritter].towerFixed=true;
+				blackListedCritters[indexOfTargetCritter].isHit=true;
+				if (type.equals("Tank"))
+				{	
+					blackListedCritters[indexOfTargetCritter].slowdown=true;
 				}
+				else if (type.equals("Fire"))
+				{	
+					blackListedCritters[indexOfTargetCritter].showFire=true;
+				}
+				else if(type.equals("Laser")){
+					blackListedCritters[indexOfTargetCritter].splash = true;
+				}
+				targetCritter = blackListedCritters[indexOfTargetCritter];
+				return blackListedCritters[indexOfTargetCritter];
+			} 
+			//If any problem remove this else block and uncomment "return blackListedCritters[indexOfTargetCritter];" below the block
+			else {
+				System.out.println("Initially it shud return from here...");
+				blackListedCritters[firstInRangeIndex].towerX=towerXPos;
+				blackListedCritters[firstInRangeIndex].towerY=towerYPos;
+				blackListedCritters[firstInRangeIndex].towerFixed=true;
+				blackListedCritters[firstInRangeIndex].isHit=true;
+				if (type.equals("Tank"))
+				{	
+					blackListedCritters[firstInRangeIndex].slowdown=true;
+				}
+				else if (type.equals("Fire"))
+				{	
+					blackListedCritters[firstInRangeIndex].showFire=true;
+				}
+				else if(type.equals("Laser")){
+					blackListedCritters[firstInRangeIndex].splash = true;
+				}
+				targetCritter = blackListedCritters[firstInRangeIndex];
+				return blackListedCritters[firstInRangeIndex];
 			}
 		}
 		return null;
-		
 	}
 
 }

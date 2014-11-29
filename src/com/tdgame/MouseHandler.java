@@ -4,6 +4,7 @@ import java.awt.HeadlessException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -55,6 +56,8 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
 	LinkedList<String> nextBlock;
 	LinkedList<String> previousSurroundingBlocks;
 	static TreeMap<Integer, String> hashMap_of_pathIndex_with_position;
+	public static HashMap<String, Integer> boxPositionPathNumberMap = new HashMap<String, Integer>();
+
 	
 	public MouseHandler(Screen screen, int x, int y, boolean createMap) {
 		this.screen = screen;
@@ -263,7 +266,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
 		if((arrayList_to_hold_occupied_blocks.get(arrayList_to_hold_occupied_blocks.size()-1)).equals(arrayIndex)) {
 			
 			arrayList_to_hold_occupied_blocks.removeLastOccurrence(arrayIndex);
-
+			boxPositionPathNumberMap.remove(arrayIndex);
 			for (Entry<Integer, String> entry : hashMap_of_pathIndex_with_position.entrySet()) {
 	            if (entry.getValue().equals(arrayIndex)) {
 	            	hashMap_of_pathIndex_with_position.remove(entry.getKey());
@@ -303,6 +306,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
 			count++;
 			arrayList_to_hold_occupied_blocks.add(arrayIndex);
 			hashMap_of_pathIndex_with_position.put(count, arrayIndex);
+			boxPositionPathNumberMap.put(arrayIndex, count);
 			mouseHeld.mouseDown(e, count, boxNumberX, boxNumberY);
 			
 			boxNumberX_plus_1 = boxNumberX + 1;

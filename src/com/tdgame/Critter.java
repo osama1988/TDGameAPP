@@ -51,6 +51,7 @@ public class Critter extends Rectangle {
 	JLabel testlabel;
 	public int moveFrame = 0;
 	public int moveSpeed;
+	public boolean splash = false;
 
 	/** 
 	 * Constructor
