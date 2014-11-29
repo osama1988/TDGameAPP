@@ -218,19 +218,19 @@ public class SaveXML {
 			logRootElement.appendChild(entry);
 			
 			// add attributes to tile											
-			attribute = document.createAttribute("ATimeStamp");
+			attribute = document.createAttribute("TimeStamp");
 			attribute.setValue(timeStamp);
 			entry.setAttributeNode(attribute);
 			
-			attribute = document.createAttribute("BLogType");
+			attribute = document.createAttribute("LogType");
 			attribute.setValue(logType);
 			entry.setAttributeNode(attribute);
 			
-			attribute = document.createAttribute("CElementType");
+			attribute = document.createAttribute("ElementType");
 			attribute.setValue(elementType);
 			entry.setAttributeNode(attribute);
 			
-			attribute = document.createAttribute("DMsg");
+			attribute = document.createAttribute("Msg");
 			attribute.setValue(msg);
 			entry.setAttributeNode(attribute);
 			

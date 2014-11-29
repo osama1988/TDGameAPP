@@ -171,7 +171,7 @@ public class Screen extends JPanel implements Runnable{
 	public static int findEnemyTestCount = 0;
 	public static boolean isWaveRunning=false;
 	
-	public static SaveXML saveLogXML = new SaveXML("Log");
+	public static SaveXML saveLogXML;
 
 	// Screen constructor
 	public Screen(Frame frame) {
@@ -445,9 +445,15 @@ public class Screen extends JPanel implements Runnable{
 						xPosInGridMap=location.x;
 						yPosInGridMap=location.y;
 						if(isWaveRunning)
+						{
 							saveLogXML.writeLog("Wave_Tower", selectedTower.type, "User sold "+selectedTower.type);
+							saveLogXML.writeLog("Wave_User","User", "User sold "+selectedTower.type+" Current Money "+user.player.money);
+						}
 						else
+						{
 							saveLogXML.writeLog("Tower", selectedTower.type, "User sold "+selectedTower.type);
+							saveLogXML.writeLog("User","User", "User sold "+selectedTower.type+" Current Money "+user.player.money);
+						}
 						frame.remove((Component) selectedTower);
 						frame.getContentPane().validate();
 					}
@@ -467,9 +473,15 @@ public class Screen extends JPanel implements Runnable{
 								selectedTower.increaseAmmunition(selectedTower.getActualAmmunition());
 								onMapTowerPropTbl.setValueAt(selectedTower.getAmmunition(), 1, 1);
 								if(isWaveRunning)
+								{
 									saveLogXML.writeLog("Wave_Tower", selectedTower.type, selectedTower.type+" ammunition increased by "+selectedTower.getActualAmmunition());
+									saveLogXML.writeLog("Wave_User","User", "User buy ammunition for  "+selectedTower.type+" Current Money "+user.player.money);
+								}
 								else
+								{
 									saveLogXML.writeLog("Tower", selectedTower.type, selectedTower.type+" ammunition increased by "+selectedTower.getActualAmmunition());
+									saveLogXML.writeLog("User","User", "User buy ammunition for  "+selectedTower.type+" Current Money "+user.player.money);
+								}
 							}
 							else {
 								Object[] options = { "OK" };
@@ -1001,7 +1013,9 @@ public class Screen extends JPanel implements Runnable{
 	 */
 
 	public void startGame(String fileName, String typeOfOperation, User user) {
+		saveLogXML = new SaveXML("Log");
 		user.createPlayer();
+		saveLogXML.writeLog("User","User", "User created with "+user.startingCash+" money");
 		levelFile.readAndLoadMap(fileName, this, typeOfOperation);		
 		this.scene = 1;	// game level 1
 	}

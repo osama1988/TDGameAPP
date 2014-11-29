@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.TreeMap;
 
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -224,5 +226,72 @@ public class ReadXML {
 			usermoney=Integer.parseInt(moneyElement.getAttribute("userMoney"));
 		}
 	}
+
+	public void readLog(String log,String eleType,JTable table){
+		try
+		{
+			String elementType;
+			String logType;
+			File xmlFile = new File(pathForTesting + "log.xml"); //reading Base XML
+			DocumentBuilderFactory documentFactory = DocumentBuilderFactory
+					.newInstance();
+			DocumentBuilder documentBuilder = documentFactory
+					.newDocumentBuilder();
+			Document doc = documentBuilder.parse(xmlFile);
+	
+			doc.getDocumentElement().normalize(); 
+			NodeList nodeList = doc.getElementsByTagName("Entry");
+			DefaultTableModel model = (DefaultTableModel) table.getModel();
+			
+			
+			for (int temp = 0; temp < nodeList.getLength(); temp++) {
+		 
+				Node nNode = nodeList.item(temp);
+		 		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element eElement = (Element) nNode;
+					elementType=eElement.getAttribute("ElementType");
+					logType=eElement.getAttribute("LogType");
+					if(log.equals("Tower"))
+					{
+						if(logType.equals("Tower") || logType.equals("Wave_Tower")){
+							if(elementType.equals(eleType)){
+								model.addRow(new Object[]{eElement.getAttribute("TimeStamp"),logType, eElement.getAttribute("ElementType"), eElement.getAttribute("Msg")});
+								System.out.println(eElement.getAttribute("TimeStamp")+" "+eElement.getAttribute("ElementType")+" "+eElement.getAttribute("Msg"));
+							}
+							else if(eleType.equals("All")){
+								//if you want collective log of towers
+								model.addRow(new Object[]{eElement.getAttribute("TimeStamp"),logType, eElement.getAttribute("ElementType"), eElement.getAttribute("Msg")});
+								System.out.println(eElement.getAttribute("TimeStamp")+" "+eElement.getAttribute("ElementType")+" "+eElement.getAttribute("Msg"));
+							}
+						}
+					}
+					else if(log.equals("Wave")){
+						if(logType.equals("Wave") || logType.equals("Wave_Tower") ||  logType.equals("Wave_User")){
+							model.addRow(new Object[]{eElement.getAttribute("TimeStamp"),logType, eElement.getAttribute("ElementType"), eElement.getAttribute("Msg")});
+							System.out.println(eElement.getAttribute("TimeStamp")+" "+eElement.getAttribute("ElementType")+" "+eElement.getAttribute("Msg"));
+							
+						}
+					}
+					else if(log.equals("User")){
+						if(logType.equals("User") || logType.equals("Wave_User")){
+							model.addRow(new Object[]{eElement.getAttribute("TimeStamp"),logType, eElement.getAttribute("ElementType"), eElement.getAttribute("Msg")});
+							System.out.println(eElement.getAttribute("TimeStamp")+" "+eElement.getAttribute("ElementType")+" "+eElement.getAttribute("Msg"));
+							
+						}
+					}
+					else if(log.equals("Global")){
+						model.addRow(new Object[]{eElement.getAttribute("TimeStamp"),logType, eElement.getAttribute("ElementType"), eElement.getAttribute("Msg")});
+						System.out.println(eElement.getAttribute("TimeStamp")+" "+eElement.getAttribute("LogType")+" "+eElement.getAttribute("ElementType")+" "+eElement.getAttribute("Msg"));
+					}
+						
+		 
+				}
+			}
+		}
+		catch(Exception e){
+			System.out.println(e);
+		}
+	}
+
 
 }
