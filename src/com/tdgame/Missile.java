@@ -15,6 +15,9 @@ import javax.swing.JButton;
 
 public class Missile extends Tower{
 	
+	/**
+	 * Missile property of the tower
+	 */
 	public Missile()
 	{
 		setBackground(Color.black);

@@ -42,4 +42,10 @@ public class ActionHandlerTest {
 		listCount = list.length;
 		assertNotEquals(10, listCount);
 	}
+	
+	@Test
+	public void mapListCheckTrue() {
+		listCount = list.length;
+		assertTrue(listCount>10);
+	}
 }

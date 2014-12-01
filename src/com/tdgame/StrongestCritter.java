@@ -1,5 +1,14 @@
 package com.tdgame;
 
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
+/**
+ * StrongestCritter Strategy for TowerFire
+ * @author Team 2
+ *
+ */
 public class StrongestCritter implements TowerFireStrategy {
 
 	@Override

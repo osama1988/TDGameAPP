@@ -4,6 +4,11 @@ import java.util.Map.Entry;
 
 import javax.swing.text.html.StyleSheet.BoxPainter;
 
+/**
+ * Implemented NearToEnd strategy to tower
+ * @author Team2
+ *
+ */
 public class NearToEnd implements TowerFireStrategy {
 
 	@Override

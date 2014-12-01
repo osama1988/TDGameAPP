@@ -230,4 +230,13 @@ public class CritterTest {
 		int expected_critterID = 0;
 		assertEquals(expected_critterID, critter.critterID);
 	}
+	
+	/**
+	 * Validating critter ID that defines its properties e.g. Image
+	 */
+	@Test
+	public void IDCheck() {
+		int expected_critterID = 0;
+		assertTrue(expected_critterID==critter.critterID);
+	}
 }

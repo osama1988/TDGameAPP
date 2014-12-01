@@ -214,4 +214,16 @@ public class TowerTest {
 		assertSame(0, orig_health);
 		
 	}
+	
+	@Test
+	public void getMaxDelay(){
+		int delay = 10;
+		assertEquals(10, delay);
+	}
+	
+	@Test
+	public void getMinDelay(){
+		int minDelay = 5;
+		assertEquals(5, minDelay);
+	}
 }

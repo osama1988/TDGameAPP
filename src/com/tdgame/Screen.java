@@ -659,6 +659,7 @@ public class Screen extends JPanel implements Runnable{
 									//	System.out.println("critter found for tower at\nX\tY\n" + x + "\t" + y);
 									//	System.out.println("Draw line from\n" + (50 + (x * 50) + (int)(50/2)) + "," + (50 + (y * 50) + (int)(50/2)) + "\tto " + (int)(towerMap[x][y].getTargetCritter().x) + "," + (int)(towerMap[x][y].getTargetCritter().y));
 									System.out.println((int)(critters[i].x+critters[i].adjustX)+"\t"+(int)(critters[i].y+critters[i].adjustY)+"\t"+(50 + (critters[i].towerX * 50) + (int)(50/2))+"\t"+(50 + (critters[i].towerY * 50) + (int)(50/2) - 50));
+
 									/*if(towerMap[critters[i].towerX][critters[i].y].type=="Fire")
 										g.setColor(Color.ORANGE);
 									else if(towerMap[critters[i].towerX][critters[i].y].type=="Leaser")

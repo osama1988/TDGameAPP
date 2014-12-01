@@ -1,7 +1,6 @@
 TDGameAPP/.metadata
 TDGameAPP/.metadata/
 TDGameAPP/.metadata/**
-bin/*
 bin/
 *target*
 *.class
@@ -11,7 +10,6 @@ bin/
 .metadata
 .metadata/
 .metadata/**
-bin/**
 tmp/**
 tmp/**/*
 *.tmp

@@ -2,6 +2,11 @@ package com.tdgame;
 
 import java.util.Random;
 
+/**
+ * Implemented RandomFire for towerFireStrategy
+ * @author Team 2
+ *
+ */
 public class RandomFire implements TowerFireStrategy {
 
 	@Override

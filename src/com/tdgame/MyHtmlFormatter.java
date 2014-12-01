@@ -7,7 +7,10 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
-// this custom formatter formats parts of a log record to a single line
+/**
+ * This custom formatter formats parts of a log record to a single line
+ * @author Team2
+ */
 class MyHtmlFormatter extends Formatter {
   // this method is called for every log records
   public String format(LogRecord rec) {

@@ -69,28 +69,28 @@ public class ReadXMLTest {
 
 	}
 	
-//	/**
-//	 * Checking if ReadXML object is not null
-//	 * @throws Exception
-//	 */
-//	@Test
-//	public void testReadXML() throws Exception {
-//		int valueX = 0;
-//		int valueY = 0;
-//		ReadXML result = new ReadXML(valueX, valueY, screen, filename);
-//		assertNotNull(result);
-//	}
-//	
-//	/**
-//	 * Checking if the length of the map is not 0
-//	 * @throws Exception
-//	 */
-//	@Test
-//	public void testGetLengthOfExistingMap() throws Exception {
-//			ReadXML fixture = new ReadXML(18, 18, new Screen(new Frame()), "");
-//			String result = fixture.getLengthOfExistingMap(filename);
-//			assertNotEquals("0_0", result);
-//		}
+	/**
+	 * Checking if ReadXML object is not null
+	 * @throws Exception
+	 */
+	@Test
+	public void testReadXML() throws Exception {
+		int valueX = 0;
+		int valueY = 0;
+		ReadXML result = new ReadXML(valueX, valueY, screen, filename);
+		assertNotNull(result);
+	}
+	
+	/**
+	 * Checking if the length of the map is not 0
+	 * @throws Exception
+	 */
+	@Test
+	public void testGetLengthOfExistingMap() throws Exception {
+			ReadXML fixture = new ReadXML(18, 18, new Screen(new Frame()), "");
+			String result = fixture.getLengthOfExistingMap(filename);
+			assertNotEquals("0_0", result);
+		}
 	
 	/**
 	 * Testing state of user in an already saved map
