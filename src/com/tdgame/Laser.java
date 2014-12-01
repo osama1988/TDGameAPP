@@ -15,7 +15,9 @@ import javax.swing.JButton;
  */
 public class Laser extends Tower{
 	
-	
+	/**
+	 * Laser property of the tower
+	 */
 	public Laser()
 	{
 		setBackground(Color.CYAN);

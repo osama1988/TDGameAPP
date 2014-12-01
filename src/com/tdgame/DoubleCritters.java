@@ -14,6 +14,9 @@ import javax.swing.ImageIcon;
  */
 public class DoubleCritters implements CritterStrategy {
 	
+	/**
+	 * Method used to start the wave of critters that includes both double and single row of critters.
+	 */
 	@Override
 	public void startWave() {
 		// TODO Auto-generated method stub

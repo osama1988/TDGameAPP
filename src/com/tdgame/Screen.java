@@ -664,7 +664,6 @@ public class Screen extends JPanel implements Runnable{
 									else{
 										critters[i].draw(g, 0);
 									}	
-
 									g.setColor(Color.MAGENTA);
 									if (critters[i].slowdown)
 									{

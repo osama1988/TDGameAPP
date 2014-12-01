@@ -1,5 +1,10 @@
 package com.tdgame;
 
+/**
+ * Implemented NearToTower strategy to tower
+ * @author Team2
+ *
+ */
 public class NearToTower implements TowerFireStrategy {
 
 	@Override

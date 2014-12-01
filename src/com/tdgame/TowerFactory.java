@@ -1,5 +1,8 @@
 package com.tdgame;
 
+/**
+ * Implementation for Tower Factory Pattern
+ */
 public class TowerFactory {
 
 	static public Tower getTower(String towerType)

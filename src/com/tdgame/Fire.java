@@ -15,7 +15,9 @@ import javax.swing.JButton;
  */
 public class Fire extends Tower {
 	
-	
+	/**
+	 * Setting Fire property of the tower
+	 */
 	public Fire()
 	{
 		setBackground(Color.orange);

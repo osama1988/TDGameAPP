@@ -1,5 +1,10 @@
 package com.tdgame;
 
+/**
+ * WeakestCritter strategy for TowerFire
+ * @author Team2
+ *
+ */
 public class WeakestCritter implements TowerFireStrategy {
 
 	

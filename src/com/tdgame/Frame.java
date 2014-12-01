@@ -34,7 +34,6 @@ public class Frame extends JApplet{
 	JButton menuSaveGame;
 	JButton menuLog;
 	
-	
 	public void init() {
 		
 		File audioFile = new File("../res/gamestart.wav");

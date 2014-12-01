@@ -30,6 +30,7 @@ public class ReadXML {
 	int valueX, valueY;
 	String fileName="";
 	public int usermoney=0;
+
 	
 	//String pathForTesting="D:/Java/TDGameAPP/level/";
 //	String pathForTesting = "/Users/osamayawar/Desktop/eclipse/wordspace/TDGameAPP/level/"; //Added for MAC by Osama
@@ -149,14 +150,20 @@ public class ReadXML {
 			Document doc = documentBuilder.parse(xmlFile);
 
 			doc.getDocumentElement().normalize();
-			
 			NodeList mapList = doc.getElementsByTagName("Map");			
 			Node userMoney = mapList.item(0);
 			 moneyElement = (Element) userMoney;
 			
 			if(moneyElement != null && moneyElement.getAttribute("userMoney") != "")
 			{
-				Screen.user.player.money = Integer.parseInt(moneyElement.getAttribute("userMoney"));
+				try {
+					Screen.user.player.money = Integer.parseInt(moneyElement.getAttribute("userMoney"));
+					
+					
+				} catch (Exception e) {
+					usermoney = Integer.parseInt(moneyElement.getAttribute("userMoney"));
+				}
+				
 			}
 			
 			NodeList nodeList = doc.getElementsByTagName("Row");
@@ -178,26 +185,32 @@ public class ReadXML {
 						y = Integer.parseInt(col.getAttribute("y"));
 						value = Integer.parseInt(col.getAttribute("value"));
 						position = Integer.parseInt(col.getAttribute("position"));
-						
 						if(MouseHandler.largestPositionValue_inMap < position) {
 							MouseHandler.largestPositionValue_inMap = position;
 						}
 						
 						if(col.getAttribute("tower") != null && col.getAttribute("tower") != "" && !col.getAttribute("tower").isEmpty()) {
-							Screen.towerMap[y][row]=TowerFactory.getTower(col.getAttribute("tower"));
-							System.out.println(col.getAttribute("tower"));
-							towerObjAfterLoading = Screen.towerMap[y][row];		
 							
-							towerObjAfterLoading.ammunition=Integer.parseInt(col.getAttribute("ammunition"));
+							try {
+								Screen.towerMap[y][row]=TowerFactory.getTower(col.getAttribute("tower"));
+								System.out.println(Screen.towerMap[y][row]);
+								
+								System.out.println(col.getAttribute("tower"));
+								towerObjAfterLoading = Screen.towerMap[y][row];		
+								
+								towerObjAfterLoading.ammunition=Integer.parseInt(col.getAttribute("ammunition"));
+								System.out.println(towerObjAfterLoading.ammunition + "OSAMA");
 //							towerObjAfterLoading.actualAmmunition=Integer.parseInt(col.getAttribute("ammunition"));
 //							towerObjAfterLoading.cost = Integer.parseInt(col.getAttribute("cost"));
-							towerObjAfterLoading.range = Integer.parseInt(col.getAttribute("range"));
+								towerObjAfterLoading.range = Integer.parseInt(col.getAttribute("range"));
 //							towerObjAfterLoading.type=col.getAttribute("tower");
 //							towerObjAfterLoading.refundRate=Integer.parseInt(col.getAttribute("refundRate"));
-							towerObjAfterLoading.rateOfFire=Integer.parseInt(col.getAttribute("rateOfFire"));
+								towerObjAfterLoading.rateOfFire=Integer.parseInt(col.getAttribute("rateOfFire"));
 //							towerObjAfterLoading.costToAddAmmunition=Integer.parseInt(col.getAttribute("costToAddAmmunition"));
-							towerObjAfterLoading.level=Integer.parseInt(col.getAttribute("towerLevel"));
-							towerObjAfterLoading.setTowerStrategy(col.getAttribute("towerStrategy"));
+								towerObjAfterLoading.level=Integer.parseInt(col.getAttribute("towerLevel"));
+								towerObjAfterLoading.setTowerStrategy(col.getAttribute("towerStrategy"));
+							} catch (Exception e) {
+							}
 							
 						}		
 						

@@ -16,8 +16,6 @@ import javax.swing.SwingUtilities;
  * This class is responsible for handling all the mouse related events
  * 
  * @author Team 2
- * @version "%I%, %G%"
- * 
  */
 
 public class MouseHandler implements MouseListener, MouseMotionListener{

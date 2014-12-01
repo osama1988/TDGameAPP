@@ -1,5 +1,10 @@
 package com.tdgame;
 
+/**
+ * Implementation for Tower Fire Strategy
+ * @author Team2
+ *
+ */
 public class TowerFire {
 	private TowerFireStrategy strategy;
 	public void setFireStrategy(TowerFireStrategy strategy){

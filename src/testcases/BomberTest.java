@@ -119,17 +119,17 @@ public class BomberTest {
 		assertEquals(250, bomber.getCostToIncreaseLevel());
 	}
 	
-//	/**
-//	 * Increasing level and testing if is actually increased
-//	 */
-//	@Test
-//	public void increaseLevel() {
-//		bomber.rateOfFire = 8;
-//		bomber.range = 4;
-//		bomber.increaseLevel();
-//		System.out.println(bomber.getTowerLevel());
-//		//assertEquals(250, bomber.getCostToIncreaseLevel());
-//	}
+	/**
+	 * Increasing level and testing if is actually increased
+	 */
+	@Test
+	public void increaseLevel() {
+		bomber.rateOfFire = 8;
+		bomber.range = 4;
+		bomber.increaseLevel();
+		System.out.println(bomber.getTowerLevel());
+		assertEquals(2, bomber.getTowerLevel());
+	}
 	
 	
 	
