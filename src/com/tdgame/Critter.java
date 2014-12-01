@@ -142,7 +142,7 @@ public class Critter extends Rectangle {
 	public void physics(int initialDelay, int addition, int refreshValue) {
 		// Check map array when movement is 0 or after given delay so that critters wont get direction early	
 		int totalDelay = initialDelay + nextDelay;
-		if (movement == 0 || movement == totalDelay) {
+		if (movement == 0 || movement >= totalDelay) {
 			// Make sure that row value must not exceed array index bounds and must not already have opposite direction
 			System.out.println("changing direction...");
 			if (row + 1 < Screen.map.length && Screen.map[row + 1][col] > 1 && !hasLeft) {
@@ -203,8 +203,9 @@ public class Critter extends Rectangle {
 				if(Screen.waveType=="Single")
 				{
 					Screen.waveType="Double";
-					for(int i=0;i<Screen.critters.length;i++)
-						Screen.critters[i].inGame=false;
+					if(Screen.critters != null)
+						for(int i=0;i<Screen.critters.length;i++)
+							Screen.critters[i].inGame=false;
 				}
 				else
 				{
