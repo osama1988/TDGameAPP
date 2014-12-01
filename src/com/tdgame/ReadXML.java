@@ -245,7 +245,7 @@ public class ReadXML {
 		{
 			String elementType;
 			String logType;
-			File xmlFile = new File(pathForTesting + "log.xml"); //reading Base XML
+			File xmlFile = new File("../log/"+Screen.newFileName); //reading Base XML
 			DocumentBuilderFactory documentFactory = DocumentBuilderFactory
 					.newInstance();
 			DocumentBuilder documentBuilder = documentFactory

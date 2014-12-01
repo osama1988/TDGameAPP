@@ -98,30 +98,31 @@ public class MenuHandler implements ActionListener {
 			//frame.add(table.getTableHeader(), BorderLayout.PAGE_START);
 			//frame.add(table, BorderLayout.CENTER);
 			readXML.readLog("Tower","Tower", table);
-			switch (logFileName) {
-			case "Individual Tower Log":
-				readXML.readLog("Tower","Fire", table);
-				readXML.readLog("Tower","Leaser", table);
-				readXML.readLog("Tower","Bomber", table);
-				readXML.readLog("Tower","Tank", table);
-				readXML.readLog("Tower","Missile", table);
-				break;
-			case "Collective Tower Log":
-				readXML.readLog("Tower","All", table);
-				break;
-			case "Wave Log":
-				readXML.readLog("Wave","All", table);
-				break;
-			case "User Log":
-				readXML.readLog("User","All", table);
-				break;
-			case "Global Log":
-				readXML.readLog("Global","All", table);
-				break;
-			default:
-				break;
+			if(logFileName!=null){
+				switch (logFileName) {
+				case "Individual Tower Log":
+					readXML.readLog("Tower","Fire", table);
+					readXML.readLog("Tower","Laser", table);
+					readXML.readLog("Tower","Bomber", table);
+					readXML.readLog("Tower","Tank", table);
+					readXML.readLog("Tower","Missile", table);
+					break;
+				case "Collective Tower Log":
+					readXML.readLog("Tower","All", table);
+					break;
+				case "Wave Log":
+					readXML.readLog("Wave","All", table);
+					break;
+				case "User Log":
+					readXML.readLog("User","All", table);
+					break;
+				case "Global Log":
+					readXML.readLog("Global","All", table);
+					break;
+				default:
+					break;
+				}
 			}
-			
 			
 			table.setFillsViewportHeight(true);
 			frame.setLayout(new BorderLayout());

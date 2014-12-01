@@ -35,6 +35,7 @@ public class SaveXML {
 	Document document;
 	Element logRootElement; 
 	Attr attribute;
+	String logFileName;
 
 	public SaveXML(Screen screen, String newFileName) {
 		this.screen = screen;
@@ -45,20 +46,32 @@ public class SaveXML {
 	{
 		try
 		{
-			documentBuilder = documentFactory.newDocumentBuilder();
-			document = documentBuilder.newDocument();
-			logRootElement = document.createElement("Log");
-			document.appendChild(logRootElement);
-			
-			
-			TransformerFactory transformerFactory = TransformerFactory
-					.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
-			DOMSource domSource = new DOMSource(document);
-			StreamResult streamResult = new StreamResult(new File(
-					"../level/log.xml"));
-
-			transformer.transform(domSource, streamResult);
+			logFileName=log;
+			File logFile;
+			logFile=new File("../log/", log);
+			if(!logFile.exists())
+			{
+				documentBuilder = documentFactory.newDocumentBuilder();
+				document = documentBuilder.newDocument();
+				logRootElement = document.createElement("Log");
+				document.appendChild(logRootElement);
+				
+				
+				TransformerFactory transformerFactory = TransformerFactory
+						.newInstance();
+				Transformer transformer = transformerFactory.newTransformer();
+				DOMSource domSource = new DOMSource(document);
+				StreamResult streamResult = new StreamResult(new File(
+						"../log/"+log));
+	
+				transformer.transform(domSource, streamResult);
+			}
+			else
+			{
+				documentBuilder = documentFactory.newDocumentBuilder();
+				document = documentFactory.newDocumentBuilder().parse(new File("../log/"+log));
+				logRootElement = document.getDocumentElement();
+			}
 
 		}
 		catch(Exception e){}
@@ -238,7 +251,7 @@ public class SaveXML {
 
 	        TransformerFactory transformerFactory = TransformerFactory.newInstance();
 	        Transformer transformer = transformerFactory.newTransformer();
-	        StreamResult result = new StreamResult("../level/log.xml");
+	        StreamResult result = new StreamResult("../log/"+logFileName);
 	        transformer.transform(source, result);
 			
 			

@@ -520,9 +520,15 @@ public class Screen extends JPanel implements Runnable{
 								onMapTowerPropTbl.setValueAt(selectedTower.getRateOfFire(), 4, 1);
 								onMapTowerPropTbl.setValueAt(selectedTower.getTowerLevel(), 7, 1);
 								if(isWaveRunning)
+								{
 									saveLogXML.writeLog("Wave_Tower", selectedTower.type, selectedTower.type+" tower level increased");
+									saveLogXML.writeLog("Wave_User","User", "User increased level for  "+selectedTower.type+" Current Money "+user.player.money);
+								}
 								else
+								{
 									saveLogXML.writeLog("Tower", selectedTower.type, selectedTower.type+" tower level increased");
+									saveLogXML.writeLog("User","User", "User increased level for  "+selectedTower.type+" Current Money "+user.player.money);
+								}
 							}
 							else {
 								Object[] options = { "OK" };
@@ -962,7 +968,7 @@ public class Screen extends JPanel implements Runnable{
 	 */
 
 	public void startGame(String fileName, String typeOfOperation, User user) {
-		saveLogXML = new SaveXML("Log");
+		saveLogXML = new SaveXML(fileName);
 		user.createPlayer();
 		saveLogXML.writeLog("User","User", "User created with "+user.startingCash+" money");
 		levelFile.readAndLoadMap(fileName, this, typeOfOperation);		
