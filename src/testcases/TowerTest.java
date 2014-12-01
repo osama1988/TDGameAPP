@@ -169,7 +169,7 @@ public class TowerTest {
 	
 	/**
 	 * Testing if the attack time is being set properly by getting it from get method
-	 */
+	 *
 	@Test
 	public void setAttackTime() {
 		bomber.setAttackTime(10);
@@ -188,7 +188,7 @@ public class TowerTest {
 	
 	/**
 	 * Testing if the attack Max Attack Time is being set properly by getting it from get method
-	 */
+	 *
 	@Test
 	public void setMaxAttackTime() {
 		bomber.setMaxAttackTime(10);

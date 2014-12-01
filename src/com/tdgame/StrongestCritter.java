@@ -31,13 +31,19 @@ public class StrongestCritter implements TowerFireStrategy {
 			if (type.equals("Tank"))
 			{	
 				blackListedCritters[indexOfCritterWithMaxHealth].slowdown=true;
+				blackListedCritters[indexOfCritterWithMaxHealth].showFire = false;
+				blackListedCritters[indexOfCritterWithMaxHealth].splash = false;
 			}
 			else if (type.equals("Fire"))
 			{	
 				blackListedCritters[indexOfCritterWithMaxHealth].showFire=true;
+				blackListedCritters[indexOfCritterWithMaxHealth].slowdown = false;
+				blackListedCritters[indexOfCritterWithMaxHealth].splash = false;
 			}
 			else if(type.equals("Laser")){
 				blackListedCritters[indexOfCritterWithMaxHealth].splash = true;
+				blackListedCritters[indexOfCritterWithMaxHealth].showFire = false;
+				blackListedCritters[indexOfCritterWithMaxHealth].slowdown = false;
 			}
 			targetCritter = blackListedCritters[indexOfCritterWithMaxHealth];
 			return blackListedCritters[indexOfCritterWithMaxHealth];

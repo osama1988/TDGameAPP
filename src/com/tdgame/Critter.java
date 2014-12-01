@@ -54,7 +54,11 @@ public class Critter extends Rectangle {
 	public boolean splash = false;
 	int critterX = 0;
 	int critterY = 0;
-
+	
+	public int attackTime = 0; //Lifetime of the attack(bullet or bomb) on the map/screen
+	
+	public int maxAttackTime = 10;
+	
 	/** 
 	 * Constructor
 	 * @param imgWidth Sets critter image width
@@ -237,9 +241,9 @@ public class Critter extends Rectangle {
 
 	public void moveFwd() {
 
-		if(damageTime > 0){
+		/*if(damageTime > 0){
 			damageTime--;
-		}
+		}*/
 		
 		if (moveFrame >= moveSpeed) {
 			
@@ -283,5 +287,16 @@ public class Critter extends Rectangle {
 		}
 		return this;
 	}
+	public int getAttackTime() {
+		return attackTime;
+	}
 
+	public void setAttackTime(int attackTime) {
+		this.attackTime = attackTime;
+	}
+	public int getMaxAttackTime() {
+		return maxAttackTime;
+	}
+
+	
 }

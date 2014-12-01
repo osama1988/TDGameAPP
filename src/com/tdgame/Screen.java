@@ -175,7 +175,7 @@ public class Screen extends JPanel implements Runnable{
 
 	public static int findEnemyTestCount = 0;
 	public static boolean isWaveRunning=false;
-	
+
 	public static SaveXML saveLogXML;
 
 	// Screen constructor
@@ -578,7 +578,7 @@ public class Screen extends JPanel implements Runnable{
 				frame.add(offMapScrollPane);
 				offMapScrollPane.setBounds(this.frame.getWidth() - 6*(int)width , 10*(int)height, 5*(int)width, 3*(int)height);
 
-				
+
 				towerStrategyList = new JComboBox(strategyList);
 				frame.add(towerStrategyList);
 				if(selectedTower!=null){
@@ -587,7 +587,7 @@ public class Screen extends JPanel implements Runnable{
 				else{
 					towerStrategyList.setSelectedIndex(0);
 				}
-				
+
 				towerStrategyList.setBounds(this.frame.getWidth() - 6*(int)width , (int)(8.5*height), 5*(int)width, (int)(height/2) );
 				towerStrategyList.addItemListener(new ItemListener() {
 					@Override
@@ -647,6 +647,15 @@ public class Screen extends JPanel implements Runnable{
 							if(critters[i].inGame)
 							{
 								if(critters[i].towerFixed){
+
+									if(critters[i].getAttackTime() < critters[i].getMaxAttackTime()){
+										g.drawLine((int)(critters[i].x)+50, (int)(critters[i].y)+25,(50 + (critters[i].towerX * 50) + (int)(50/2)), ((critters[i].towerY * 50) + (int)(50/2)));
+										critters[i].setAttackTime(critters[i].getAttackTime() + 1);
+									}
+									else{
+										critters[i].setAttackTime(0);
+									}
+
 									if (critters[i].showFire){
 										critters[i].draw(g, 1);
 									}	
@@ -655,24 +664,8 @@ public class Screen extends JPanel implements Runnable{
 									else{
 										critters[i].draw(g, 0);
 									}	
-									//	critters[i].draw(g,0);
-									//	System.out.println("critter found for tower at\nX\tY\n" + x + "\t" + y);
-									//	System.out.println("Draw line from\n" + (50 + (x * 50) + (int)(50/2)) + "," + (50 + (y * 50) + (int)(50/2)) + "\tto " + (int)(towerMap[x][y].getTargetCritter().x) + "," + (int)(towerMap[x][y].getTargetCritter().y));
-									System.out.println((int)(critters[i].x+critters[i].adjustX)+"\t"+(int)(critters[i].y+critters[i].adjustY)+"\t"+(50 + (critters[i].towerX * 50) + (int)(50/2))+"\t"+(50 + (critters[i].towerY * 50) + (int)(50/2) - 50));
-									/*if(towerMap[critters[i].towerX][critters[i].y].type=="Fire")
-										g.setColor(Color.ORANGE);
-									else if(towerMap[critters[i].towerX][critters[i].y].type=="Leaser")
-										g.setColor(Color.CYAN);
-									else if(towerMap[critters[i].towerX][critters[i].y].type=="Bomber")
-										g.setColor(Color.LIGHT_GRAY);
-									else if(towerMap[critters[i].towerX][critters[i].y].type=="Tank")*/
-									//System.exit(0);
+
 									g.setColor(Color.MAGENTA);
-									if(critters[i].isHit && towerMap[critters[i].towerX][critters[i].towerY].getAttackTime() < towerMap[critters[i].towerX][critters[i].towerY].getMaxAttackTime()){
-										g.drawLine((int)(critters[i].x)+50, (int)(critters[i].y)+25,(50 + (critters[i].towerX * 50) + (int)(50/2)), ((critters[i].towerY * 50) + (int)(50/2)));
-									}
-									critters[i].isHit=false;
-									//		critters[i].slowdown=false;
 									if (critters[i].slowdown)
 									{
 										if (critters[i].moveSpeed <= critterSpeed)
@@ -680,12 +673,13 @@ public class Screen extends JPanel implements Runnable{
 											critters[i].moveSpeed += 2;
 										}
 									}
-									
+
 									//critters[i].towerFixed = false;
 								}
 								else
 								{
 									if(critters[i].damageTime > 0){
+										critters[i].damageTime--;
 										if(critters[i].showFire){
 											critters[i].draw(g, 1);
 										} else if(critters[i].splash){
@@ -874,81 +868,67 @@ public class Screen extends JPanel implements Runnable{
 	private void towerAttack(int x, int y) {
 		//IF the current tower does not have a critter-enemy then find next critter to shoot
 		if(towerMap[x][y].getTargetCritter() == null){
-			//if(towerMap[x][y].splashEffect)
-			{
-				//System.out.println("this.towerMap[x][y].getAttackDelay() > this.towerMap[x][y].getMaxAttackDelay()\n" + this.towerMap[x][y].getAttackDelay() + " > " +this.towerMap[x][y].getMaxAttackDelay() + " = " + (this.towerMap[x][y].getAttackDelay() > this.towerMap[x][y].getMaxAttackDelay()));
-				if(towerMap[x][y].getAttackDelay() > towerMap[x][y].getMaxAttackDelay()){
-					{	//System.out.println("Finding enemy...calling findenemytoshoot...\nnumber of enemies=\t"+critters.length);
-						Critter currentEnemy = towerMap[x][y].findTargetCritter(critters, x, y);
-						if(currentEnemy != null){
-							towerMap[x][y].setTargetCritter(currentEnemy);
-							towerMap[x][y].towerAttack(x, y, currentEnemy);
-							towerMap[x][y].setAttackTime(0);
-							towerMap[x][y].setAttackDelay(0);
-							if(towerMap[x][y].splashEffect){
-								//System.exit(0);
-								int neighbouringBoxUP = 999;
-								int neighbouringBoxRight = 999;
-								int neighbouringBoxDown = 999;
-								int neighbouringBoxLeft = 999;
+			//System.out.println("this.towerMap[x][y].getAttackDelay() > this.towerMap[x][y].getMaxAttackDelay()\n" + this.towerMap[x][y].getAttackDelay() + " > " +this.towerMap[x][y].getMaxAttackDelay() + " = " + (this.towerMap[x][y].getAttackDelay() > this.towerMap[x][y].getMaxAttackDelay()));
+			if(towerMap[x][y].getAttackDelay() > towerMap[x][y].getMaxAttackDelay()){
+				//System.out.println("Finding enemy...calling findenemytoshoot...\nnumber of enemies=\t"+critters.length);
+				Critter currentEnemy = towerMap[x][y].findTargetCritter(critters, x, y);
+				if(currentEnemy != null){
+					towerMap[x][y].setTargetCritter(currentEnemy);
+					towerMap[x][y].towerAttack(x, y, currentEnemy);
+					//towerMap[x][y].setAttackTime(0);
+					towerMap[x][y].setAttackDelay(0);
+					if(towerMap[x][y].splashEffect){
+						//System.exit(0);
+						int neighbouringBoxUP = 999;
+						int neighbouringBoxRight = 999;
+						int neighbouringBoxDown = 999;
+						int neighbouringBoxLeft = 999;
 
-								String upSearchKey = (currentEnemy.x/50) + "_" + (currentEnemy.y/50);
-								String downSearchKey = ((currentEnemy.x/50)) + "_" + ((currentEnemy.y/50) + 2);
-								String leftSearchKey = ((currentEnemy.x/50) - 1) + "_" + ((currentEnemy.y/50) + 1);
-								String rightSearchKey = ((currentEnemy.x/50) + 1) + "_" + ((currentEnemy.y/50) + 1);
+						String upSearchKey = (currentEnemy.x/50) + "_" + (currentEnemy.y/50);
+						String downSearchKey = ((currentEnemy.x/50)) + "_" + ((currentEnemy.y/50) + 2);
+						String leftSearchKey = ((currentEnemy.x/50) - 1) + "_" + ((currentEnemy.y/50) + 1);
+						String rightSearchKey = ((currentEnemy.x/50) + 1) + "_" + ((currentEnemy.y/50) + 1);
 
-								if(MouseHandler.boxPositionPathNumberMap.containsKey(upSearchKey)){
-									neighbouringBoxUP = MouseHandler.boxPositionPathNumberMap.get(upSearchKey);
-								}
-								if(MouseHandler.boxPositionPathNumberMap.containsKey(downSearchKey)){
-									neighbouringBoxUP = MouseHandler.boxPositionPathNumberMap.get(downSearchKey);
-								}
-								if(MouseHandler.boxPositionPathNumberMap.containsKey(leftSearchKey)){
-									neighbouringBoxUP = MouseHandler.boxPositionPathNumberMap.get(leftSearchKey);
-								}
-								if(MouseHandler.boxPositionPathNumberMap.containsKey(rightSearchKey)){
-									neighbouringBoxUP = MouseHandler.boxPositionPathNumberMap.get(rightSearchKey);
-								}
+						if(MouseHandler.boxPositionPathNumberMap.containsKey(upSearchKey)){
+							neighbouringBoxUP = MouseHandler.boxPositionPathNumberMap.get(upSearchKey);
+						}
+						if(MouseHandler.boxPositionPathNumberMap.containsKey(downSearchKey)){
+							neighbouringBoxUP = MouseHandler.boxPositionPathNumberMap.get(downSearchKey);
+						}
+						if(MouseHandler.boxPositionPathNumberMap.containsKey(leftSearchKey)){
+							neighbouringBoxUP = MouseHandler.boxPositionPathNumberMap.get(leftSearchKey);
+						}
+						if(MouseHandler.boxPositionPathNumberMap.containsKey(rightSearchKey)){
+							neighbouringBoxUP = MouseHandler.boxPositionPathNumberMap.get(rightSearchKey);
+						}
 
-								for(int i=0; i<critters.length; i++){
-									if(critters[i] != null && !critters[i].towerFixed){
-										System.out.println("Critter positions:\nx_y\t" + critters[i].x/50 + "_" + (((critters[i].y)/50) + 1));
-										String searchKey = (critters[i].x/50) + "_" + ((critters[i].y/50) + 1);
-										System.out.println("At index\t" + i);
-										System.out.println("Before checking adj critter pos..searckey\t" + searchKey);
-										int currentEnemyBoxNumber = 999;
-										if(MouseHandler.boxPositionPathNumberMap.containsKey(searchKey)){
-											currentEnemyBoxNumber = MouseHandler.boxPositionPathNumberMap.get(searchKey);
-										}
-										if(currentEnemyBoxNumber == neighbouringBoxUP || currentEnemyBoxNumber == neighbouringBoxDown || currentEnemyBoxNumber == neighbouringBoxLeft || currentEnemyBoxNumber == neighbouringBoxRight){
-											towerMap[x][y].towerAttack(x, y, critters[i]);
-										}
-									}
+						for(int i=0; i<critters.length; i++){
+							if(critters[i] != null && !critters[i].towerFixed){
+								System.out.println("Critter positions:\nx_y\t" + critters[i].x/50 + "_" + (((critters[i].y)/50) + 1));
+								String searchKey = (critters[i].x/50) + "_" + ((critters[i].y/50) + 1);
+								System.out.println("At index\t" + i);
+								System.out.println("Before checking adj critter pos..searckey\t" + searchKey);
+								int currentEnemyBoxNumber = 999;
+								if(MouseHandler.boxPositionPathNumberMap.containsKey(searchKey)){
+									currentEnemyBoxNumber = MouseHandler.boxPositionPathNumberMap.get(searchKey);
+								}
+								if(currentEnemyBoxNumber == neighbouringBoxUP || currentEnemyBoxNumber == neighbouringBoxDown || currentEnemyBoxNumber == neighbouringBoxLeft || currentEnemyBoxNumber == neighbouringBoxRight){
+									towerMap[x][y].towerAttack(x, y, critters[i]);
 								}
 							}
 						}
-					} //else {
-					{
-
 					}
-				}else{
-					towerMap[x][y].setAttackDelay(towerMap[x][y].getAttackDelay() + 1);
 				}
+			} 
+			else{
+				towerMap[x][y].setAttackDelay(towerMap[x][y].getAttackDelay() + 1);
 			}
-			//else
-			{
 
-			}
 		}
 		//There is a critter to shoot and to show the attack, we need to keep the bullet visible until attackTime > maxAttackTime
 		else{
-			if(towerMap[x][y].getAttackTime() < towerMap[x][y].getMaxAttackTime()){
-				towerMap[x][y].setAttackTime(towerMap[x][y].getAttackTime() + 1);
-			} else {
-				towerMap[x][y].setAttackTime(0);
-				//To set the critter free after it goes out of range
-				towerMap[x][y].setTargetCritter(null);
-			}
+
+			towerMap[x][y].setTargetCritter(null);
 		}
 	}
 

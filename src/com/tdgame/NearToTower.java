@@ -32,13 +32,19 @@ public class NearToTower implements TowerFireStrategy {
 			if (type.equals("Tank"))
 			{	
 				blackListedCritters[indexOfCritterWithMinDistanceFromTower].slowdown=true;
+				blackListedCritters[indexOfCritterWithMinDistanceFromTower].showFire = false;
+				blackListedCritters[indexOfCritterWithMinDistanceFromTower].splash = false;
 			}
 			else if (type.equals("Fire"))
 			{	
 				blackListedCritters[indexOfCritterWithMinDistanceFromTower].showFire=true;
+				blackListedCritters[indexOfCritterWithMinDistanceFromTower].slowdown = false;
+				blackListedCritters[indexOfCritterWithMinDistanceFromTower].splash = false;
 			}
 			else if(type.equals("Laser")){
 				blackListedCritters[indexOfCritterWithMinDistanceFromTower].splash = true;
+				blackListedCritters[indexOfCritterWithMinDistanceFromTower].showFire = false;
+				blackListedCritters[indexOfCritterWithMinDistanceFromTower].slowdown = false;
 			}
 			targetCritter = blackListedCritters[indexOfCritterWithMinDistanceFromTower];
 

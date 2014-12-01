@@ -51,13 +51,19 @@ public class NearToEnd implements TowerFireStrategy {
 				if (type.equals("Tank"))
 				{	
 					blackListedCritters[indexOfTargetCritter].slowdown=true;
+					blackListedCritters[indexOfTargetCritter].showFire = false;
+					blackListedCritters[indexOfTargetCritter].splash = false;
 				}
 				else if (type.equals("Fire"))
 				{	
 					blackListedCritters[indexOfTargetCritter].showFire=true;
+					blackListedCritters[indexOfTargetCritter].slowdown = false;
+					blackListedCritters[indexOfTargetCritter].splash = false;
 				}
 				else if(type.equals("Laser")){
 					blackListedCritters[indexOfTargetCritter].splash = true;
+					blackListedCritters[indexOfTargetCritter].showFire = false;
+					blackListedCritters[indexOfTargetCritter].slowdown = false;
 				}
 				targetCritter = blackListedCritters[indexOfTargetCritter];
 				return blackListedCritters[indexOfTargetCritter];

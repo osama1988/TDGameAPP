@@ -31,22 +31,22 @@ public abstract class Tower extends JButton{
 	public double sqOfDistanceOfCritterFromTower;
 	public int totalTargetEnemies;
 	public double minDistance;
-	public int attackStrategy=0;
-	public String strategyName="Random";
+	public int attackStrategy=1;
+	public String strategyName="NEARESTTOTOWERCRITTER";
 	TowerFire towerFire=new TowerFire();
 	void fire() {
 	}
 
 	public void chngStrategy(String strategy){
 		strategyName=strategy;
-		/*attackStrategy=strategy;
 		switch(strategy){
-		case Screen.NEARESTTOTOWERCRITTER:strategyName="NEARESTTOTOWERCRITTER";break;
-		case Screen.NEARESTTOENDPOINTCRITTER:strategyName="NEARESTTOENDPOINTCRITTER";break;
-		case Screen.STRONGESTCRITTER:strategyName="STRONGESTCRITTER";break;
-		case Screen.WEAKESTCRITTER:strategyName="WEAKESTCRITTER";break;
+		case "NEARESTTOTOWERCRITTER":attackStrategy=1;break;
+		case "NEARESTTOENDPOINTCRITTER":attackStrategy=2;break;
+		case "STRONGESTCRITTER":attackStrategy=3;break;
+		case "WEAKESTCRITTER":attackStrategy=4;break;
+		case "RANDOM":attackStrategy=0;break;
 		default:break;
-		}*/
+		}
 	}
 	public void setTowerProperties(int id, int cost, int ammunition, int range,
 			String type, int rateOfFire, String path, int damageToCritters, int level) {
@@ -134,11 +134,11 @@ public abstract class Tower extends JButton{
 	public int level=0;
 	public int costToIncreaseLevel=0;
 
-	public int attackTime = 0; //Lifetime of the attack(bullet or bomb) on the map/screen
+	//public int attackTime = 0; //Lifetime of the attack(bullet or bomb) on the map/screen
 	public int attackDelay = 0;//time delay between each attack(time for reloading bullets when finished)
 
-	public int maxAttackTime = 100;
-	public int maxAttackDelay = 500;
+//	public int maxAttackTime = 10;
+	public int maxAttackDelay = 200;
 	public int dradius =0;
 
 	public Critter targetCritter;
@@ -182,7 +182,7 @@ public abstract class Tower extends JButton{
 						blackListedCritters[i].distanceOfBlackListedCritter = sqOfDistanceOfCritterFromTower;
 					}else{
 						if(critters[i].towerFixed == true){
-							critters[i].damageTime = 10;
+							critters[i].damageTime = 20;
 						}
 						critters[i].towerFixed = false;
 						
@@ -233,13 +233,7 @@ public abstract class Tower extends JButton{
 		// TODO Auto-generated method stub
 	}*/
 
-	public int getAttackTime() {
-		return attackTime;
-	}
-
-	public void setAttackTime(int attackTime) {
-		this.attackTime = attackTime;
-	}
+	
 
 	public int getAttackDelay() {
 		return attackDelay;
@@ -249,13 +243,7 @@ public abstract class Tower extends JButton{
 		this.attackDelay = attackDelay;
 	}
 
-	public int getMaxAttackTime() {
-		return maxAttackTime;
-	}
-
-	public void setMaxAttackTime(int maxAttackTime) {
-		this.maxAttackTime = maxAttackTime;
-	}
+	
 
 	public int getMaxAttackDelay() {
 		return maxAttackDelay;
