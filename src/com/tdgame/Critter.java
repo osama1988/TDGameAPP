@@ -52,6 +52,8 @@ public class Critter extends Rectangle {
 	public int moveFrame = 0;
 	public int moveSpeed;
 	public boolean splash = false;
+	int critterX = 0;
+	int critterY = 0;
 
 	/** 
 	 * Constructor
@@ -85,29 +87,49 @@ public class Critter extends Rectangle {
 	 * @param critterID index of image stored in array
 	 */
 	public void createCritter(int critterID) {
-		for (int row = 0; row < Screen.map.length; row++)
+		boolean breakTest = false;
+		for (int row = 0; row < Screen.map.length; row++){
+			if(breakTest){
+				break;
+			}
 			for (int col = 0; col < Screen.map[0].length; col++) {
 				if (Screen.map[row][col] == 1) {
-
-					setBounds((int) Screen.width + rectangleX + (int) Screen.width
-							* row, (int) Screen.height + rectangleY
-							+ (int) Screen.height * col, 50, 25);
+					this.critterX = (int)(Screen.width + Screen.width*row) - 30;//292
+					this.critterY = (int)(Screen.height + Screen.height*col) - 50;//447;
+					//setBounds(critterX, critterY, 30, 20);
+					
+					this.critterX = (int)(Screen.width + Screen.width*row) + rectangleX;//292
+					this.critterY = (int)(Screen.height + Screen.height*col) + rectangleY;//447;
+					setBounds(critterX, critterY, 50, 25);
+					
+					System.out.println("CritterX\t" + critterX);
+					System.out.println("CritterY\t" + critterY);
 					this.critterID = critterID;
 					this.row = row;
 					this.col = col;
+					breakTest = true;
+					break;
 				}
 			}
+		}
 		inGame = true;
 	}
 
 	public void draw(Graphics g,int imgId) {
 		if (inGame) {
-			g.drawImage(Screen.crittersImgs[imgId], x + adjustX, y + adjustY, imageWidth, imageHeight, null);
+			int critterXPos = x + adjustX;
+			int critterYPos = y + adjustY;
+			//g.drawImage(Screen.crittersImgs[imgId], critterX, critterY, imageWidth, imageHeight, null);
+			g.drawImage(Screen.crittersImgs[imgId], critterXPos, critterYPos, imageWidth, imageHeight, null);
 			g.setColor(Color.GREEN);
 			if(health < originalHealth){
 				g.setColor(Color.RED);
 			}
-			g.fillRect(x + adjustX + 15, y + healthBarSpace, (int)(((double)health/(double)originalHealth)*(imageWidth/2)), healthheight);			
+			int widthOfHealthBar = (int)(((double)health/(double)originalHealth)*(imageWidth/2));
+			int xPos = x + adjustX + 15;
+			int yPos = y + healthBarSpace;
+			//g.fillRect(critterXpos, critterYPos, widthOfHealthBar, healthheight);
+			g.fillRect(xPos , yPos, widthOfHealthBar, healthheight);			
 		}
 	}
 
@@ -119,9 +141,10 @@ public class Critter extends Rectangle {
 	 */
 	public void physics(int initialDelay, int addition, int refreshValue) {
 		// Check map array when movement is 0 or after given delay so that critters wont get direction early	
-		if (movement == 0 || movement == initialDelay + nextDelay) {
+		int totalDelay = initialDelay + nextDelay;
+		if (movement == 0 || movement == totalDelay) {
 			// Make sure that row value must not exceed array index bounds and must not already have opposite direction
-
+			System.out.println("changing direction...");
 			if (row + 1 < Screen.map.length && Screen.map[row + 1][col] > 1 && !hasLeft) {
 				direction = right;
 				this.row = row + 1;
@@ -221,14 +244,19 @@ public class Critter extends Rectangle {
 		if (moveFrame >= moveSpeed) {
 			
 			
-			if (direction == right)
+			if (direction == right){
+				this.critterX++;
 				x += 1;
-			else if (direction == left)
+			} else if (direction == left) {
 				x -= 1;
-			else if (direction == upward)
+				this.critterX--;
+			} else if (direction == upward) {
 				y -= 1;
-			else if (direction == downward)
+				this.critterY--;
+			} else if (direction == downward) {
 				y += 1;
+				this.critterY++;
+			}
 			moveFrame = 0;
 		} else
 			moveFrame += 1;
@@ -252,7 +280,6 @@ public class Critter extends Rectangle {
 		if(this.health <= 0){
 			return null;
 			//this.inGame = false;
-
 		}
 		return this;
 	}

@@ -137,7 +137,7 @@ public abstract class Tower extends JButton{
 	public int attackTime = 0; //Lifetime of the attack(bullet or bomb) on the map/screen
 	public int attackDelay = 0;//time delay between each attack(time for reloading bullets when finished)
 
-	public int maxAttackTime = 200;
+	public int maxAttackTime = 100;
 	public int maxAttackDelay = 500;
 	public int dradius =0;
 
@@ -178,10 +178,8 @@ public abstract class Tower extends JButton{
 					if(sqOfDistanceOfCritterFromTower < (dradius * dradius)){
 						System.out.println(i + "in range...adding to eInRange list");
 						System.out.println("critterx crittery\n" + critters[i].x + "\t" + critters[i].y);
-						//System.exit(0);
 						blackListedCritters[i] = critters[i];
 						blackListedCritters[i].distanceOfBlackListedCritter = sqOfDistanceOfCritterFromTower;
-						//System.exit(0);
 					}else{
 						if(critters[i].towerFixed == true){
 							critters[i].damageTime = 10;
@@ -197,6 +195,7 @@ public abstract class Tower extends JButton{
 			}
 			
 			if(attackStrategy == Screen.RANDOMCRITTER){
+				//System.exit(0);
 				towerFire.setFireStrategy(new RandomFire());
 				return towerFire.fire(blackListedCritters,targetCritter,towerXPos,towerYPos,type);
 			} else if(attackStrategy == Screen.STRONGESTCRITTER){

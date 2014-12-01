@@ -36,13 +36,19 @@ public class RandomFire implements TowerFireStrategy {
 					if (type.equals("Tank"))
 					{	
 						blackListedCritters[noOfCritterssChecked].slowdown=true;
+						blackListedCritters[noOfCritterssChecked].showFire = false;
+						blackListedCritters[noOfCritterssChecked].splash = false;
 					}
 					else if (type.equals("Fire"))
 					{	
 						blackListedCritters[noOfCritterssChecked].showFire=true;
+						blackListedCritters[noOfCritterssChecked].slowdown = false;
+						blackListedCritters[noOfCritterssChecked].splash = false;
 					}
 					else if(type.equals("Laser")){
 						blackListedCritters[noOfCritterssChecked].splash = true;
+						blackListedCritters[noOfCritterssChecked].showFire = false;
+						blackListedCritters[noOfCritterssChecked].slowdown = false;
 					}
 					targetCritter = blackListedCritters[noOfCritterssChecked];
 					return blackListedCritters[noOfCritterssChecked];

@@ -21,8 +21,8 @@ public class SingleCritters implements CritterStrategy{
 		for(int i=0;i<Screen.critters.length;i++)
 		{	
 			int random = new Random().nextInt(100);
-			//Critter(			       	 imgWidth,  imgHeight, imgX, imgY, rectX, rectY, healthSpace)
-			Screen.critters[i] = new Critter(50,      50,       25,   0,    -15,   -60,   12, 100, Screen.critterSpeed);
+			//Critter(			       	 imgWidth,  imgHeight, imgX, imgY, rectX, rectY, healthSpace, health,      speed)
+			Screen.critters[i] = new Critter(50,      50,       25,   0,    -15,   -60,      10,       100,    Screen.critterSpeed);
 			Screen.critters2[i] = new Critter(50,     50,       10,  -15,     0,   -20,   0, random, Screen.critterSpeed);
 			
 		}
@@ -30,7 +30,7 @@ public class SingleCritters implements CritterStrategy{
 			Screen.crittersImgs[0] = new ImageIcon("../res/critter.gif").getImage();
 			Screen.crittersImgs[1] = new ImageIcon("../res/firee.gif").getImage();
 			Screen.crittersImgs[2] = new ImageIcon("../res/laser.gif").getImage();
-			Screen.crittersImgs[3] = new ImageIcon("../res/laser2.gif").getImage();
+			//Screen.crittersImgs[3] = new ImageIcon("../res/laser2.gif").getImage();
 		}
 		Screen.isFirst=false;
 	}
