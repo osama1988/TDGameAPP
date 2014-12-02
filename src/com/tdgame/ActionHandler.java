@@ -185,6 +185,7 @@ public class ActionHandler extends JDialog implements ActionListener, MouseMotio
 						}
 						else {
 							fileExists = false; //when false it will save the file with the name user provided.
+							
 						}
 					}
 				}
@@ -225,7 +226,7 @@ public class ActionHandler extends JDialog implements ActionListener, MouseMotio
 	// log files
 	public String loadLogFiles() {
 		
-		String logFilesList[] = {"Individual Tower Log", "Collective Tower Log", "Wave Log", "User Log" , "Global Log"};
+		String logFilesList[] = {"Individual Tower Log", "Collective Tower Log", "Wave Log", "User Log" ,"Map Log","Global Log"};
 		
 		String logFileSelected = (String) JOptionPane.showInputDialog(null,"Please select the log type that you would like to see!","Load Log",
 				JOptionPane.QUESTION_MESSAGE,null,logFilesList,logFilesList[0]);

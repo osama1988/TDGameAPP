@@ -292,6 +292,13 @@ public class ReadXML {
 							
 						}
 					}
+					else if(log.equals("Map")){
+						if(logType.equals("Map")){
+							model.addRow(new Object[]{eElement.getAttribute("TimeStamp"),logType, eElement.getAttribute("ElementType"), eElement.getAttribute("Msg")});
+							System.out.println(eElement.getAttribute("TimeStamp")+" "+eElement.getAttribute("ElementType")+" "+eElement.getAttribute("Msg"));
+							
+						}
+					}
 					else if(log.equals("Global")){
 						model.addRow(new Object[]{eElement.getAttribute("TimeStamp"),logType, eElement.getAttribute("ElementType"), eElement.getAttribute("Msg")});
 						System.out.println(eElement.getAttribute("TimeStamp")+" "+eElement.getAttribute("LogType")+" "+eElement.getAttribute("ElementType")+" "+eElement.getAttribute("Msg"));

@@ -201,7 +201,9 @@ public class Screen extends JPanel implements Runnable{
 
 		typeOfOperation = "createMap";
 		String mapDimensions = actionHandler.askUserToEnterTheDimensions();
-
+		
+		
+		
 		if(mapDimensions != null) {
 			String []splitDimensions = mapDimensions.split(" ");
 			valueOfX = Integer.parseInt(splitDimensions[0]);
@@ -212,6 +214,7 @@ public class Screen extends JPanel implements Runnable{
 			mouseHandler = new MouseHandler(this, valueOfX, valueOfY, true);
 
 			newFileName = actionHandler.saveMapByName();
+			newFileName=newFileName+".xml";
 			instructions = "Please select a start point!!";
 
 			addingMouseListener(typeOfOperation);			
@@ -221,7 +224,8 @@ public class Screen extends JPanel implements Runnable{
 			loadGame();
 
 			towerMap = new Tower[valueOfX][valueOfY];	
-			startGame("Base.xml", typeOfOperation, user);
+			startGame(newFileName, typeOfOperation, user);
+			
 			//ImageIcon pic = new ImageIcon("grass.png");
 			for(int i=0;i<5;i++){
 				towers[i] = TowerFactory.getTower(towerNames[i]);
@@ -648,11 +652,13 @@ public class Screen extends JPanel implements Runnable{
 				// To draw all critters on screen
 				if (critters != null)
 				{	
+					isWaveRunning=false;
 					for(int i=0;i<critters.length;i++)
 					{
 						if(critters[i] != null){
 							if(critters[i].inGame)
 							{
+								isWaveRunning=true;
 								if(critters[i].towerFixed){
 									g.drawLine((int)(critters[i].x)+50, (int)(critters[i].y)+25,(50 + (critters[i].towerX * 50) + (int)(50/2)), ((critters[i].towerY * 50) + (int)(50/2)));
 									
@@ -973,8 +979,12 @@ public class Screen extends JPanel implements Runnable{
 
 	public void startGame(String fileName, String typeOfOperation, User user) {
 		saveLogXML = new SaveXML(fileName);
+		saveLogXML.writeLog("Map", "Create Map", "User started new map creation");
+		
 		user.createPlayer();
 		saveLogXML.writeLog("User","User", "User created with "+user.startingCash+" money");
+		if(typeOfOperation=="createMap")
+			fileName="Base.xml";
 		levelFile.readAndLoadMap(fileName, this, typeOfOperation);		
 		this.scene = 1;	// game level 1
 	}

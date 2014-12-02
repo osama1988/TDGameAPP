@@ -203,7 +203,14 @@ public class SaveXML {
 			DOMSource domSource = new DOMSource(document);
 			StreamResult streamResult = new StreamResult(new File(
 					"../level/"+newFileName+".xml"));
-
+			if(MouseHandler.saveEditedMap){
+				Screen.saveLogXML.writeLog("Map", "Edit Map", "Map file "+newFileName+" edited and saved successfully");
+			}
+			else{
+				Screen.saveLogXML.writeLog("Map", "Create Map", "Map file "+newFileName+" successfully created");
+				Screen.saveLogXML.writeLog("Map", "Create Map", "Map "+newFileName+" saved successfully");
+			}
+				
 			transformer.transform(domSource, streamResult);
 
 		} catch (ParserConfigurationException pce) {

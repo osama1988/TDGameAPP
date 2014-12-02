@@ -116,6 +116,9 @@ public class MenuHandler implements ActionListener {
 				case "User Log":
 					readXML.readLog("User","All", table);
 					break;
+				case "Map Log":
+					readXML.readLog("Map","Map", table);
+					break;
 				case "Global Log":
 					readXML.readLog("Global","All", table);
 					break;

@@ -432,6 +432,8 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
 			count=largestPositionValue_inMap;
 			
 			Screen.instructions = "You chose to edit the map!";
+			Screen.saveLogXML.writeLog("Map", "Edit Map", "User open "+Screen.newFileName+" map to edit");
+			
 		} catch (Exception e) {
 		}
 	}
