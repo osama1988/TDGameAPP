@@ -202,8 +202,11 @@ public class Critter extends Rectangle {
 				atTime=1;
 			else
 				atTime=2;
+			
+			Screen.saveLogXML.writeLog("Wave_User",Screen.waveType+" "+Screen.noOfCritters , "Critter Entered to End point. Current Money:"+Screen.user.player.money);
 			if (crittersExited == 10)
 			{
+				
 				if(Screen.waveType=="Single")
 				{
 					Screen.waveType="Double";
@@ -232,8 +235,7 @@ public class Critter extends Rectangle {
 			else if(crittersExited==Screen.noOfCritters)
 			{
 				Screen.isWaveRunning=false;
-				Screen.saveLogXML.writeLog("Wave",Screen.waveType+" "+Screen.noOfCritters , Screen.waveType+" wave of "+Screen.noOfCritters+" finished");
-				
+				Screen.saveLogXML.writeLog("Wave_User",Screen.waveType+" "+Screen.noOfCritters , Screen.waveType+" wave of "+Screen.noOfCritters+" finished");
 			}
 		}
 		moveFwd();

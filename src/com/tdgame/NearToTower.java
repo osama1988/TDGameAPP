@@ -29,7 +29,7 @@ public class NearToTower implements TowerFireStrategy {
 		if(totalTargetEnemies > 0){
 			System.out.println("totalEnemies > 0\t" + (totalTargetEnemies > 0));
 			System.out.println("random enemy number\t" + targetCritter);
-
+			blackListedCritters[indexOfCritterWithMinDistanceFromTower].setAttackTime(0);
 			blackListedCritters[indexOfCritterWithMinDistanceFromTower].towerX=towerXPos;
 			blackListedCritters[indexOfCritterWithMinDistanceFromTower].towerY=towerYPos;
 			blackListedCritters[indexOfCritterWithMinDistanceFromTower].towerFixed=true;

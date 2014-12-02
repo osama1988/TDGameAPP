@@ -30,7 +30,7 @@ public class WeakestCritter implements TowerFireStrategy {
 			if(totalTargetEnemies > 0){
 				System.out.println("totalEnemies > 0\t" + (totalTargetEnemies > 0));
 				System.out.println("random enemy number\t" + targetCritter);
-
+				blackListedCritters[indexOfCritterWithMinHealth].setAttackTime(0);
 				blackListedCritters[indexOfCritterWithMinHealth].towerX=towerXPos;
 				blackListedCritters[indexOfCritterWithMinHealth].towerY=towerYPos;
 				blackListedCritters[indexOfCritterWithMinHealth].towerFixed=true;

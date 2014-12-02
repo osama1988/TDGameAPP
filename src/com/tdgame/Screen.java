@@ -459,8 +459,9 @@ public class Screen extends JPanel implements Runnable{
 							saveLogXML.writeLog("Tower", selectedTower.type, "User sold "+selectedTower.type);
 							saveLogXML.writeLog("User","User", "User sold "+selectedTower.type+" Current Money "+user.player.money);
 						}
-						frame.remove((Component) selectedTower);
-						frame.getContentPane().validate();
+						remove((Component) selectedTower);
+						revalidate();
+						//frame.getContentPane().validate();
 					}
 				});
 				frame.add(sellTower);
@@ -653,7 +654,9 @@ public class Screen extends JPanel implements Runnable{
 							if(critters[i].inGame)
 							{
 								if(critters[i].towerFixed){
-
+									g.drawLine((int)(critters[i].x)+50, (int)(critters[i].y)+25,(50 + (critters[i].towerX * 50) + (int)(50/2)), ((critters[i].towerY * 50) + (int)(50/2)));
+									
+									
 									if(critters[i].getAttackTime() < critters[i].getMaxAttackTime()){
 										g.drawLine((int)(critters[i].x)+50, (int)(critters[i].y)+25,(50 + (critters[i].towerX * 50) + (int)(50/2)), ((critters[i].towerY * 50) + (int)(50/2)));
 										critters[i].setAttackTime(critters[i].getAttackTime() + 1);
@@ -882,6 +885,7 @@ public class Screen extends JPanel implements Runnable{
 					towerMap[x][y].towerAttack(x, y, currentEnemy);
 					//towerMap[x][y].setAttackTime(0);
 					towerMap[x][y].setAttackDelay(0);
+					//towerMap[x][y].splashEffect){
 					if(towerMap[x][y].splashEffect){
 						//System.exit(0);
 						int neighbouringBoxUP = 999;

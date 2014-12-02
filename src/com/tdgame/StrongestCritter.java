@@ -32,7 +32,7 @@ public class StrongestCritter implements TowerFireStrategy {
 		if(totalTargetEnemies > 0){
 			System.out.println("totalEnemies > 0\t" + (totalTargetEnemies > 0));
 			System.out.println("random enemy number\t" + targetCritter);
-
+			blackListedCritters[indexOfCritterWithMaxHealth].setAttackTime(0);
 			blackListedCritters[indexOfCritterWithMaxHealth].towerX=towerXPos;
 			blackListedCritters[indexOfCritterWithMaxHealth].towerY=towerYPos;
 			blackListedCritters[indexOfCritterWithMaxHealth].towerFixed=true;

@@ -49,6 +49,7 @@ public class NearToEnd implements TowerFireStrategy {
 						}
 					}
 				}
+				blackListedCritters[indexOfTargetCritter].setAttackTime(0);
 				blackListedCritters[indexOfTargetCritter].towerX=towerXPos;
 				blackListedCritters[indexOfTargetCritter].towerY=towerYPos;
 				blackListedCritters[indexOfTargetCritter].towerFixed=true;
