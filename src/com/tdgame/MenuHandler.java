@@ -24,7 +24,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Team 2
  * @version $revision
  */
-
+//
 public class MenuHandler implements ActionListener {
 	
 	Screen screen;
@@ -57,6 +57,7 @@ public class MenuHandler implements ActionListener {
 		//checking the option clicked by the user and performing actions on its basis
 		if(selectedOption.equalsIgnoreCase("Create Map")) {
 			Screen.startGame = false;
+			ActionHandler.mapCreated = false;
 			MouseHandler.count=0;
 			Screen.running = false;
 			mapLoadedorCreated= true;
@@ -65,6 +66,7 @@ public class MenuHandler implements ActionListener {
 			Screen.startGame = false;
 			Screen.running = false;
 			mapLoadedorCreated= true;
+			ActionHandler.mapCreated = true;
 			screen.loadMap();
 		} else if(selectedOption.equalsIgnoreCase("Save Map")) {
 			mouseHandler.saveMapByMenu();
@@ -89,50 +91,55 @@ public class MenuHandler implements ActionListener {
 			ReadXML readXML=new ReadXML();
 			String logFileName = actionHandler.loadLogFiles();
 			System.out.println(logFileName);
-			JFrame frame = new JFrame("Log Frame");
-			JTable table = new JTable(new DefaultTableModel(new Object[]{"Time Stamp", "Log Type","Element","Msg"}, 0));
 			
-			JScrollPane scrollPane = new JScrollPane(table);
-			
-			
-			//frame.add(table.getTableHeader(), BorderLayout.PAGE_START);
-			//frame.add(table, BorderLayout.CENTER);
-			readXML.readLog("Tower","Tower", table);
-			if(logFileName!=null){
-				switch (logFileName) {
-				case "Individual Tower Log":
-					readXML.readLog("Tower","Fire", table);
-					readXML.readLog("Tower","Laser", table);
-					readXML.readLog("Tower","Bomber", table);
-					readXML.readLog("Tower","Tank", table);
-					readXML.readLog("Tower","Missile", table);
-					break;
-				case "Collective Tower Log":
-					readXML.readLog("Tower","All", table);
-					break;
-				case "Wave Log":
-					readXML.readLog("Wave","All", table);
-					break;
-				case "User Log":
-					readXML.readLog("User","All", table);
-					break;
-				case "Global Log":
-					readXML.readLog("Global","All", table);
-					break;
-				default:
-					break;
+			if(logFileName !=null) {
+				
+				JFrame frame = new JFrame("Log Frame");
+				JTable table = new JTable(new DefaultTableModel(new Object[]{"Time Stamp", "Log Type","Element","Msg"}, 0));
+				
+				JScrollPane scrollPane = new JScrollPane(table);
+				
+				
+				//frame.add(table.getTableHeader(), BorderLayout.PAGE_START);
+				//frame.add(table, BorderLayout.CENTER);
+				readXML.readLog("Tower","Tower", table);
+				if(logFileName!=null){
+					switch (logFileName) {
+					case "Individual Tower Log":
+						readXML.readLog("Tower","Fire", table);
+						readXML.readLog("Tower","Laser", table);
+						readXML.readLog("Tower","Bomber", table);
+						readXML.readLog("Tower","Tank", table);
+						readXML.readLog("Tower","Missile", table);
+						break;
+					case "Collective Tower Log":
+						readXML.readLog("Tower","All", table);
+						break;
+					case "Wave Log":
+						readXML.readLog("Wave","All", table);
+						break;
+					case "User Log":
+						readXML.readLog("User","All", table);
+						break;
+					case "Global Log":
+						readXML.readLog("Global","All", table);
+						break;
+					default:
+						break;
+					}
 				}
+				
+				table.setFillsViewportHeight(true);
+				frame.setLayout(new BorderLayout());
+				frame.add(scrollPane, BorderLayout.PAGE_START);
+				frame.add(scrollPane, BorderLayout.CENTER);
+				//4. Size the frame.
+				frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+				//frame.setUndecorated(true);
+				//5. Show it.
+				frame.setVisible(true);
 			}
-			
-			table.setFillsViewportHeight(true);
-			frame.setLayout(new BorderLayout());
-			frame.add(scrollPane, BorderLayout.PAGE_START);
-			frame.add(scrollPane, BorderLayout.CENTER);
-			//4. Size the frame.
-			frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-			//frame.setUndecorated(true);
-			//5. Show it.
-			frame.setVisible(true);
+
 		}
 		
 //		screen.repaint();

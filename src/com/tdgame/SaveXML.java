@@ -121,7 +121,14 @@ public class SaveXML {
 						tile.setAttributeNode(attribute);
 						
 						attribute = document.createAttribute("value");
-						attribute.setValue(this.screen.map[i][j]+"");
+						
+						if(MouseHandler.saveGame = true) {
+							attribute.setValue(this.screen.map[i][j]+"");
+						}
+						else {
+							attribute.setValue(0+"");
+						}
+						
 						tile.setAttributeNode(attribute);
 												
 						attribute = document.createAttribute("position");

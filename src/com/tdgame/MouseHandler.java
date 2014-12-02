@@ -249,6 +249,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
 
 					if(userReply.equalsIgnoreCase("YES")) {
 						mapCompleted  = true;
+						ActionHandler.mapCreated = true;
 					}	
 					else {
 						rightClick = true;
@@ -337,6 +338,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
 				
 				if(userReply.equalsIgnoreCase("YES")) {
 					mapCompleted  = true;
+					ActionHandler.mapCreated = true;
 				}
 				else {
 					rightClick = true;
@@ -359,6 +361,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener{
 			
 				if(userReply.equalsIgnoreCase("YES")) {
 					mapCompleted  = true;
+					ActionHandler.mapCreated = true;
 				}
 				else {
 					rightClick = true;

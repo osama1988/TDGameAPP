@@ -33,7 +33,7 @@ import javax.swing.JTable;
  * 
  * IMPORTANT: 1) For external resources we are using relative path. For eg, "../level/Base.xml"
  * 
- * 			  2) The width and height of the applet should be set to the screen size manually by going into 'Run Configurations > 
+ * 			  2) The width and height of the applet should be set to the screen size manually by going into 'Run Configurations - 
  * 				 Parameters'. This would be changed into a browser driven applet that would display the applet dynamically.
  * 
  * @author Team 2
@@ -648,11 +648,13 @@ public class Screen extends JPanel implements Runnable{
 				// To draw all critters on screen
 				if (critters != null)
 				{	
+					isWaveRunning = false;
 					for(int i=0;i<critters.length;i++)
 					{
 						if(critters[i] != null){
 							if(critters[i].inGame)
 							{
+								isWaveRunning = true;
 								if(critters[i].towerFixed){
 									g.drawLine((int)(critters[i].x)+50, (int)(critters[i].y)+25,(50 + (critters[i].towerX * 50) + (int)(50/2)), ((critters[i].towerY * 50) + (int)(50/2)));
 									
@@ -886,7 +888,7 @@ public class Screen extends JPanel implements Runnable{
 					//towerMap[x][y].setAttackTime(0);
 					towerMap[x][y].setAttackDelay(0);
 					//towerMap[x][y].splashEffect){
-					if(towerMap[x][y].splashEffect){
+					if(currentEnemy.splash){
 						//System.exit(0);
 						int neighbouringBoxUP = 999;
 						int neighbouringBoxRight = 999;
