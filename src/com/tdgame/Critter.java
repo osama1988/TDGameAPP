@@ -212,7 +212,9 @@ public class Critter extends Rectangle {
 					Screen.waveType="Double";
 					if(Screen.critters != null)
 						for(int i=0;i<Screen.critters.length;i++)
-							Screen.critters[i].inGame=false;
+							if(Screen.critters[i] != null){
+								Screen.critters[i].inGame=false;
+							}							
 				}
 				else
 				{
