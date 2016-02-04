@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  */
 public class Critter extends Rectangle {
 
-	public int critterSize = 30;
+	public int critterSize = 31;
 	public int critterID;
 	public boolean inGame = false;
 	public boolean duplicate = false;
